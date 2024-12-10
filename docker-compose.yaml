@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+  php_agro:
+    build: .
+    container_name: php_agro
+    ports:
+      - "80:80"
+    volumes:
+      - ./www:/var/www/
+  db:
+    image: mysql/mysql-server:latest
+    container_name: db_agro
+    environment:
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_DATABASE: agro
+      MYSQL_ALLOW_EMPTY_PASSWORD: yes
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d
