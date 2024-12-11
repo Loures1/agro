@@ -3,7 +3,7 @@
 class Controller
 {
   const REQUISITIONS = array(
-    'insert_db'
+    'query_db'
   );
 
   public  ?string $method;
@@ -20,7 +20,23 @@ class Controller
     );
   }
 
-  private function insert_db()
+  private function fetch_fields_from_table($table)
+  {
+    $fields = $this->mysql->query(
+      "SHOW COLUMNS
+      FROM {$table}
+      WHERE (Field != 'id' and Field != 'data')"
+    );
+
+    $fields_array = []; 
+    foreach($fields as $field){
+      array_push($fields_array, $field['Field']);
+    }
+
+    return $fields_array;
+  }
+
+  private function query_db()
   {
     $db_tables = array(
       'tbl_funcionario',
@@ -30,36 +46,19 @@ class Controller
       'tbl_supervisor',
       'tbl_treinamento'
     );
-
-    $query = $this->mysql->query(
-      "SHOW COLUMNS
-      FROM {$db_tables[$this->params['target']]}
-      WHERE (Field != 'id' and Field != 'data')"
-    );
-
-    $fields = [];
-
-    foreach ($query as $field) {
-      array_push($fields, $field['Field']);
+    
+    $fields = $this->fetch_fields_from_table(table: $db_tables[$this->params['target']]);
+    $implode_fields = implode(', ', $fields);
+    $query = ("
+      INSERT INTO {$db_tables[$this->params['target']]}
+      ({$implode_fields})
+      VALUES(");
+    $values_array = []; 
+    foreach($fields as $field){
+      array_push($values_array, "'{$this->params[$field]}'");
     }
-
-    $query = "INSERT INTO {$db_tables[$this->params['target']]} ({$fields[0]}";
-    foreach (array_slice($fields, 1) as $field) {
-      $query = $query . ', ' . $field;
-    }
-
-    $query = $query . ')';
-
-    $query = $query . " VALUES ('{$this->params[$fields[0]]}'";
-
-    foreach (array_slice($fields, 1) as $field) {
-      $query = $query . ', ' . "'{$this->params[$field]}'";
-    }
-
-    $query = $query . ')';
-
-
-    return $this->mysql->query($query);
+    $query = $query . implode(', ', $values_array) . ')'; 
+    $this->mysql->query($query); 
   }
 
   public function __invoke()
