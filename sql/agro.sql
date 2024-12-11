@@ -167,8 +167,7 @@ ALTER TABLE `tbl_supervisor`
   ADD UNIQUE KEY `id` (`id`),
   ADD UNIQUE KEY `cpf` (`cpf`),
   ADD UNIQUE KEY `telefone` (`telefone`),
-  ADD UNIQUE KEY `email` (`email`),
-  ADD UNIQUE KEY `senha` (`senha`);
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- Índices para tabela `tbl_treinamento`
