@@ -1,4 +1,5 @@
 <?php
+include_once('config.php');
 
 class Controller
 {
@@ -13,10 +14,10 @@ class Controller
   public function __construct()
   {
     $this->mysql = new mysqli(
-      hostname: 'localhost',
-      username: 'root',
-      password: '',
-      database: 'agro'
+      hostname: Config::$hostname,
+      username: Config::USER,
+      password: Config::PASSWORD,
+      database: Config::DATABASE
     );
   }
 
@@ -28,8 +29,8 @@ class Controller
       WHERE (Field != 'id' and Field != 'data')"
     );
 
-    $fields_array = []; 
-    foreach($fields as $field){
+    $fields_array = [];
+    foreach ($fields as $field) {
       array_push($fields_array, $field['Field']);
     }
 
@@ -51,9 +52,10 @@ class Controller
       'INSERT INTO <table> (<fields>) VALUES (<values>)'
     );
     $fields = $this->fetch_fields_from_table(
-      table: $db_tables[$this->params['target']]);
-    $values_array = []; 
-    foreach($fields as $field){
+      table: $db_tables[$this->params['target']]
+    );
+    $values_array = [];
+    foreach ($fields as $field) {
       array_push($values_array, "'{$this->params[$field]}'");
     }
     $sql = $sql[$this->params['action']];
@@ -63,13 +65,16 @@ class Controller
       '(<values>)'
     ];
     $replacements = [
-      $this->params['target'],
+      $db_tables[$this->params['target']],
       implode(', ', $fields),
       implode(', ', $values_array)
-    ]; 
+    ];
 
     return preg_replace(
-      $patterns, $replacements, $sql);
+      $patterns,
+      $replacements,
+      $sql
+    );
   }
 
   public function __invoke()
