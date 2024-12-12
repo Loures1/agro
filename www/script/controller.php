@@ -13,7 +13,7 @@ class Controller
   public function __construct()
   {
     $this->mysql = new mysqli(
-      hostname: 'db_agro',
+      hostname: 'localhost',
       username: 'root',
       password: '',
       database: 'agro'
@@ -46,19 +46,30 @@ class Controller
       'tbl_supervisor',
       'tbl_treinamento'
     );
-    
-    $fields = $this->fetch_fields_from_table(table: $db_tables[$this->params['target']]);
-    $implode_fields = implode(', ', $fields);
-    $query = ("
-      INSERT INTO {$db_tables[$this->params['target']]}
-      ({$implode_fields})
-      VALUES(");
+
+    $sql = array(
+      'INSERT INTO <table> (<fields>) VALUES (<values>)'
+    );
+    $fields = $this->fetch_fields_from_table(
+      table: $db_tables[$this->params['target']]);
     $values_array = []; 
     foreach($fields as $field){
       array_push($values_array, "'{$this->params[$field]}'");
     }
-    $query = $query . implode(', ', $values_array) . ')'; 
-    $this->mysql->query($query); 
+    $sql = $sql[$this->params['action']];
+    $patterns = [
+      '(<table>)',
+      '(<fields>)',
+      '(<values>)'
+    ];
+    $replacements = [
+      $this->params['target'],
+      implode(', ', $fields),
+      implode(', ', $values_array)
+    ]; 
+
+    return preg_replace(
+      $patterns, $replacements, $sql);
   }
 
   public function __invoke()
