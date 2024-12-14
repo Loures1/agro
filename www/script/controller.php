@@ -14,7 +14,7 @@ class Controller
   public function __construct()
   {
     $this->mysql = new mysqli(
-      hostname: Config::$hostname,
+      hostname: Config::HOST[php_uname(mode: 's')],
       username: Config::USER,
       password: Config::PASSWORD,
       database: Config::DATABASE
