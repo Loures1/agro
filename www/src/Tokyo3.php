@@ -18,13 +18,13 @@ class Tokyo3 extends mysqli
     $sql = match ($this->operation) {
       'INSERT' => "INSERT INTO {$this->target}
                   ({$this->fetch_fields_from_table(opt: '__STR__')})
-                  VALEUS
+                  VALUES
                   ({$this->match_params_from_fields_table()})",
 
       'SELECT' => "SELECT * FROM {$this->target}",
     };
+    $this->query($sql);
     $this->close();
-    return $sql;
   }
 
   private function fetch_fields_from_table($opt)
@@ -32,7 +32,7 @@ class Tokyo3 extends mysqli
     $query = $this->query(
       "SHOW COLUMNS
       FROM {$this->target}
-      WHERE (Field != 'id' and Field != 'data')"
+      WHERE (Field != 'id' and Field != 'data' and Field != 'status')"
     );
 
     $fields = [];
