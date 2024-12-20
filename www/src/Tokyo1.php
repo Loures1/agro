@@ -3,13 +3,17 @@ include_once('config.php');
 
 class Tokyo1
 {
-  public ?array $router;
-  public ?string $uri;
+  protected ?string $uri;
+  public ?array  $router;
+  public ?array  $method;
 
-  public function __invoke(): string
+  public function __construct()
   {
-    return file_get_contents(
-      $this->router[$this->uri]
-    );
+    $this->uri = $_SERVER['REQUEST_URI'];
+  }
+
+  public function __invoke()
+  {
+    return $this->router[$this->uri]();
   }
 }
