@@ -94,7 +94,7 @@ CREATE TABLE `tbl_supervisor` (
   `telefone` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `senha` varchar(255) NOT NULL,
-  `status` tinyint(1) NOT NULL,
+  `status` tinyint(1) DEFAULT 1,
   `data` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
