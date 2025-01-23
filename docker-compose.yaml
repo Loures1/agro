@@ -7,7 +7,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - "./www:/var/www"
+      - "./agro-mvc:/var"
   db:
     image: mysql/mysql-server:latest
     container_name: db_agro
