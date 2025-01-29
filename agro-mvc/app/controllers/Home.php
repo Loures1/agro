@@ -2,10 +2,25 @@
 
 namespace app\controllers;
 
+use app\views\HomeView;
+
 class Home
 {
   public function null()
   {
-    include_once("../public/html/home_page.html");
+    $view = new HomeView;
+    return $view->homePage();
+  }
+
+  public function signIn()
+  {
+    $view = new HomeView;
+    return $view->signInPage();
+  }
+
+  public function signUp()
+  {
+    $view = new HomeView;
+    return $view->signUpPage();
   }
 }
