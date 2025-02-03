@@ -6,3 +6,4 @@ require 'core/Method.php';
 require 'core/Parameter.php';
 require 'app/controllers/Home.php';
 require 'app/views/Home.php';
+require 'config/CredentialsDB.php';
