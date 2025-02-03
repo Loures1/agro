@@ -10,10 +10,10 @@ class User
     {
         $this->db = new mysqli;
         $this->db->connect(
-            hostname: Credentials::hostname(),
-            username: Credentials::username(),
-            password: Credentials::password(),
-            database: Credentials::database(),
+            hostname: Credentials::HOSTNAME,
+            username: Credentials::USERNAME,
+            password: Credentials::PASSWORD,
+            database: Credentials::DATABASE,
         );
     }
 
