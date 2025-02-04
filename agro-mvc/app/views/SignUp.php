@@ -1,0 +1,11 @@
+<?php
+
+namespace app\views;
+
+class ViewSignUp
+{
+  static function homePage()
+  {
+    return include_once("../public/html/signUp.html");
+  }
+}

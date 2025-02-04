@@ -2,20 +2,10 @@
 
 namespace app\views;
 
-class HomeView
+class ViewHome
 {
-  public function homePage()
+  static function homePage()
   {
-    return include_once("../public/html/home_page.html");;
-  }
-
-  public function signInPage()
-  {
-    return include_once("../public/html/sign_in.html");
-  }
-
-  public function signUpPage()
-  {
-    return include_once("../public/html/sign_up.html");
+    return include_once("../public/html/homePage.html");;
   }
 }
