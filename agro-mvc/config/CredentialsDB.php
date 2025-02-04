@@ -4,10 +4,10 @@ namespace config;
 
 class Credentials
 {
-  const USERNAME = null;
+  const USERNAME = 'root';
   const PASSWORD = null;
   const DATABASE = 'agro';
-  public function hostname()
+  static function hostname()
   {
     return match (php_uname(mode: 's')) {
       'Linux' => 'db_agro',
@@ -15,4 +15,3 @@ class Credentials
     };
   }
 }
-
