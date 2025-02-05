@@ -5,28 +5,20 @@ namespace app\classes;
 use config\Credentials;
 use mysqli;
 
-class DataBase
+abstract class Query
 {
-  private ?object $db;
+  protected ?string $pattern_sql;
+  abstract function syntaxGeneretor();
 
-  public function __construct()
+  static function fetchDataBase($query)
   {
-    $this->db = new mysqli(
-      hostname: Credentials::hostname(),
+    $db = new mysqli(
       username: Credentials::USERNAME,
+      hostname: Credentials::getHost(),
       password: Credentials::PASSWORD,
-      database: Credentials::DATABASE
+      database: Credentials::DATABASE 
     );
-  }
-
-  protected function syntaxSqlGeneretor(
-    ?string $table,
-  ) {
-    //GERAR O SQL DA QUERY. POR EXEMPLO: INSERT, DELETE, ETC.
-    //O OBJETO QUE USAR DEVE INFORMAR O TIPO DE QUERY, A TABELA E OS VALORES.
-    //ESSA METODO PESQUISA OS FILDS DA TABELA.
-    //DEPOIS MONTA O CORPO DO SQL.
-    //ADICIONA OS VALORES.
-    //RETORNA O SQL PRONTO.
+    
+    return $db->query($query);
   }
 }

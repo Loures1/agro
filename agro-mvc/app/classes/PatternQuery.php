@@ -2,14 +2,37 @@
 
 namespace app\classes;
 
-class Insert
-{
-  const SYNTAX = "INSERT INTO table (filds) VALUES (values)";
-  const RESQUEST = ['table', 'filds', 'values'];
-}
+use app\classes\Query;
 
-class Select
+class Insert extends Query
 {
-  const SYNTAX = "SELECT filds FROM table WHERE condition";
-  const REQUEST = ['table', 'filds', 'condtion'];
+  private ?array $values;
+  private ?array $filds;
+  private ?string $table;
+
+  public function __construct(?string $table, ?array $values)
+  {
+    $this->pattern_sql = "INSERT INTO 'table' ('filds') VALUES ('values')";
+    $this->table = $table;
+    $this->values = $values;
+    $this->filds = [];
+  }
+
+
+  public function syntaxGeneretor()
+  {
+
+  }
+
+  public function getFilds()
+  {
+    $fetch = Query::fetchDataBase(
+      "SELECT COLUMN_NAME
+      FROM information_schema.COLUMNS
+      WHERE TABLE_NAME = 'tbl_supervisor'
+      AND COLUMN_NAME != 'id'
+      AND COLUMN_NAME != 'status'
+      AND COLUMN_NAME != 'data'"
+    );
+  }
 }
