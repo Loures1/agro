@@ -18,10 +18,8 @@ class Insert extends Query
     $this->fields = [];
   }
 
-
   public function syntaxGeneretor()
   {
-
     $replacemnts = [
       $this->table,
       implode(", ", self::getFilds()),
