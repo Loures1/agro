@@ -16,9 +16,9 @@ abstract class Query
       username: Credentials::USERNAME,
       hostname: Credentials::getHost(),
       password: Credentials::PASSWORD,
-      database: Credentials::DATABASE 
+      database: Credentials::DATABASE
     );
-    
+
     return $db->query($query);
   }
 }
