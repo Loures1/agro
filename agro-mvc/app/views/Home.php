@@ -6,6 +6,6 @@ class ViewHome
 {
   static function homePage()
   {
-    return include_once("../public/html/homePage.html");;
+    return include_once("../public/html/homePage.html");
   }
 }
