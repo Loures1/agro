@@ -1,0 +1,166 @@
+/* Definindo as cores principais */
+:root {
+    --primary-color: #ff6347;  /* Tom de laranja */
+    --secondary-color: #2c3e50; /* Tom escuro para contraste */
+    --bg-color: #f3f3f3; /* Fundo claro */
+    --card-bg: #fff; /* Fundo dos cards */
+    --text-color: #333; /* Cor do texto */
+    --input-border: #ddd; /* Cor da borda de input */
+    --shadow-light: rgba(0, 0, 0, 0.1); /* Sombra suave */
+    --shadow-dark: rgba(0, 0, 0, 0.2); /* Sombra mais intensa */
+}
+
+/* Reset e ajuste de layout */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif; /* Fonte moderna */
+}
+
+/* Corpo da página */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 30px;  /* Ajuste de padding */
+    font-size: 16px;
+    line-height: 1.5;
+    flex-direction: column;
+}
+
+/* Título principal com estilo mais moderno */
+h1 {
+    font-size: 3rem;
+    color: var(--secondary-color);
+    text-align: center;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 4px; /* Aumento no espaçamento */
+    animation: fadeIn 1.2s ease-in-out;
+}
+
+/* Links com design clean e moderno */
+a {
+    text-decoration: none;
+    color: var(--primary-color);
+    padding: 12px 30px;
+    border: 2px solid var(--primary-color);
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    display: inline-block;
+    margin: 10px 15px;
+    transition: all 0.3s ease;
+    animation: fadeIn 1.3s ease-in-out;
+}
+
+/* Efeito hover nos links */
+a:hover {
+    background-color: var(--primary-color);
+    color: #fff;
+    transform: translateY(-5px);
+    box-shadow: 0 5px 20px var(--shadow-dark);
+}
+
+/* Formulário com fundo e borda modernas */
+form {
+    background-color: var(--card-bg);
+    padding: 40px;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 450px;
+    box-shadow: 0 4px 20px var(--shadow-light);
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+/* Labels do formulário */
+label {
+    display: block;
+    font-size: 1.2rem;
+    color: var(--secondary-color);
+    margin-bottom: 8px;
+}
+
+/* Inputs com bordas arredondadas e animação */
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="tel"] {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 2px solid var(--input-border);
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    font-size: 1.1rem;
+    color: var(--text-color);
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Efeito de foco nos inputs */
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 10px rgba(255, 99, 71, 0.2);
+    outline: none;
+}
+
+/* Botão de submit com visual impactante */
+input[type="submit"] {
+    width: 100%;
+    padding: 15px;
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+/* Efeito hover no botão de submit */
+input[type="submit"]:hover {
+    background-color: darken(var(--primary-color), 10%);
+    transform: translateY(-5px);
+    box-shadow: 0 5px 20px var(--shadow-dark);
+}
+
+/* Responsividade para telas pequenas */
+@media (max-width: 480px) {
+    h1 {
+        font-size: 2.2rem;
+    }
+
+    form {
+        padding: 25px;
+    }
+
+    input[type="submit"] {
+        font-size: 1rem;
+    }
+
+    a {
+        font-size: 1rem;
+    }
+}
+
+/* Animações para fadeIn */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
