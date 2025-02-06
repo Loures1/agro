@@ -12,7 +12,7 @@ class Insert extends Query
 
   public function __construct(?string $table, ?array $values)
   {
-    $this->pattern_sql = "INSERT INTO table (fields) VALUES ('values')";
+    $this->pattern_sql = "INSERT INTO table (fields) VALUES (values)";
     $this->table = $table;
     $this->values = $values;
     $this->fields = [];

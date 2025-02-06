@@ -2,7 +2,7 @@
 require 'app/functions/helpers.php';
 require 'app/classes/Uri.php';
 require 'app/classes/DataBase.php';
-require 'app/classes/PatternQuery.php';
+require 'app/classes/Insert.php';
 require 'core/Controller.php';
 require 'core/Method.php';
 require 'core/Parameter.php';
