@@ -37,7 +37,7 @@ CREATE TABLE `tbl_funcionario` (
   `telefone` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `supervisor_id` int(11) NOT NULL,
-  `status` tinyint(1) NOT NULL,
+  `status` tinyint(1) DEFAULT 1,
   `data` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -64,7 +64,7 @@ CREATE TABLE `tbl_profissao` (
   `id` int(11) NOT NULL,
   `nome` varchar(255) NOT NULL,
   `supervisor_id` int(11) NOT NULL,
-  `status` tinyint(1) NOT NULL,
+  `status` tinyint(1) DEFAULT 1,
   `data` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -101,11 +101,6 @@ CREATE TABLE `tbl_supervisor` (
 --
 -- Extraindo dados da tabela `tbl_supervisor`
 --
-
-INSERT INTO `tbl_supervisor` (`id`, `nome`, `cpf`, `telefone`, `email`, `senha`, `status`, `data`) VALUES
-(1, 'João da Silva Souza', '123.456.789-00', '(11) 98765-4321', 'joao.souza@example.com', '5695648d3360e4fdfbf7f410cdbd9857f9d9badf50f8a4dd4d16489def6cbb2a', 1, '2024-11-18 14:18:35'),
-(2, '', '', '', '', 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', 1, '2024-11-19 11:29:26');
-
 -- --------------------------------------------------------
 
 --
@@ -116,7 +111,7 @@ CREATE TABLE `tbl_treinamento` (
   `id` int(11) NOT NULL,
   `nome` varchar(255) NOT NULL,
   `supervisor_id` int(11) NOT NULL,
-  `status` tinyint(1) NOT NULL,
+  `status` tinyint(1) DEFAULT 1,
   `data` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
