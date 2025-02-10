@@ -10,4 +10,6 @@ class SignIn
   {
     return ViewSignIn::homePage();
   }
+
+  public function checkUser() {}
 }

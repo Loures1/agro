@@ -19,6 +19,8 @@ abstract class Query
       database: Credentials::DATABASE
     );
 
-    return $db->query($query);
+    $query = $db->query($query);
+    $db->close();
+    return $query;
   }
 }

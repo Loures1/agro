@@ -14,10 +14,8 @@ class SignUp
 
   public function insertSupervisorInDataBase()
   {
-    $data = $_POST;
-    //PEGA OS PARAMETROS DO $_POST
-    //PASSA PARA MODEL USER(RESPONSAVEL CUIDAR DA PARTE DE USUARIO)
-    //O MODEL EXECUTA
-    //PASSA O RESULTADO PARA VIEW
+    $_POST['senha'] = hash(algo: 'sha256', data: $_POST['senha']);
+    User::registerUser(table: 'tbl_supervisor', values: $_POST);
+    ViewSignUp::registerUserStatus();
   }
 }
