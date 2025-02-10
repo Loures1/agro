@@ -14,3 +14,4 @@ require 'app/views/Home.php';
 require 'app/views/SignUp.php';
 require 'app/views/SignIn.php';
 require 'config/CredentialsDB.php';
+require 'vendor/autoload.php';
