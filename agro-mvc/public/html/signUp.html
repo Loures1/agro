@@ -7,19 +7,35 @@
     <link href="../css/styles.css" rel="stylesheet" />
   </head>
   <body>
-    <form method="POST" action="signUp/insertSupervisorInDataBase">
-      <label>Nome: <input type="text" name="nome" /></label>
+    <form method="POST" action="signUp">
+      
+      <?php
+// Exibe a mensagem de erro de senha, se houver
+if (isset($_SESSION['senha_error'])) {
+    echo "<p style='color:red;'>" . $_SESSION['senha_error'] . "</p>";
+    unset($_SESSION['senha_error']);  // Remove a mensagem após exibição
+}
+
+// Exibe a mensagem de erro de CPF, se houver
+if (isset($_SESSION['cpf_error'])) {
+    echo "<p style='color:red;'>" . $_SESSION['cpf_error'] . "</p>";
+    unset($_SESSION['cpf_error']);  // Remove a mensagem após exibição
+}
+?>
+      
+      <label>Nome: <input type="text" name="nome" value="<?php echo $_POST['nome'] ?? ''; ?>" /></label>
       <br />
-      <label>CPF: <input type="text" name="cpf" /></label>
+      <label>CPF: <input type="text" name="cpf" value="<?php echo $_POST['cpf'] ?? ''; ?>" /></label> 
+      <label>Telefone: <input type="tel" name="telefone" value= "<?php echo $_POST['telefone'] ?? ''; ?>" /></label>
       <br />
-      <label>Telefone: <input type="tel" name="telefone" /></label>
-      <br />
-      <label>Email: <input type="email" name="email" /></label>
+      <label>Email: <input type="email" name="email" value= "<?php echo $_POST['email'] ?? ''; ?>" /></label>
       <br />
       <label>Senha: <input type="password" name="senha" /></label>
       <br />
-      <label>Confirmar senha: <input type="password" /></label>
-      <input type="submit" name value="Cadastrar" />
+      <label>Confirmar senha: <input type="password" name="confirmar_senha" /></label>
+      <br />
+
+      <input type="submit" value="Cadastrar" />
     </form>
   </body>
 </html>
