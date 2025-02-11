@@ -1,7 +1,6 @@
 <?php
 require '../bootstrap.php';
 
-use app\classes\ExtractorXlsx;
 use core\Controller;
 use core\Method;
 use core\Parameter;

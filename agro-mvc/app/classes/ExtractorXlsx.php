@@ -4,28 +4,36 @@ namespace app\classes;
 
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 
+define('START_ROW', 2);
+
 class ExtractorXlsx
 {
-    public $struture_xlsx;
-    public function __construct($path)
-    {
-        $reader = new Xlsx();
-        $reader->setReadEmptyCells(false);
-        $this->struture_xlsx = $reader->load($path);
-        return $this->struture_xlsx->getActiveSheet();     
-    }
+  private $values;
+  public function __construct($path)
+  {
+    $reader = new Xlsx();
+    $reader->setReadDataOnly(true);
+    $this->values = self::extractRows($reader->load($path));
+  }
 
-    private function extractColumn()
-    {
-        $professions = [];
-        $worksheet = $this->struture_xlsx->getActiveSheet();
-        foreach($worksheet->getColumnIterator() as $column)
-        {
-            foreach($column->getCellIterator() as $cell)
-            {
-                echo $cell;
-                echo '<br>'; 
-            }
-        } 
+  public function getValeusFromTable()
+  {
+    return $this->values;
+  }
+
+  private function extractRows($worksheet)
+  {
+    $professions = [];
+    $worksheet = $worksheet->getActiveSheet();
+    foreach ($worksheet->getRowIterator(START_ROW) as $row) {
+      $entidade = [];
+      foreach ($row->getCellIterator() as $cell) {
+        if ($cell->getValue() != null) {
+          array_push($entidade, $cell->getValue());
+        }
+      }
+      $professions["{$entidade[0]}"] = array_slice($entidade, 1);
     }
+    return $professions;
+  }
 }
