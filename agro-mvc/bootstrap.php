@@ -2,6 +2,7 @@
 require 'app/functions/helpers.php';
 require 'app/classes/Uri.php';
 require 'app/classes/DataBase.php';
+require 'app/classes/ExtractorXlsx.php';
 require 'app/classes/Insert.php';
 require 'core/Controller.php';
 require 'core/Method.php';
