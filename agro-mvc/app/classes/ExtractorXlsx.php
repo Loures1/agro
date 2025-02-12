@@ -2,94 +2,61 @@
 
 namespace app\classes;
 
-use Iterator;
+use IteratorAggregate;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
+use Traversable;
 
-class ExtractorXlsx implements Iterator
+class ExtractorXlsx implements IteratorAggregate
 {
-  const START_ROW = 2;
-  private int $positionKey;
-  private int $positionValue;
-  private array $valuesFromTable;
-  private array $keysFromValues;
+  private array $cellsFromTable;
+  private array $namesColumn;
+  private array $values;
 
   public function __construct($path)
   {
     $reader = new Xlsx();
     $reader->setReadDataOnly(true);
-    $this->valuesFromTable = self::extractRows($reader->load($path));
-    $this->keysFromValues = array_keys($this->valuesFromTable);
-    $this->positionKey = 0;
-    $this->positionValue = 0;
+    $this->cellsFromTable = self::extractRows($reader->load($path));
+    $this->namesColumn = $this->cellsFromTable[0];
+    $this->values = array_slice($this->cellsFromTable, 1);
   }
 
-  public function getValeusFromTable() : array
+  public function getCellsFromTable() : array
   {
-    return $this->valuesFromTable;
+    return $this->cellsFromTable;
   }
 
-  public function getKeysValues() : array
+  public function getColumn() : array
   {
-    return $this->keysFromValues;
+    return $this->namesColumn;
+  }
+
+  public function getValuesRow() : array
+  {
+    return $this->values;
   }
 
   private function extractRows($worksheet) : array
   {
-    $professions = [];
+    $entitys = [];
     $worksheet = $worksheet->getActiveSheet();
-    foreach ($worksheet->getRowIterator(self::START_ROW) as $row) {
-      $entidade = [];
+    foreach ($worksheet->getRowIterator() as $row) {
+      $entity = [];
       foreach ($row->getCellIterator() as $cell) {
         if ($cell->getValue() != null) {
-          array_push($entidade, $cell->getValue());
+          array_push($entity, $cell->getValue());
         }
       }
-      $professions["{$entidade[0]}"] = array_slice($entidade, 1);
+      array_push($entitys, $entity);
     }
-    return $professions;
+    return $entitys;
   }
 
-  public function current(): string
+  public function getIterator() : Traversable
   {
-    return $this->valuesFromTable[
-      $this->keysFromValues[$this->positionKey]
-    ][$this->positionValue];
-  }
-
-  public function next(): void
-  {
-    $lenValuesFromTable = count(
-      $this->valuesFromTable[
-        $this->keysFromValues[$this->positionKey]
-      ]
-    );
-
-    if ($this->positionValue < $lenValuesFromTable - 1)
-    {
-      ++$this->positionValue;
-    }else {
-      ++$this->positionKey;
-      $this->positionValue = 0;
-    }
-  }
-
-  public function rewind(): void
-  { 
-    $this->positionKey = 0;
-    $this->positionValue = 0;
-  }
-
-  public function key(): string
-  { 
-    return $this->keysFromValues[$this->positionKey];
-  }
-
-  public function valid(): bool
-  { 
-    return isset(
-      $this->valuesFromTable[
-        $this->keysFromValues[$this->positionKey]
-      ][$this->positionValue]
+    return new IteratorCell(
+      headerCell: $this->namesColumn,
+      valueCell: $this->values
     );
   }
 }

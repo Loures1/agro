@@ -7,7 +7,7 @@ $extractor = new ExtractorXlsx(
   './tests/Profissoes_Industria_Polpa_Fruta.xlsx'
 );
 
-foreach ($extractor as $key => $value)
+foreach ($extractor->getIterator() as $key => $value)
 {
-  print($key . ' => ' . $value . "\n");
+  print_r($value);
 }
