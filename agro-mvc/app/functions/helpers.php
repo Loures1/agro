@@ -1,6 +1,6 @@
 <?php
 
-function dd($dump)
+function dumpDie($dump)
 {
   var_dump($dump);
   die();
