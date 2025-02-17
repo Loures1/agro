@@ -6,5 +6,5 @@
 
 #### Properties
 
-private $cellTraining : array.
+private $cellTraining : array\
 private $domainCellsTrainig: array
