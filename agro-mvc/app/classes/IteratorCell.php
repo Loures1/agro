@@ -47,12 +47,10 @@ class IteratorCell implements Traversable, Iterator
   {
     $positionHeader = 0;
     $entity = [];
-    foreach($this->bodyCell[$this->positionBody] as $value)
-    {
+    foreach ($this->bodyCell[$this->positionBody] as $value) {
       $entity[$this->headerCell[$positionHeader]] = $value;
       ++$positionHeader;
     }
     return $entity;
   }
-
 }

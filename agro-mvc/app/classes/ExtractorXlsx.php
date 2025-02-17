@@ -21,22 +21,22 @@ class ExtractorXlsx implements IteratorAggregate
     $this->dataCells = array_slice($this->cells, 1);
   }
 
-  public function getAllCells() : array
+  public function getAllCells(): array
   {
     return $this->cells;
   }
 
-  public function getHeaderCells() : array
+  public function getHeaderCells(): array
   {
     return $this->headerCells;
   }
 
-  public function getDatasCells() : array
+  public function getDatasCells(): array
   {
     return $this->dataCells;
   }
 
-  private function extractRows($worksheet) : array
+  private function extractRows($worksheet): array
   {
     $entitys = [];
     $worksheet = $worksheet->getActiveSheet();
@@ -52,11 +52,10 @@ class ExtractorXlsx implements IteratorAggregate
     return $entitys;
   }
 
-  public function getIterator() : Traversable
+  public function getIterator(): Traversable
   {
     return new IteratorCell(
-      headerCell: $this->headerCells
-  ,
+      headerCell: $this->headerCells,
       valueCell: $this->dataCells
     );
   }
