@@ -2,7 +2,7 @@
 
 ## class ExtractorTraining
 
-- _Extends concrete class **ExtractorXlsx**._
+- _Extends concrete class [**ExtractorXlsx**](/agro-mvc/docs/classes/ExtractorXlsx.md)._
 
 ---
 
