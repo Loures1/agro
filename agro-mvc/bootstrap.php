@@ -5,6 +5,7 @@ require 'app/classes/DataBase.php';
 require 'app/classes/ExtractorXlsx.php';
 require 'app/classes/IteratorCell.php';
 require 'app/classes/Insert.php';
+require 'app/classes/ExtractorTraining.php';
 require 'core/Controller.php';
 require 'core/Method.php';
 require 'core/Parameter.php';

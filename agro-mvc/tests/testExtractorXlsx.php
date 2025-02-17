@@ -10,8 +10,3 @@ $extractor1 = new ExtractorXlsx(
 $extractor2 = new ExtractorXlsx(
   './tests/Profissoes_Industria_Polpa_Fruta.xlsx'
 );
-
-foreach ($extractor2->getIterator() as $key => $value)
-{
-  print_r($value);
-}

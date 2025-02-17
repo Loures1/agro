@@ -38,7 +38,7 @@ class Insert extends Query
     $fetch = Query::fetchDataBase(
       "SELECT COLUMN_NAME
       FROM information_schema.COLUMNS
-      WHERE TABLE_NAME = 'tbl_supervisor'
+      WHERE TABLE_NAME = {$this->table}
       AND COLUMN_NAME != 'id'
       AND COLUMN_NAME != 'status'
       AND COLUMN_NAME != 'data'"

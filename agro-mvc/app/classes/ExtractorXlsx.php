@@ -8,32 +8,32 @@ use Traversable;
 
 class ExtractorXlsx implements IteratorAggregate
 {
-  private array $cellsFromTable;
-  private array $namesColumn;
-  private array $values;
+  private array $cells;
+  private array $headerCells;
+  private array $dataCells;
 
   public function __construct($path)
   {
     $reader = new Xlsx();
     $reader->setReadDataOnly(true);
-    $this->cellsFromTable = self::extractRows($reader->load($path));
-    $this->namesColumn = $this->cellsFromTable[0];
-    $this->values = array_slice($this->cellsFromTable, 1);
+    $this->cells = self::extractRows($reader->load($path));
+    $this->headerCells = $this->cells[0];
+    $this->dataCells = array_slice($this->cells, 1);
   }
 
-  public function getCellsFromTable() : array
+  public function getAllCells() : array
   {
-    return $this->cellsFromTable;
+    return $this->cells;
   }
 
-  public function getColumn() : array
+  public function getHeaderCells() : array
   {
-    return $this->namesColumn;
+    return $this->headerCells;
   }
 
-  public function getValuesRow() : array
+  public function getDatasCells() : array
   {
-    return $this->values;
+    return $this->dataCells;
   }
 
   private function extractRows($worksheet) : array
@@ -55,8 +55,9 @@ class ExtractorXlsx implements IteratorAggregate
   public function getIterator() : Traversable
   {
     return new IteratorCell(
-      headerCell: $this->namesColumn,
-      valueCell: $this->values
+      headerCell: $this->headerCells
+  ,
+      valueCell: $this->dataCells
     );
   }
 }
