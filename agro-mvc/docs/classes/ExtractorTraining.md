@@ -35,3 +35,5 @@
 ##### `private formDomainCellsTraining: array`
 
 - _It builds the **$domainCellsTraining**. It don't count equal items._
+
+---

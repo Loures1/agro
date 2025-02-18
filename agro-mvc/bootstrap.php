@@ -1,7 +1,7 @@
 <?php
 require 'app/functions/helpers.php';
 require 'app/classes/Uri.php';
-require 'app/classes/DataBase.php';
+require 'app/classes/Query.php';
 require 'app/classes/ExtractorXlsx.php';
 require 'app/classes/IteratorCell.php';
 require 'app/classes/Insert.php';

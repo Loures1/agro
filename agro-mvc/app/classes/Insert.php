@@ -3,63 +3,75 @@
 namespace app\classes;
 
 use app\classes\Query;
+use config\Credentials;
+use mysqli;
 
-class Insert extends Query
+class Insert implements Query
 {
+  const SYNTAX_INSERT = "INSERT INTO target (columns) VALUES (values)";
+  private ?string $target;
   private ?array $values;
-  private ?array $fields;
-  private ?string $table;
+  private ?array $columns;
+  private ?string $query;
 
-  public function __construct(?string $table, ?array $values)
+  public function __construct(?string $target, ?array $datas)
   {
-    $this->pattern_sql = "INSERT INTO table (fields) VALUES (values)";
-    $this->table = $table;
-    $this->values = $values;
-    $this->fields = [];
-  }
-
-  public function syntaxGeneretor()
-  {
-    $replacemnts = [
-      $this->table,
-      implode(", ", self::getFilds()),
-      implode(", ", self::innerJoinFieldsValues())
-    ];
-
-    return preg_replace(
-      pattern: ["'table'", "'fields'", "'values'"],
-      replacement: $replacemnts,
-      subject: $this->pattern_sql
+    $this->columns = array_keys($datas);
+    $this->values = array_values($datas);
+    $this->target = $target;
+    $this->query = preg_replace(
+      [
+        '/target/',
+        '/columns/',
+        '/values/'
+      ],
+      [
+        $this->target,
+        implode(', ', $this->columns),
+        self::traitmentValuesFromQuery()
+      ],
+      self::SYNTAX_INSERT
     );
   }
 
-  private function getFilds()
+  private function traitmentValuesFromQuery()
   {
-    $fetch = Query::fetchDataBase(
-      "SELECT COLUMN_NAME
-      FROM information_schema.COLUMNS
-      WHERE TABLE_NAME = {$this->table}
-      AND COLUMN_NAME != 'id'
-      AND COLUMN_NAME != 'status'
-      AND COLUMN_NAME != 'data'"
-    );
-
-    foreach ($fetch->fetch_all() as $field) {
-      array_push($this->fields, $field[0]);
+    $values = [];
+    foreach ($this->values as $value) {
+      array_push($values, "'{$value}'");
     }
-
-    return $this->fields;
+    return implode(', ', $values);
   }
 
-  private function innerJoinFieldsValues()
+  public function getTarget(): string
   {
-    $inner_join = [];
-    foreach ($this->fields as $key) {
-      if (!array_key_exists($key, $this->values)) {
-        return false;
-      }
-      array_push($inner_join, "'{$this->values[$key]}'");
-    }
-    return $inner_join;
+    return $this->target;
+  }
+
+  public function getValues(): array
+  {
+    return $this->values;
+  }
+
+  public function getColumns(): array
+  {
+    return $this->columns;
+  }
+
+  public function getQuery(): string
+  {
+    return $this->query;
+  }
+
+  public function execQuery(): void
+  {
+    $db = new mysqli(
+      hostname: Credentials::getHost(),
+      username: Credentials::USERNAME,
+      password: Credentials::PASSWORD,
+      database: Credentials::DATABASE
+    );
+    $db->query(self::getQuery());
+    $db->close();
   }
 }
