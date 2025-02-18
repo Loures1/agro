@@ -110,7 +110,6 @@ CREATE TABLE `tbl_supervisor` (
 CREATE TABLE `tbl_treinamento` (
   `id` int(11) NOT NULL,
   `nome` varchar(255) NOT NULL,
-  `supervisor_id` int(11) NOT NULL,
   `status` tinyint(1) DEFAULT 1,
   `data` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
