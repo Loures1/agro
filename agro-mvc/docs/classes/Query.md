@@ -9,3 +9,5 @@
 ##### `public getQuery: string`
 
 ##### `public execQuery: void`
+
+---

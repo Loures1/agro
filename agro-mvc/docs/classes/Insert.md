@@ -57,3 +57,5 @@
 ##### `public execQuery: void`
 
 - _It executes **$query** in data base._
+
+---
