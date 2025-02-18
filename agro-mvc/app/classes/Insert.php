@@ -34,7 +34,7 @@ class Insert implements Query
     );
   }
 
-  private function traitmentValuesFromQuery()
+  private function traitmentValuesFromQuery(): string
   {
     $values = [];
     foreach ($this->values as $value) {
