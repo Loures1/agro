@@ -8,4 +8,9 @@ class ViewSignIn
   {
     return include_once("../public/html/signIn.html");
   }
+
+  static function userAssert()
+  {
+    return include_once("../public/html/reportStatusAssertUser.html");
+  }
 }

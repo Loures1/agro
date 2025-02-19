@@ -4,6 +4,7 @@ require 'app/classes/Uri.php';
 require 'app/classes/Query.php';
 require 'app/classes/Insert.php';
 require 'app/classes/Select.php';
+require 'app/classes/SelectExists.php';
 require 'app/classes/ExtractorXlsx.php';
 require 'app/classes/IteratorCell.php';
 require 'app/classes/ExtractorTraining.php';

@@ -13,7 +13,7 @@ class User
   private ?SelectExists $selectExistsObj;
   private ?mysqli $dataBaseObj;
 
-  private function execQueryDataBase(?string $query): object
+  private function execQueryDataBase(?string $query)
   {
     $this->dataBaseObj = new mysqli(
       hostname: Credentials::getHost(),
@@ -21,9 +21,10 @@ class User
       password: Credentials::PASSWORD,
       database: Credentials::DATABASE
     );
-    $result = $this->dataBaseObj->query($query);
+    $returnDataBase = $this->dataBaseObj->query($query);
     $this->dataBaseObj->close();
-    return $result;
+    return (gettype(boolval($returnDataBase)) == 'boolean')
+      ? null : $returnDataBase;
   }
 
   public function registerUser(?string $target, ?array $datas)
@@ -32,11 +33,15 @@ class User
     self::execQueryDataBase($this->insertObj->getQuery());
   }
 
-  public function assertUser($target, $fields, $condition) : bool
+  public function assertUser($target, $fields, $condition): bool
   {
-    $this->selectExistsObj = new SelectExists($target, $fields, $condition);
-    $result = self::execQueryDataBase(
-      $this->selectExistsObj->getQuery());
-    return boolval($result->fetch_row()[0]);
+    $this->selectExistsObj = new SelectExists(
+      $target,
+      fields: $fields,
+      condition: $condition
+    );
+    return boolval(
+      self::execQueryDataBase($this->selectExistsObj->getQuery())
+    );
   }
 }

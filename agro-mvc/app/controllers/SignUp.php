@@ -7,6 +7,7 @@ use app\views\ViewSignUp;
 
 class SignUp
 {
+  private ?User $userModel;
   public function null()
   {
     return ViewSignUp::homePage();
@@ -14,8 +15,12 @@ class SignUp
 
   public function insertSupervisorInDataBase()
   {
+    $this->userModel = new User;
     $_POST['senha'] = hash(algo: 'sha256', data: $_POST['senha']);
-    User::registerUser(table: 'tbl_supervisor', values: $_POST);
+    $this->userModel->registerUser(
+      target: 'tbl_supervisor',
+      datas: $_POST
+    );
     ViewSignUp::registerUserStatus();
   }
 }
