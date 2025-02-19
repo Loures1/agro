@@ -28,17 +28,14 @@ SET time_zone = "+00:00";
 --
 --
 --
-CREATE DATABASE agro;
-
 USE agro;
 
 CREATE TABLE `tbl_funcionario` (
   `id` int(11) NOT NULL,
   `nome` varchar(255) NOT NULL,
-  `profissao` int(11) NOT NULL,
+  `id_profissao` int(11) NOT NULL,
   `telefone` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `supervisor_id` int(11) NOT NULL,
   `status` tinyint(1) DEFAULT 1,
   `data` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -49,10 +46,10 @@ CREATE TABLE `tbl_funcionario` (
 -- Estrutura da tabela `tbl_funcionario_profissao_treinamento`
 --
 
-CREATE TABLE `tbl_funcionario_profissao_treinamento` (
+CREATE TABLE `tbl_funcionario_treinamento` (
   `id` int(11) NOT NULL,
   `id_funcionario` int(11) NOT NULL,
-  `id_profissao_treinamento` int(11) NOT NULL,
+  `id_treinamento` int(11) NOT NULL,
   `data` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -65,7 +62,6 @@ CREATE TABLE `tbl_funcionario_profissao_treinamento` (
 CREATE TABLE `tbl_profissao` (
   `id` int(11) NOT NULL,
   `nome` varchar(255) NOT NULL,
-  `supervisor_id` int(11) NOT NULL,
   `status` tinyint(1) DEFAULT 1,
   `data` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -132,11 +128,11 @@ ALTER TABLE `tbl_funcionario`
 --
 -- Índices para tabela `tbl_funcionario_profissao_treinamento`
 --
-ALTER TABLE `tbl_funcionario_profissao_treinamento`
+ALTER TABLE `tbl_funcionario_treinamento`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `id` (`id`),
-  ADD KEY `id_profissao_treinamento` (`id_profissao_treinamento`),
-  ADD KEY `id_funcionario` (`id_funcionario`);
+  ADD KEY `id_funcionario` (`id_funcionario`),
+  ADD KEY `id_treinamento` (`id_treinamento`);
 
 --
 -- Índices para tabela `tbl_profissao`
@@ -186,7 +182,7 @@ ALTER TABLE `tbl_funcionario`
 --
 -- AUTO_INCREMENT de tabela `tbl_funcionario_profissao_treinamento`
 --
-ALTER TABLE `tbl_funcionario_profissao_treinamento`
+ALTER TABLE `tbl_funcionario_treinamento`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -220,9 +216,9 @@ ALTER TABLE `tbl_treinamento`
 --
 -- Limitadores para a tabela `tbl_funcionario_profissao_treinamento`
 --
-ALTER TABLE `tbl_funcionario_profissao_treinamento`
-  ADD CONSTRAINT `tbl_funcionario_profissao_treinamento_ibfk_1` FOREIGN KEY (`id_profissao_treinamento`) REFERENCES `tbl_profissao_treinamento` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `tbl_funcionario_profissao_treinamento_ibfk_2` FOREIGN KEY (`id_funcionario`) REFERENCES `tbl_funcionario` (`id`) ON DELETE CASCADE;
+ALTER TABLE `tbl_funcionario_treinamento`
+  ADD CONSTRAINT `tbl_funcionario_treinamento_ibfk_1` FOREIGN KEY (`id_funcionario`) REFERENCES `tbl_funcionario` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `tbl_funcionario_treinamento_ibfk_2` FOREIGN KEY (`id_treinamento`) REFERENCES `tbl_treinamento` (`id`) ON DELETE CASCADE;
 
 --
 -- Limitadores para a tabela `tbl_profissao_treinamento`
