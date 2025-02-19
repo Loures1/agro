@@ -1,4 +1,4 @@
-USE agro
+USE agro;
 INSERT INTO `tbl_supervisor` (nome, cpf, email, telefone, senha)
 VALUES
     ('João Silva', '529.982.247-25', 'joao.silva@gmail.com', '11987654321', 'senha123'),

@@ -28,6 +28,8 @@ SET time_zone = "+00:00";
 --
 --
 --
+CREATE DATABASE agro;
+
 USE agro;
 
 CREATE TABLE `tbl_funcionario` (
