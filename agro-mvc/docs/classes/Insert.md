@@ -54,8 +54,4 @@
 
 - _It returns **$query**._
 
-##### `public execQuery: void`
-
-- _It executes **$query** in data base._
-
 ---

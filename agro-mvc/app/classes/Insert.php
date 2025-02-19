@@ -3,12 +3,10 @@
 namespace app\classes;
 
 use app\classes\Query;
-use config\Credentials;
-use mysqli;
 
 class Insert implements Query
 {
-  const SYNTAX_INSERT = "INSERT INTO target (columns) VALUES (values)";
+  const SYNTAX_SQL = "INSERT INTO target (columns) VALUES (values)";
   private ?string $target;
   private ?array $values;
   private ?array $columns;
@@ -30,7 +28,7 @@ class Insert implements Query
         implode(', ', $this->columns),
         self::traitmentValuesFromQuery()
       ],
-      self::SYNTAX_INSERT
+      self::SYNTAX_SQL
     );
   }
 
@@ -61,17 +59,5 @@ class Insert implements Query
   public function getQuery(): string
   {
     return $this->query;
-  }
-
-  public function execQuery(): void
-  {
-    $db = new mysqli(
-      hostname: Credentials::getHost(),
-      username: Credentials::USERNAME,
-      password: Credentials::PASSWORD,
-      database: Credentials::DATABASE
-    );
-    $db->query(self::getQuery());
-    $db->close();
   }
 }

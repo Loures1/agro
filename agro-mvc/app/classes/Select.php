@@ -3,17 +3,14 @@
 namespace app\classes;
 
 use app\classes\Query;
-use config\Credentials;
-use mysqli;
 
 class Select implements Query
 {
-    const SYNTAX_SQL = "SELECT fields FROM target condition";
+    const SYNTAX_SELECT = "SELECT fields FROM target WHERE condition";
     private ?string $target;
     private ?array $fields;
     private ?string $condition;
     private ?string $query;
-    private ?array $result;
     
     public function __construct($target, $fields, $condition)
     {
@@ -31,7 +28,7 @@ class Select implements Query
                 $this->target,
                 $this->condition
             ],
-            self::SYNTAX_SQL
+            self::SYNTAX_SELECT
         );
 
     }
@@ -54,22 +51,5 @@ class Select implements Query
     public function getQuery(): string
     {
         return $this->query;
-    }
-
-    public function getResult(): array
-    {
-        return $this->result;
-    }
-
-    public function execQuery(): void
-    {
-        $db = new mysqli(
-            hostname: Credentials::getHost(),
-            username: Credentials::USERNAME,
-            password: Credentials::PASSWORD,
-            database: Credentials::DATABASE
-        );
-        $this->result = $db->query(self::getQuery())->fetch_all();
-        $db->close(); 
     }
 }

@@ -10,7 +10,7 @@ ____
 
 #### Properties
 
-##### `const SYNTAX_SQL = "SELECT fields FROM target condition`
+##### `const SYNTAX_SQL = SELECT fields FROM target condition`
 
 ##### `private $target: string`
 
@@ -27,10 +27,6 @@ ____
 ##### `private $query: string`
 
 - _It is sql code._
-
-##### `private $result: array`
-
-- _It result has returned of fetch data base._
 
 ____
 
@@ -51,13 +47,5 @@ ____
 ##### `public getQuery: string`
 
 - _It returns **$query**._
-
-##### `public getResult: array`
-
-- _It returns **$result**._
-
-##### `public execQuery: void`
-
-- _It executes the fetch in data base._
 
 ____
