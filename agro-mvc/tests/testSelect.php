@@ -5,9 +5,7 @@ use app\classes\Select;
 require 'bootstrap.php';
 
 $select = new Select(
-    fields: ['nome'],
+    fields: ['*'],
     target: 'tbl_supervisor',
-    condition: null
+    condition: 'id = 1'
 );
-
-$select->execQuery();
