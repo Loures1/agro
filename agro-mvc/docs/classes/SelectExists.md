@@ -10,9 +10,9 @@
 
 ##### `const SYNTAX_SQL = SELECT EXISTS (expression)`
 
-##### `private $selectObj: [Select](/agro-mvc/docs/classes/Select.md)`
+##### `private $selectObj: Select`
 
-- _It object instantied the class Select._
+- _It object instantied the class [Select](/agro-mvc/docs/classes/Select.md)._
 
 ##### `private $query: string`
 

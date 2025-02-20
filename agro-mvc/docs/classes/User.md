@@ -8,11 +8,17 @@ ____
 
 #### Properties
 
-##### `private $insertObj: [Insert](/agro-mvc/docs/classes/Insert.md)`
+##### `private $insertObj: Insert`
 
-##### `private $selectExistsObj: [SelectExists](/agro-mvc/docs/classes/SelectExists.md)`
+- _Object instantied the class [Insert](/agro-mvc/docs/classes/Insert.md)._
+
+##### `private $selectExistsObj: SelectExist`
+
+- _Object instantied the class [Select](/agro-mvc/docs/classes/Select.md)._
 
 ##### `private $dataBaseObj: mysqli`
+
+- _Object instantied the class mysqli._
 
 ____
 
@@ -25,7 +31,7 @@ returns **obejct myqli** whith a result._
 
 ##### `public registerUser: ($target: string, $datas: array) -> void`
 
-- _It register user in data base._
+- _It registers user in data base._
 
 ##### `public assertUser: ($target: string, $fields: array, $condition: string) ->  bool`
 
