@@ -20,3 +20,6 @@ require 'app/views/SignUp.php';
 require 'app/views/SignIn.php';
 require 'config/CredentialsDB.php';
 require 'vendor/autoload.php';
+
+#.env
+$_ENV = parse_ini_file('.env');

@@ -4,14 +4,24 @@ namespace config;
 
 class Credentials
 {
-  const USERNAME = 'root';
-  const PASSWORD = null;
-  const DATABASE = 'agro';
-  static function getHost()
+  static function getHostname()
   {
-    return match (php_uname(mode: 's')) {
-      'Linux' => 'db_agro',
-      'Windows NT' => 'localhost'
-    };
+    return $_ENV['HOSTNAME'];
   }
+
+  static function getUsername()
+  {
+    return $_ENV['USERNAME'];
+  }
+
+  static function getPassword()
+  {
+    return $_ENV['PASSWORD'];
+  }
+
+  static function getDataBase()
+  {
+    return $_ENV['DATABASE'];
+  }
+
 }
