@@ -175,27 +175,27 @@ VALUES
     (20, 15),-- Gestão de Projetos Industriais
     (20, 19);-- Primeiros Socorros Industrial
 
-INSERT INTO `tbl_funcionario` (nome, id_profissao, telefone, email) VALUES
-('João Silva', 1, '(11) 98765-4321', 'joao.silva@empresa.com'),          -- Operador de Máquinas
-('Maria Oliveira', 2, '(21) 99876-5432', 'maria.oliveira@empresa.com'),  -- Técnico de Laboratório
-('Carlos Souza', 3, '(31) 91234-5678', 'carlos.souza@empresa.com'),      -- Engenheiro de Alimentos
-('Ana Costa', 4, '(41) 92345-6789', 'ana.costa@empresa.com'),            -- Supervisor de Produção
-('Pedro Rocha', 5, '(51) 93456-7890', 'pedro.rocha@empresa.com'),        -- Auxiliar de Limpeza
-('Fernanda Lima', 6, '(61) 94567-8901', 'fernanda.lima@empresa.com'),    -- Responsável Técnico
-('Lucas Santos', 7, '(71) 95678-9012', 'lucas.santos@empresa.com'),      -- Analista de Qualidade
-('Juliana Alves', 8, '(81) 96789-0123', 'juliana.alves@empresa.com'),    -- Encarregado de Logística
-('Rafael Pereira', 9, '(85) 97890-1234', 'rafael.pereira@empresa.com'),  -- Técnico de Manutenção
-('Patrícia Mendes', 10, '(92) 98901-2345', 'patricia.mendes@empresa.com'),-- Operador de Processos
-('Marcos Torres', 11, '(95) 99012-3456', 'marcos.torres@empresa.com'),   -- Auxiliar de Produção
-('Camila Ribeiro', 12, '(98) 90123-4567', 'camila.ribeiro@empresa.com'), -- Gerente de Produção
-('Gustavo Nunes', 13, '(99) 91234-5678', 'gustavo.nunes@empresa.com'),   -- Nutricionista Industrial
-('Beatriz Castro', 14, '(84) 92345-6789', 'beatriz.castro@empresa.com'), -- Coordenador de Segurança
-('Diego Fernandes', 15, '(79) 93456-7890', 'diego.fernandes@empresa.com'),-- Operador de Caldeira
-('Laura Martins', 16, '(67) 94567-8901', 'laura.martins@empresa.com'),   -- Eletricista Industrial
-('Thiago Gomes', 17, '(63) 95678-9012', 'thiago.gomes@empresa.com'),     -- Operador de Empacotamento
-('Amanda Duarte', 18, '(69) 96789-0123', 'amanda.duarte@empresa.com'),  -- Conferente de Estoque
-('Bruno Carvalho', 19, '(96) 97890-1234', 'bruno.carvalho@empresa.com'), -- Supervisor de Qualidade
-('Isabela Freitas', 20, '(91) 98901-2345', 'isabela.freitas@empresa.com');-- Assistente de RH
+INSERT INTO tbl_funcionario (matricula, nome, id_profissao, telefone, email) VALUES
+('MAT001', 'João Silva', 1, '(11) 98765-4321', 'joao.silva@empresa.com'),          -- Operador de Máquinas
+('MAT002', 'Maria Oliveira', 2, '(21) 99876-5432', 'maria.oliveira@empresa.com'),  -- Técnico de Laboratório
+('MAT003', 'Carlos Souza', 3, '(31) 91234-5678', 'carlos.souza@empresa.com'),      -- Engenheiro de Alimentos
+('MAT004', 'Ana Costa', 4, '(41) 92345-6789', 'ana.costa@empresa.com'),            -- Supervisor de Produção
+('MAT005', 'Pedro Rocha', 5, '(51) 93456-7890', 'pedro.rocha@empresa.com'),        -- Auxiliar de Limpeza
+('MAT006', 'Fernanda Lima', 6, '(61) 94567-8901', 'fernanda.lima@empresa.com'),    -- Responsável Técnico
+('MAT007', 'Lucas Santos', 7, '(71) 95678-9012', 'lucas.santos@empresa.com'),      -- Analista de Qualidade
+('MAT008', 'Juliana Alves', 8, '(81) 96789-0123', 'juliana.alves@empresa.com'),    -- Encarregado de Logística
+('MAT009', 'Rafael Pereira', 9, '(85) 97890-1234', 'rafael.pereira@empresa.com'),  -- Técnico de Manutenção
+('MAT010', 'Patrícia Mendes', 10, '(92) 98901-2345', 'patricia.mendes@empresa.com'),-- Operador de Processos
+('MAT011', 'Marcos Torres', 11, '(95) 99012-3456', 'marcos.torres@empresa.com'),   -- Auxiliar de Produção
+('MAT012', 'Camila Ribeiro', 12, '(98) 90123-4567', 'camila.ribeiro@empresa.com'), -- Gerente de Produção
+('MAT013', 'Gustavo Nunes', 13, '(99) 91234-5678', 'gustavo.nunes@empresa.com'),   -- Nutricionista Industrial
+('MAT014', 'Beatriz Castro', 14, '(84) 92345-6789', 'beatriz.castro@empresa.com'), -- Coordenador de Segurança
+('MAT015', 'Diego Fernandes', 15, '(79) 93456-7890', 'diego.fernandes@empresa.com'),-- Operador de Caldeira
+('MAT016', 'Laura Martins', 16, '(67) 94567-8901', 'laura.martins@empresa.com'),   -- Eletricista Industrial
+('MAT017', 'Thiago Gomes', 17, '(63) 95678-9012', 'thiago.gomes@empresa.com'),     -- Operador de Empacotamento
+('MAT018', 'Amanda Duarte', 18, '(69) 96789-0123', 'amanda.duarte@empresa.com'),  -- Conferente de Estoque
+('MAT019', 'Bruno Carvalho', 19, '(96) 97890-1234', 'bruno.carvalho@empresa.com'), -- Supervisor de Qualidade
+('MAT020', 'Isabela Freitas', 20, '(91) 98901-2345', 'isabela.freitas@empresa.com');-- Assistente de RH
 
 -- Funcionário 1 (João Silva - Operador de Máquinas)
 INSERT INTO `tbl_funcionario_treinamento` (id_funcionario, id_treinamento) VALUES

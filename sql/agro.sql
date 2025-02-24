@@ -33,6 +33,7 @@ USE agro;
 CREATE TABLE `tbl_funcionario` (
   `id` int(11) NOT NULL,
   `nome` varchar(255) NOT NULL,
+  `matricula` varchar(255) NOT NULL,
   `id_profissao` int(11) NOT NULL,
   `telefone` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
@@ -50,6 +51,8 @@ CREATE TABLE `tbl_funcionario_treinamento` (
   `id` int(11) NOT NULL,
   `id_funcionario` int(11) NOT NULL,
   `id_treinamento` int(11) NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `vencimento` date,
   `data` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -122,6 +125,7 @@ CREATE TABLE `tbl_treinamento` (
 ALTER TABLE `tbl_funcionario`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `id` (`id`),
+  ADD UNIQUE KEY `matricula` (`matricula`),
   ADD UNIQUE KEY `telefone` (`telefone`),
   ADD UNIQUE KEY `email` (`email`);
 
