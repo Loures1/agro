@@ -14,6 +14,4 @@ $method = $method->getMethod();
 $parameter = new Parameter;
 $parameter = $parameter->getParameter();
 
-echo $parameter;
-die();
 $controller->$method($parameter);
