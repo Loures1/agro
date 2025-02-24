@@ -16,10 +16,10 @@ class Query
   public function execQuery($query)
   {
     $this->dataBase->connect(
-      hostname: Credentials::getHost(),
-      username: Credentials::USERNAME,
-      password: Credentials::PASSWORD,
-      database: Credentials::DATABASE
+      hostname: Credentials::getHostname(),
+      username: Credentials::getUsername(),
+      password: Credentials::getPassword(),
+      database: Credentials::getDataBase()
     );
 
     $result = $this->dataBase->query($query);
