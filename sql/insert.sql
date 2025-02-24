@@ -197,53 +197,14 @@ INSERT INTO tbl_funcionario (matricula, nome, id_profissao, telefone, email) VAL
 ('MAT019', 'Bruno Carvalho', 19, '(96) 97890-1234', 'bruno.carvalho@empresa.com'), -- Supervisor de Qualidade
 ('MAT020', 'Isabela Freitas', 20, '(91) 98901-2345', 'isabela.freitas@empresa.com');-- Assistente de RH
 
--- Funcionário 1 (João Silva - Operador de Máquinas)
-INSERT INTO `tbl_funcionario_treinamento` (id_funcionario, id_treinamento) VALUES
-(1, 1), -- Segurança em Máquinas Industriais
-(1, 2); -- Boas Práticas de Fabricação (BPF)
+INSERT INTO tbl_funcionario_treinamento (id_funcionario, id_treinamento, status)
+SELECT
+    f.id AS id_funcionario,
+    pt.id_treinamento,
+    (SELECT floor(rand() * 2))
+FROM tbl_funcionario AS f
+JOIN tbl_profissao_treinamento AS pt ON f.id_profissao = pt.id_profissao;
 
--- Funcionária 2 (Maria Oliveira - Técnico de Laboratório)
-INSERT INTO `tbl_funcionario_treinamento` (id_funcionario, id_treinamento) VALUES
-(2, 2), -- Boas Práticas de Fabricação (BPF)
-(2, 7); -- Análise Microbiológica
-
--- Funcionário 3 (Carlos Souza - Engenheiro de Alimentos)
-INSERT INTO `tbl_funcionario_treinamento` (id_funcionario, id_treinamento) VALUES
-(3, 3), -- Controle de Qualidade em Alimentos
-(3, 6); -- Legislação Sanitária
-
--- Funcionária 4 (Ana Costa - Supervisor de Produção)
-INSERT INTO `tbl_funcionario_treinamento` (id_funcionario, id_treinamento) VALUES
-(4, 4), -- Gestão de Equipes
-(4, 8); -- Logística de Produção
-
--- Funcionário 5 (Pedro Rocha - Auxiliar de Limpeza)
-INSERT INTO `tbl_funcionario_treinamento` (id_funcionario, id_treinamento) VALUES
-(5, 9), -- Higienização Industrial
-(5, 12); -- Gestão de Resíduos Industriais
-
--- Funcionária 6 (Fernanda Lima - Responsável Técnico)
-INSERT INTO `tbl_funcionario_treinamento` (id_funcionario, id_treinamento) VALUES
-(6, 6), -- Legislação Sanitária
-(6, 10); -- ISO 22000
-
--- Funcionário 7 (Lucas Santos - Analista de Qualidade)
-INSERT INTO `tbl_funcionario_treinamento` (id_funcionario, id_treinamento) VALUES
-(7, 3), -- Controle de Qualidade em Alimentos
-(7, 7); -- Análise Microbiológica
-
--- Funcionária 8 (Juliana Alves - Encarregado de Logística)
-INSERT INTO `tbl_funcionario_treinamento` (id_funcionario, id_treinamento) VALUES
-(8, 8); -- Logística de Produção
-
--- Funcionário 9 (Rafael Pereira - Técnico de Manutenção)
-INSERT INTO `tbl_funcionario_treinamento` (id_funcionario, id_treinamento) VALUES
-(9, 5); -- Manutenção Preventiva Industrial
-
--- Funcionária 10 (Patrícia Mendes - Operador de Processos)
-INSERT INTO `tbl_funcionario_treinamento` (id_funcionario, id_treinamento) VALUES
-(10, 1); -- Segurança em Máquinas Industriais
-
--- Funcionário 16 (Laura Martins - Eletricista Industrial)
-INSERT INTO `tbl_funcionario_treinamento` (id_funcionario, id_treinamento) VALUES
-(16, 17); -- Eletricidade Industrial Básica
+UPDATE tbl_funcionario_treinamento
+SET data_vencimento = (SELECT ADDDATE(CURDATE(), INTERVAL FLOOR(RAND() * 365 * 3) DAY))
+WHERE status=1;

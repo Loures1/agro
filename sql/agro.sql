@@ -51,8 +51,8 @@ CREATE TABLE `tbl_funcionario_treinamento` (
   `id` int(11) NOT NULL,
   `id_funcionario` int(11) NOT NULL,
   `id_treinamento` int(11) NOT NULL,
-  `status` tinyint(1) NOT NULL,
-  `vencimento` date,
+  `status` tinyint(1) DEFAULT 0,
+  `data_vencimento` date NULL,
   `data` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -79,6 +79,7 @@ CREATE TABLE `tbl_profissao_treinamento` (
   `id` int(11) NOT NULL,
   `id_profissao` int(11) NOT NULL,
   `id_treinamento` int(11) NOT NULL,
+  `data_vencimento` date NULL,
   `data` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
