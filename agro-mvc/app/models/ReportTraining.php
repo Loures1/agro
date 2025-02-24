@@ -10,10 +10,10 @@ class ReportTraining extends Query
   private ?array $report;
   public ?int $idEmployed;
 
-  public function __construct($nomeEmployed)
+  public function __construct($matEmployed)
   {
     $this->report = null;
-    $this->idEmployed = self::getIdEmployed($nomeEmployed);
+    $this->idEmployed = self::getIdEmployed($matEmployed);
     $this->sqlCode =
       "SELECT t.nome, ft.ativo
       FROM tbl_treinamento AS t
@@ -46,11 +46,12 @@ class ReportTraining extends Query
     return $this->report;
   }
 
-  private function getIdEmployed($nomeEmployed)
+  private function getIdEmployed($matEmployed)
   {
     parent::__construct();
     $result = parent::execQuery(
-      "SELECT f.id FROM tbl_funcionario as f WHERE f.nome = '{$nomeEmployed}'"
+      "SELECT f.id FROM tbl_funcionario 
+      AS f WHERE f.matricula = '{$matEmployed}'"
     );
     return intval($result->fetch_row()[0]);
   }

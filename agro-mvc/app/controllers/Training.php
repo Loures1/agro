@@ -8,9 +8,9 @@ class Training
 {
   private ?ReportTraining $ReportTrainingObj;
 
-  public function show()
+  public function get($matEmployed)
   {
-    $this->ReportTrainingObj = new ReportTraining('Maria Oliveira');
+    $this->ReportTrainingObj = new ReportTraining($matEmployed);
     var_dump(
       $this->ReportTrainingObj->getReportTraining()
     );
