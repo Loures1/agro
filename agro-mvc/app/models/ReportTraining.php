@@ -8,7 +8,7 @@ class ReportTraining extends Query
 {
   private ?string $sqlCode;
   private ?array $report;
-  public ?int $idEmployed;
+  private ?int $idEmployed;
 
   public function __construct($matEmployed)
   {
