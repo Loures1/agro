@@ -10,7 +10,7 @@ class ReportTraining extends Query
   private ?array $report;
   private ?int $idEmployed;
 
-  public function __construct($matEmployed): void
+  public function __construct($matEmployed)
   {
     $this->report = [
       'nameEmployed' => null,

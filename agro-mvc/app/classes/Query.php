@@ -13,7 +13,7 @@ class Query
   {
     $this->dataBase = new mysqli;
   }
-  public function execQuery($query)
+  public function execQuery($query): object
   {
     $this->dataBase->connect(
       hostname: Credentials::getHostname(),

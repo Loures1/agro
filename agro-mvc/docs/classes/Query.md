@@ -6,8 +6,16 @@
 
 ---
 
+#### Properties
+
+##### `private $dataBase: mysqli Object`
+
+---
+
 #### Methods
 
-##### `public getQuery: string`
+##### `public execQuery: ($query)-> object`
+
+- _It executes a query in the database and return an object as return._
 
 ---
