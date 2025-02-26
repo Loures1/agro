@@ -10,10 +10,11 @@ class ReportTraining extends Query
   private ?array $report;
   private ?int $idEmployed;
 
-  public function __construct($matEmployed)
+  public function __construct($matEmployed): void
   {
     $this->report = [
-      'name' => null,
+      'nameEmployed' => null,
+      'professionEmployed' => null,
       'training' => null,
       'meta_data' => [
         'status_1_number' => null,
@@ -31,36 +32,29 @@ class ReportTraining extends Query
       ON ft.id_treinamento = t.id
       WHERE ft.id_funcionario = {$this->idEmployed}";
 
-    $this->report['name'] = self::getNameEmployed();
-    $this->report['training'] = self::fetchReportTrainingInDataBase();
+    $this->report['nameEmployed'] = self::getNameEmployed();
+    $this->report['professionEmployed'] = self::getProfessionEmployed();
+    $this->report['trainingStatus'] = self::fetchReportTrainingInDataBase();
     $this->report['meta_data'] = self::getMetaData();
   }
 
-  public function getReportTraining()
+  public function getReportTraining(): array
   {
     return $this->report;
   }
 
-  private function getMetaData()
+  private function getMetaData(): array
   {
-    $status_1_num = 0;
-    $status_0_num = 0;
     $defated_data_number = 0;
-    foreach($this->report['training'] as $item) {
-      if($item[1] == true) {
-        ++$status_1_num;
-        (strtotime($item[2]) < strtotime(date('y-m-d'))) 
-        ? ++$defated_data_number 
-        : null;   
-      } 
-      else {
-        ++$status_0_num;
-      }
+    foreach ($this->report['trainingStatus'][1] as $item) {
+      (strtotime($item[1]) < strtotime(date('y-m-d')))
+        ? ++$defated_data_number
+        : null;
     }
 
     $meta_data = [
-      'status_1_number_' => $status_1_num,
-      'status_0_number' => $status_0_num,
+      'status_1_number' => count($this->report['trainingStatus'][1]),
+      'status_0_number' => count($this->report['trainingStatus'][0]),
       'defeated_data_number' => $defated_data_number
     ];
 
@@ -77,7 +71,7 @@ class ReportTraining extends Query
     return intval($result->fetch_row()[0]);
   }
 
-  private function getNameEmployed()
+  private function getNameEmployed(): string
   {
     parent::__construct();
     $result = parent::execQuery(
@@ -86,15 +80,40 @@ class ReportTraining extends Query
       WHERE id = '{$this->idEmployed}'"
     );
 
-    return $result->fetch_all()[0];
+    return $result->fetch_all()[0][0];
   }
 
-  private function fetchReportTrainingInDataBase()
+  private function getProfessionEmployed(): string
+  {
+    parent::__construct();
+    $result = parent::execQuery(
+      "SELECT p.nome
+      FROM tbl_profissao as p
+      JOIN tbl_funcionario as f
+      ON f.id_profissao = p.id 
+      WHERE f.id = {$this->idEmployed}"
+    );
+    return $result->fetch_all()[0][0];
+  }
+
+  private function fetchReportTrainingInDataBase(): array
   {
     parent::__construct();
     $result = parent::execQuery(
       $this->sqlCode
     );
-    return $result->fetch_all();
+
+    $status = [
+      0 => [],
+      1 => []
+    ];
+
+    foreach ($result->fetch_all() as $item) {
+      ($item[1] == true)
+        ? array_push($status[1], [$item[0], $item[2]])
+        : array_push($status[0], $item[0]);
+    }
+
+    return $status;
   }
 }
