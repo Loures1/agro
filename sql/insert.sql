@@ -120,5 +120,13 @@ FROM tbl_funcionario AS f
 JOIN tbl_profissao_treinamento AS pt ON f.id_profissao = pt.id_profissao;
 
 UPDATE tbl_funcionario_treinamento
-SET data_vencimento = (SELECT ADDDATE(CURDATE(), INTERVAL FLOOR(RAND() * 365 * 3) DAY))
+SET data_vencimento = (
+    SELECT
+    CASE
+        WHEN (SELECT FLOOR(RAND()*2)) LIKE 1 THEN 
+            (SELECT ADDDATE(CURDATE(), INTERVAL FLOOR(RAND() * 365 * 3) DAY))
+        ELSE 
+            (SELECT ADDDATE(CURDATE(), INTERVAL FLOOR(RAND() * -120) DAY))
+    END
+)
 WHERE status=1;
