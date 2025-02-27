@@ -16,11 +16,12 @@ class User
   private function execQueryDataBase(?string $query)
   {
     $this->dataBaseObj = new mysqli(
-      hostname: Credentials::getHost(),
-      username: Credentials::USERNAME,
-      password: Credentials::PASSWORD,
-      database: Credentials::DATABASE
+      hostname: Credentials::getHostname(),
+      username: Credentials::getUsername(),
+      password: Credentials::getPassword(),
+      database: Credentials::getDataBase()
     );
+    
     $returnDataBase = $this->dataBaseObj->query($query);
     $this->dataBaseObj->close();
     return (gettype(boolval($returnDataBase)) == 'boolean')
