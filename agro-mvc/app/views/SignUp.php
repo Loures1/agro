@@ -6,11 +6,11 @@ class ViewSignUp
 {
   static function homePage()
   {
-    return include_once("../public/html/signUp.html");
+    return include_once("../public/assets/html/signUp.html");
   }
 
   static function registerUserStatus()
   {
-    return include_once("../public/html/reportStatus.html");
+    return include_once("../public/assets/html/reportStatus.html");
   }
 }
