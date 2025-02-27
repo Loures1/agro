@@ -44,6 +44,7 @@ h1 {
     animation: fadeIn 1.2s ease-in-out;
 }
 
+
 /* Links com design clean e moderno */
 a {
     text-decoration: none;
@@ -129,7 +130,7 @@ input[type="submit"] {
 
 /* Efeito hover no botão de submit */
 input[type="submit"]:hover {
-    background-color: darken(var(--primary-color), 10%);
+    background-color: #e5573e; /* Versão mais escura do --primary-color */
     transform: translateY(-5px);
     box-shadow: 0 5px 20px var(--shadow-dark);
 }
@@ -163,4 +164,26 @@ input[type="submit"]:hover {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+@media (max-width: 768px) {
+    /* Tablets */
+}
+
+@media (max-width: 1024px) {
+    /* Laptops */
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-color: #1a1a1a;
+        --card-bg: #2d2d2d;
+        --text-color: #ffffff;
+    }
+}
+
+/* Melhorar contraste em hover states */
+a:focus-visible {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 2px;
 }
