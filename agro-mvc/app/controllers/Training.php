@@ -14,7 +14,7 @@ class Training
   {
     $this->ReportTrainingObj = new ReportTraining($matEmployed);
     $this->RenderTrainingObj = new RenderTraining(
-      $this->ReportTrainingObj->getReportTraining()
+      $this->ReportTrainingObj->get()
     );
 
     $this->RenderTrainingObj->view('html/reportTraining.html');

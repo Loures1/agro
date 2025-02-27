@@ -38,7 +38,7 @@ class ReportTraining extends Query
     $this->report['meta_data'] = self::getMetaData();
   }
 
-  public function getReportTraining(): array
+  public function get(): array
   {
     return $this->report;
   }

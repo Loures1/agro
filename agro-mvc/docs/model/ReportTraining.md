@@ -28,7 +28,7 @@
 
 #### Methods
 
-##### `public getReportTraining: array`
+##### `public get: array`
 
 - _It returns **$report**._
 
