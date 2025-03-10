@@ -1,4 +1,9 @@
 Options -Indexes
+<FilesMatch "\.(html|png|gif|jpe?g|png|css|js|swf|ps|flv)$">
+        order allow,deny
+        deny from all
+</FilesMatch>
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php [NC]

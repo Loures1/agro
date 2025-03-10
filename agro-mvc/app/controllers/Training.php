@@ -17,6 +17,6 @@ class Training
       $this->ReportTrainingObj->get()
     );
 
-    $this->RenderTrainingObj->view('assets/html/reportTraining.html');
+    $this->RenderTrainingObj->view('reportTraining.html');
   }
 }

@@ -4,6 +4,7 @@ namespace app\views;
 
 class RenderTraining
 {
+  const HTML_PATH_FILE = 'assets/html/';
   const FIELD_EMPLOYED_NAME = '/<!--EMPLOYED_NAME-->/';
   const FIELD_HERID_PROFESSION = '/<!--HERID_PROFESSION-->/';
   const FIELD_TRAINING_NUMBER = '/<!--TRAINING_NUMBER-->/';
@@ -23,7 +24,7 @@ class RenderTraining
     $this->metaData = $reportTraining['meta_data'];
   }
 
-  public function view(?string $pathHtml): void
+  public function view(?string $htmlFileName): void
   {
     echo preg_replace(
       [
@@ -40,7 +41,7 @@ class RenderTraining
         self::mountTableTrainingGraduate(),
         self::mountTableTrainingNotGraduate()
       ],
-      file_get_contents($pathHtml)
+      file_get_contents(self::HTML_PATH_FILE . $htmlFileName)
     );
   }
 
