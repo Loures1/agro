@@ -2,9 +2,6 @@
 require 'app/functions/helpers.php';
 require 'app/classes/Uri.php';
 require 'app/classes/Query.php';
-require 'app/classes/ExtractorXlsx.php';
-require 'app/classes/IteratorCell.php';
-require 'app/classes/ExtractorTraining.php';
 require 'core/Controller.php';
 require 'core/Method.php';
 require 'core/Parameter.php';
@@ -18,6 +15,7 @@ require 'app/views/Home.php';
 require 'app/views/SignUp.php';
 require 'app/views/SignIn.php';
 require 'app/views/RenderTraining.php';
+require 'app/views/RenderReceiverXls.php';
 require 'config/ConfigEnv.php';
 require 'config/CredentialsDB.php';
 require 'vendor/autoload.php';
