@@ -38,7 +38,7 @@ class Training
       self::receiverXls();
     }
     elseif($this->methodRequest == 'POST') {
-      self::update();
+      self::checker();
     }
   }
 
@@ -48,9 +48,18 @@ class Training
     $this->RenderReceiverXlsObj->view('assets/html/receiverXls.html');
   }
 
-  private function update()
+  private function checker()
   {
-    print_r($this->fileReceived);
-    echo pathinfo($this->fileReceived['name'], PATHINFO_EXTENSION);
+    if (pathinfo($this->fileReceived['name'], PATHINFO_EXTENSION) != 'xlsx') {
+      return self::fileTypeErr();
+    }
+    //fazer a verificacao do modelo. Ja fazer o prospector e checker entao.
+    //fazer o update no banco
   }
+
+  private function fileTypeErr()
+  {
+    echo "arquivo errado";
+  }
+
 }
