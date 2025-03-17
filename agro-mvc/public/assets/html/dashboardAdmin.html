@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Admin</title>
+    <link href="../css/dashboardAdmin.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="header">
+            <h1>Sistema Admin</h1>
+        </div>
+
+        <div class="menu">
+            <a href="#" class="active">Funcionários</a>
+            <a href="#">Treinamentos</a>
+            <a href="#">Relatórios</a>
+            <a href="#">Sair</a>
+        </div>
+
+        <div class="main">
+            <div class="title-bar">
+                <h2>Lista de Funcionários</h2>
+                <button id="btnNovo">Novo Funcionário</button>
+            </div>
+
+            <table>
+                <tr>
+                    <th>Nome</th>
+                    <th>CPF</th>
+                    <th>Função</th>
+                    <th>Ações</th>
+                </tr>
+                <tr>
+                    <td>João Silva</td>
+                    <td>123.456.789-00</td>
+                    <td>Analista</td>
+                    <td>
+                        <button class="btn-edit">Editar</button>
+                        <button class="btn-delete">Excluir</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
+<style>
+</style>
