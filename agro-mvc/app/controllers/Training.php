@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\classes\Prospector;
+use app\classes\Checker;
 use app\models\ReportTraining;
 use app\views\RenderTraining;
 use RenderReceiverXls;
@@ -52,12 +54,26 @@ class Training
     if (pathinfo($this->fileReceived['name'], PATHINFO_EXTENSION) != 'xlsx') {
       return self::fileTypeErr();
     }
+    $path = $this->fileReceived['tmp_name'];
+    $prospector = new Prospector($path);
+    $checker = new Checker;
+    $return = $checker->verification(
+      HEADERS_CELL, $prospector->getRows(HEADERS_CELL));
+    if ($return == false) {
+      return 'Arquivo Invalido';
+    }
+    $return = $checker->verification(
+      VALUES_CELL, $prospector->getRows(VALUES_CELL));
+    if ($return == false) {
+      return 'Registros Invalidos';
+    }
+
     //fazer a verificacao do modelo. Ja fazer o prospector e checker entao.
     //fazer o update no banco
   }
 
   private function fileTypeErr()
   {
-    echo "arquivo errado";
+    echo "Tipo de Arquivo Errado";
   }
 }

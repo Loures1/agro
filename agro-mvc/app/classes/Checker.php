@@ -2,16 +2,7 @@
 
 namespace app\classes;
 
-define('ASSERT_EMPLOYED', 0);
-define('ASSERT_HEADER_NUMBERS', 0);
-define('ASSERT_JOB', 1);
-define('ASSERT_HEADER_VALUES', 1);
-define('ASSERT_TRAINING', 2);
-define('ASSERT_RELATION_EMPLOYED_TRAINING', 3);
-define('ASSERT_RELATION_EMPLOYED_JOB', 4);
-define('ASSERT_RELATION_JOB_TRAINING', 5);
-define('ASSERT_STATUS_SET', 6);
-define('ASSERT_PATTERN_DATE', 7);
+use DateTime;
 
 class Checker extends Query
 {
@@ -24,7 +15,16 @@ class Checker extends Query
   ];
 
   const DATABASE_TABLES = [
-    'tbl_funcionario'
+    'tbl_funcionario',
+    'tbl_profissao',
+    'tbl_treinamento'
+  ];
+
+  const STATUS_SET = [
+    'Completo',
+    'Em Andamento',
+    'Pendente',
+    'Não Iniciado'
   ];
 
   private ?bool $statusCellHeader;
@@ -39,6 +39,11 @@ class Checker extends Query
   public function getStatusCellHeader(): bool
   {
     return $this->statusCellHeader;
+  }
+
+  public function getStatusCellValues(): bool
+  {
+    return $this->statusCellValues;
   }
 
   public function verification(?int $flag, ?array $item): bool
@@ -60,23 +65,67 @@ class Checker extends Query
     return true;
   }
 
-  private function assertValues(?array $values): void
+  private function assertValues(?array $values): bool
   {
-    for ($verification = 0; $verification < 7; $verification++) {
+    for ($verification = 0; $verification < 2; $verification++) {
       $return = match ($verification) {
-        ASSERT_EMPLOYED => 1
+        ASSERT_EMPLOYED, 
+        ASSERT_JOB, 
+        ASSERT_TRAINING => self::assertDataBase(
+            $values[$verification], self::DATABASE_TABLES[$verification]),
+        ASSERT_RELATIONS => self::assertRelationDataBase(
+            $values[0], $values[1], $values[2]),
+        ASSERT_STATUS_SET => in_array($values[3], self::STATUS_SET),
+        ASSERT_PATTERN_DATE => self::validateDate($values[4])
       };
+
+      if($return == false) {
+        break;
+      }
     }
+    $this->statusCellValues = $return;
+    return $this->statusCellValues;
   }
+
+  private function validateDate($date, $format = 'd/m/Y')
+  {
+   $d = DateTime::createFromFormat($format, $date);
+   return $d && $d->format($format) == $date; 
+  }
+
+  private function assertRelationDataBase(
+    ?string $employed, 
+    ?string $job, 
+    ?string $training)
+    {
+        $code = <<<EOT
+            SELECT EXISTS(
+            SELECT f.nome as EMPLOYED, p.nome AS JOB, t.nome AS TRAINING
+            FROM tbl_funcionario_treinamento AS ft
+            INNER JOIN tbl_funcionario AS f
+            ON ft.id_funcionario = f.id
+            INNER JOIN tbl_treinamento as t
+            ON ft.id_treinamento = t.id
+            INNER JOIN tbl_profissao AS p
+            ON f.id_profissao = p.id
+            WHERE f.nome = '$employed'
+            AND p.nome = '$job'
+            AND t.nome = '$training')
+        EOT;
+        parent::__construct();
+        $return = parent::execQuery($code);
+        $return = ($return->fetch_row()[0] == true) ?: false;
+        return $return;
+    }
 
   private function assertDataBase(?string $value, ?string $target): bool
   {
     $code = <<<EOT
-      SELECT EXIST(SELECT * FROM "$target" AS t WHERE t.nome = "$value")
+      SELECT EXISTS(SELECT * FROM $target AS t WHERE t.nome = '$value')
     EOT;
     parent::__construct();
     $return = parent::execQuery($code);
-    $return = ($return->fetch_all() == true) ?: false;
+    $return = ($return->fetch_row()[0] == true) ?: false;
     return $return;
   }
 

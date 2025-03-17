@@ -17,7 +17,7 @@ require 'app/views/SignUp.php';
 require 'app/views/SignIn.php';
 require 'app/views/RenderTraining.php';
 require 'app/views/RenderReceiverXls.php';
-require 'config/ConfigConst.php';
+require 'config/Defines.php';
 require 'config/ConfigEnv.php';
 require 'config/CredentialsDB.php';
 require 'vendor/autoload.php';
