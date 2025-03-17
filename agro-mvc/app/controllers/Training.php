@@ -34,10 +34,9 @@ class Training
 
   public function post()
   {
-    if($this->methodRequest == 'GET') {
+    if ($this->methodRequest == 'GET') {
       self::receiverXls();
-    }
-    elseif($this->methodRequest == 'POST') {
+    } elseif ($this->methodRequest == 'POST') {
       self::checker();
     }
   }
@@ -61,5 +60,4 @@ class Training
   {
     echo "arquivo errado";
   }
-
 }

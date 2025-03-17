@@ -2,10 +2,12 @@
 
 require 'bootstrap.php';
 
+use app\classes\Checker;
 use app\classes\Prospector;
 
 $extractor = new Prospector(
   './tests/Controle_Treinamentos.xlsx'
 );
 
-print_r($extractor->getRows(ALL_CELL));
+$checker = new Checker;
+echo $checker->verification(HEADERS_CELL, $extractor->getRows(HEADERS_CELL));
