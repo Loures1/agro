@@ -27,26 +27,31 @@
                 <button id="btnNovo">Novo Funcionário</button>
             </div>
 
-            <table>
+            <table id="tabelaFuncionarios">
                 <tr>
                     <th>Nome</th>
                     <th>CPF</th>
                     <th>Função</th>
                     <th>Ações</th>
                 </tr>
-                <tr>
-                    <td>João Silva</td>
-                    <td>123.456.789-00</td>
-                    <td>Analista</td>
-                    <td>
-                        <button class="btn-edit">Editar</button>
-                        <button class="btn-delete">Excluir</button>
-                    </td>
-                </tr>
+                <tbody id="corpoTabela">
+                    <tr>
+                        <td colspan="4">Carregando funcionários...</td>
+                    </tr>
+                </tbody>
             </table>
         </div>
     </div>
 </body>
 </html>
-<style>
-</style>
+<script>
+    const funcionarios = [
+    { nome: "João Silva", cpf: "123.456.789-00", profissao: "Engenheiro" },
+    { nome: "Maria Souza", cpf: "987.654.321-00", profissao: "Analista" },
+    { nome: "Carlos Lima", cpf: "456.789.123-00", profissao: "Gerente" },
+    { nome: "Ana Oliveira", cpf: "321.654.987-00", profissao: "Desenvolvedora" }
+    ];
+
+    const jsonFuncionarios = JSON.stringify(funcionarios, null, 2);
+
+</script>
