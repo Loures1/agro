@@ -87,7 +87,7 @@ class Checker extends Query
     return $this->statusCellValues;
   }
 
-  private function validateDate($date, $format = 'd/m/Y')
+  private function validateDate(?string $date, string $format = 'd/m/Y'): bool
   {
    $d = DateTime::createFromFormat($format, $date);
    return $d && $d->format($format) == $date; 
@@ -96,7 +96,7 @@ class Checker extends Query
   private function assertRelationDataBase(
     ?string $employed, 
     ?string $job, 
-    ?string $training)
+    ?string $training): bool
     {
         $code = <<<EOT
             SELECT EXISTS(

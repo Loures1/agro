@@ -6,7 +6,7 @@ use app\views\ViewHome;
 
 class Home
 {
-  public function null()
+  public function null(): mixed
   {
     return ViewHome::homePage();
   }

@@ -38,12 +38,12 @@ class ReportTraining extends Query
     $this->report['meta_data'] = self::getMetaData();
   }
 
-  public function get(): array
+  public function get(): array|null
   {
     return $this->report;
   }
 
-  private function getMetaData(): array
+  private function getMetaData(): array|null
   {
     $defated_data_number = 0;
     foreach ($this->report['trainingStatus'][1] as $item) {
@@ -61,7 +61,7 @@ class ReportTraining extends Query
     return $meta_data;
   }
 
-  private function getIdEmployed($matEmployed)
+  private function getIdEmployed(?string $matEmployed): int
   {
     parent::__construct();
     $result = parent::execQuery(

@@ -25,7 +25,7 @@ class Prospector
     }
   }
 
-  public function getRows(int $flag)
+  public function getRows(int $flag): array
   {
     return match ($flag) {
       0 => $this->spreedSheet,

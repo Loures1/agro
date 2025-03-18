@@ -24,7 +24,7 @@ class Training
     $this->fileReceived = $_FILES ? $_FILES['file'] : null;
   }
 
-  public function get($matEmployed)
+  public function get(?string $matEmployed): void
   {
     $this->ReportTrainingObj = new ReportTraining($matEmployed);
     $this->RenderTrainingObj = new RenderTraining(
@@ -34,22 +34,22 @@ class Training
     $this->RenderTrainingObj->view('reportTraining.html');
   }
 
-  public function post()
+  public function post(): void
   {
     if ($this->methodRequest == 'GET') {
       self::receiverXls();
     } elseif ($this->methodRequest == 'POST') {
-      self::checker();
+      echo self::checker();
     }
   }
 
-  private function receiverXls()
+  private function receiverXls(): void
   {
     $this->RenderReceiverXlsObj = new RenderReceiverXls();
     $this->RenderReceiverXlsObj->view('assets/html/receiverXls.html');
   }
 
-  private function checker()
+  private function checker(): string
   {
     if (pathinfo($this->fileReceived['name'], PATHINFO_EXTENSION) != 'xlsx') {
       return self::fileTypeErr();
@@ -67,12 +67,10 @@ class Training
     if ($return == false) {
       return 'Registros Invalidos';
     }
-
-    //fazer a verificacao do modelo. Ja fazer o prospector e checker entao.
-    //fazer o update no banco
+    return 'Arquivo Bonitinho';
   }
 
-  private function fileTypeErr()
+  private function fileTypeErr(): void
   {
     echo "Tipo de Arquivo Errado";
   }
