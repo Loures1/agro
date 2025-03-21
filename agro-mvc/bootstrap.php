@@ -12,6 +12,7 @@ require 'app/controllers/SignUp.php';
 require 'app/controllers/SignIn.php';
 require 'app/controllers/Training.php';
 require 'app/models/ReportTraining.php';
+require 'app/models/UpdateTraining.php';
 require 'app/views/Home.php';
 require 'app/views/SignUp.php';
 require 'app/views/SignIn.php';
