@@ -13,3 +13,5 @@ define('ASSERT_TRAINING',     2);
 define('ASSERT_RELATIONS',    3);
 define('ASSERT_STATUS_SET',   4);
 define('ASSERT_PATTERN_DATE', 5);
+
+define('COLUMN_NUM', 5);

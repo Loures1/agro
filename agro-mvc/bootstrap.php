@@ -4,6 +4,7 @@ require 'app/classes/Uri.php';
 require 'app/classes/Query.php';
 require 'app/classes/Prospector.php';
 require 'app/classes/Checker.php';
+require 'app/classes/TablePath.php';
 require 'core/Controller.php';
 require 'core/Method.php';
 require 'core/Parameter.php';
