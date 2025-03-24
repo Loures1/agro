@@ -225,7 +225,7 @@ ALTER TABLE `tbl_treinamento`
 --
 ALTER TABLE `tbl_funcionario_treinamento`
   ADD CONSTRAINT `tbl_funcionario_treinamento_ibfk_1` FOREIGN KEY (`id_funcionario`) REFERENCES `tbl_funcionario` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `tbl_funcionario_treinamento_ibfk_2` FOREIGN KEY (`id_profissao`)   REFERENCES `tbl_funcionario` (`id_profissao`) ON DELETE CASCADE,
+  ADD CONSTRAINT `tbl_funcionario_treinamento_ibfk_2` FOREIGN KEY (`id_profissao`)   REFERENCES `tbl_profissao` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `tbl_funcionario_treinamento_ibfk_3` FOREIGN KEY (`id_treinamento`) REFERENCES `tbl_treinamento` (`id`) ON DELETE CASCADE;
 
 --
