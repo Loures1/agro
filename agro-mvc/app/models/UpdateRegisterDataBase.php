@@ -43,7 +43,7 @@ class UpadateRegisterDatabase extends Query
         $job->id,
         $training->id
       ],
-      TablesDataBase::UPDATE
+      UPDATE
     );
     parent::__construct();
     parent::execQuery($code);

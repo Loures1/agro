@@ -4,7 +4,6 @@ namespace app\classes;
 
 use InvalidArgumentException;
 use app\classes\TableElement;
-use app\models\TablesDataBase;
 use app\models\ModelRegister;
 
 class TrainingRegister extends TableElement
@@ -17,7 +16,7 @@ class TrainingRegister extends TableElement
 
   private function validade(string $name): string
   {
-    $modelTraining = new ModelRegister($name, TablesDataBase::getTraining());
+    $modelTraining = new ModelRegister($name, TBL_TRAINING);
     if ($modelTraining->id == null) {
       throw new InvalidArgumentException(
         "Treinamento '{$name}' nao consta no Banco de Dados"
@@ -30,8 +29,7 @@ class TrainingRegister extends TableElement
   public function __get(string $name): mixed
   {
     return match ($name) {
-      ID => $this->id,
-      ELEMENT => $this->element
+      ID => $this->id
     };
   }
 }

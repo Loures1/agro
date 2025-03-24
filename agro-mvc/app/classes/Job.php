@@ -4,7 +4,6 @@ namespace app\classes;
 
 use InvalidArgumentException;
 use app\classes\TableElement;
-use app\models\TablesDataBase;
 use app\models\ModelRegister;
 
 class Job extends TableElement
@@ -17,7 +16,7 @@ class Job extends TableElement
 
   private function validade(string $name): string
   {
-    $modelJob = new ModelRegister($name, TablesDataBase::getJob());
+    $modelJob = new ModelRegister($name, TBL_JOB);
     if ($modelJob->id == null) {
       throw new InvalidArgumentException(
         "Profissao '{$name}' nao consta no Banco de Dados"
@@ -30,8 +29,7 @@ class Job extends TableElement
   public function __get(string $name): mixed
   {
     return match ($name) {
-      ID => $this->id,
-      ELEMENT => $this->element
+      ID => $this->id
     };
   }
 }

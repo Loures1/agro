@@ -38,18 +38,13 @@ class Training
   public function post(): void
   {
     if ($this->methodRequest == 'GET') {
-      self::receiverXls();
+      $this->RenderReceiverXlsObj = new RenderReceiverXls();
+      $this->RenderReceiverXlsObj->view('assets/html/receiverXls.html');
     } elseif ($this->methodRequest == 'POST') {
       $tablePath = new TablePath($this->fileReceived);
       $prospector = new Prospector($tablePath);
       $update = new UpadateRegisterDatabase($prospector->registers);
       echo $update->status;
     }
-  }
-
-  private function receiverXls(): void
-  {
-    $this->RenderReceiverXlsObj = new RenderReceiverXls();
-    $this->RenderReceiverXlsObj->view('assets/html/receiverXls.html');
   }
 }

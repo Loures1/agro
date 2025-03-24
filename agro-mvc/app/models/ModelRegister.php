@@ -6,7 +6,6 @@ use app\classes\Employed;
 use app\classes\Job;
 use app\classes\TrainingRegister;
 use app\models\Query;
-use app\models\TablesDataBase;
 
 class ModelRegister extends Query
 {
@@ -17,7 +16,7 @@ class ModelRegister extends Query
     $code = preg_replace(
       ['/{target}/', '/{name}/'],
       [$target, $name],
-      TablesDataBase::GET_ID
+      GET_ID
     );
     parent::__construct();
     $return = parent::execQuery($code);
@@ -33,7 +32,7 @@ class ModelRegister extends Query
     $code = preg_replace(
       ['/{id_employed}/', '/{id_job}/', '/{id_training}/'],
       [$employed->id, $job->id, $training->id],
-      TablesDataBase::ASSERT_RELATION
+      RELATION
     );
     $database = new Query;
     $return = $database->execQuery($code);

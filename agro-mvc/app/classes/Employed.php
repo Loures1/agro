@@ -4,7 +4,6 @@ namespace app\classes;
 
 use InvalidArgumentException;
 use app\classes\TableElement;
-use app\models\TablesDataBase;
 use app\models\ModelRegister;
 
 class Employed extends TableElement
@@ -17,7 +16,7 @@ class Employed extends TableElement
 
   private function validade(string $name): string
   {
-    $modelEmployed = new ModelRegister($name, TablesDataBase::getEmployed());
+    $modelEmployed = new ModelRegister($name, TBL_EMPLOYED);
     if ($modelEmployed->id == null) {
       throw new InvalidArgumentException(
         "Funcionario '{$name}' nao consta no Banco de Dados"
@@ -30,8 +29,7 @@ class Employed extends TableElement
   public function __get(string $name): mixed
   {
     return match ($name) {
-      ID => $this->id,
-      ELEMENT => $this->element
+      ID => $this->id
     };
   }
 }
