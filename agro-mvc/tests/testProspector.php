@@ -3,9 +3,12 @@
 require 'bootstrap.php';
 
 use app\classes\Prospector;
+use app\classes\TablePath;
 
-$extractor = new Prospector(
-  './tests/Controle_de_Treinamentos.xlsx'
-);
+$file = [
+  'name' => './tests/Controle_de_Treinamentos.xlsx',
+  'tmp_name' => './tests/Controle_de_Treinamentos.xlsx',
+];
+$path = new TablePath($file);
 
-print_r($extractor->getRows(ALL_CELL));
+$extractor = new Prospector($path);

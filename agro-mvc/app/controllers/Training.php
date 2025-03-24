@@ -2,10 +2,10 @@
 
 namespace app\controllers;
 
+use app\models\UpadateRegisterDatabase;
 use app\classes\Prospector;
-use app\classes\Checker;
+use app\classes\TablePath;
 use app\models\ReportTraining;
-use app\models\UpadateTrainig;
 use app\views\RenderTraining;
 use RenderReceiverXls;
 
@@ -40,9 +40,10 @@ class Training
     if ($this->methodRequest == 'GET') {
       self::receiverXls();
     } elseif ($this->methodRequest == 'POST') {
-      if (self::checker() == true) {
-        self::insert();
-      }
+      $tablePath = new TablePath($this->fileReceived);
+      $prospector = new Prospector($tablePath);
+      $update = new UpadateRegisterDatabase($prospector->registers);
+      echo $update->status;
     }
   }
 
@@ -50,46 +51,5 @@ class Training
   {
     $this->RenderReceiverXlsObj = new RenderReceiverXls();
     $this->RenderReceiverXlsObj->view('assets/html/receiverXls.html');
-  }
-
-  private function checker()
-  {
-    if (pathinfo($this->fileReceived['name'], PATHINFO_EXTENSION) != 'xlsx') {
-      return self::fileTypeErr();
-    }
-    $path = $this->fileReceived['tmp_name'];
-    $prospector = new Prospector($path);
-    $checker = new Checker;
-    $return = $checker->verification(
-      HEADERS_CELL,
-      $prospector->getRows(HEADERS_CELL)
-    );
-    if ($return == false) {
-      return 'Arquivo Invalido';
-    }
-    $return = $checker->verification(
-      VALUES_CELL,
-      $prospector->getRows(VALUES_CELL)
-    );
-    if ($return == false) {
-      return 'Registros Invalidos';
-    }
-    return true;
-  }
-
-  private function insert(): void
-  {
-    $path = $this->fileReceived['tmp_name'];
-    $prospector = new Prospector($path);
-    $updateTraining = new UpadateTrainig();
-    foreach ($prospector->getRows(VALUES_CELL) as $values) {
-      $updateTraining->updateDataBase($values);
-    }
-    echo 'Atualizado';
-  }
-
-  private function fileTypeErr(): void
-  {
-    echo "Tipo de Arquivo Errado";
   }
 }

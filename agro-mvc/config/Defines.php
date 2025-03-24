@@ -1,17 +1,25 @@
 <?php
+//Class Register
+define('EMPLOYED',        0);
+define('JOB',             1);
+define('TRAINING',        2);
+define('STATUS_TRAINING', 3);
+define('DATE',            4);
 
-define('ALL_CELL', 0);
-define('HEADERS_CELL', 1);
-define('VALUES_CELL', 2);
+//Class Prospector
+define('HEADER', 'header');
+define('REGISTERS', 'registers');
 
-define('ASSERT_HEADER_NUMBERS', 0);
-define('ASSERT_HEADER_VALUES',  1);
+//Class ModelRegister, Employed, Job, Training
+define('ID', 'id');
 
-define('ASSERT_EMPLOYED',     0);
-define('ASSERT_JOB',          1);
-define('ASSERT_TRAINING',     2);
-define('ASSERT_RELATIONS',    3);
-define('ASSERT_STATUS_SET',   4);
-define('ASSERT_PATTERN_DATE', 5);
+//Class ModelRegister
+define('VALIDADE_RELATION', 'validadeRelation');
 
-define('COLUMN_NUM', 5);
+//Class HeaderModel
+define('ONE_COLUMN',   0);
+define('TWO_COLUMN',   1);
+define('THREE_COLUMN', 2);
+define('FOR_COLUMN',   3);
+define('FIVE_COLUMN',  4);
+define('COLUMN_NUM',   5);

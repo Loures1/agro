@@ -2,15 +2,18 @@
 
 namespace app\classes;
 
+use app\classes\Header;
+use app\classes\Register;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 
 class Prospector
 {
-  private ?array $spreedSheet;
+  private Header $header;
+  private Register $registers;
 
-  public function __construct(?string $path)
+  public function __construct(TablePath $path)
   {
-    $this->spreedSheet = [];
+    $spreedSheet = [];
     $reader = new Xlsx();
     $reader->setReadDataOnly(TRUE);
     $spreedsheet = $reader->load($path);
@@ -21,16 +24,29 @@ class Prospector
       foreach ($cellIterator as $cell) {
         array_push($columns, $cell->getValue());
       }
-      array_push($this->spreedSheet, $columns);
+      array_push($spreedSheet, $columns);
     }
+    $this->header = self::valiadeHeader($spreedSheet[0]);
+    $this->registers = self::validadeRegisters(array_slice($spreedSheet, 1));
   }
 
-  public function getRows(int $flag): array
+  private function valiadeHeader(?array $header): Header
   {
-    return match ($flag) {
-      0 => $this->spreedSheet,
-      1 => $this->spreedSheet[0],
-      2 => array_slice($this->spreedSheet, 1)
+    $header = new Header($header);
+    return $header;
+  }
+
+  private function validadeRegisters(?array $registers): Register
+  {
+    $registers = new Register($registers);
+    return $registers;
+  }
+
+  public function __get(?string $name): object
+  {
+    return match ($name) {
+      HEADER => $this->header,
+      REGISTERS => $this->registers
     };
   }
 }
