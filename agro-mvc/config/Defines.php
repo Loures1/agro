@@ -25,20 +25,19 @@ define('FIVE_COLUMN',  4);
 define('COLUMN_NUM',   5);
 
 //Data Credentials
-define('HOSTNAME', $_ENV['HOSTNAME']);
-define('PASSWORD', $_ENV['PASSWORD']);
-define('USERNAME', $_ENV['USERNAME']);
+define('HOSTNAME', $_ENV['HOSTNAME_DATABASE']);
+define('PASSWORD', $_ENV['PASSWORD_DATABASE']);
+define('USERNAME', $_ENV['USERNAME_DATABASE']);
 define('DATABASE', $_ENV['DATABASE']);
 
 //Data Base Tables
 define('TBL_EMPLOYED',                   $_ENV['EMPLOYED']);
-define('TBL_JOB',                             $_ENV['JOB']); 
+define('TBL_JOB',                             $_ENV['JOB']);
 define('TBL_TRAINING',                   $_ENV['TRAINING']);
-define('TBL_EMPLOYED_TRAINING', $_ENV['EMPLOYED_TRAINING']); 
+define('TBL_EMPLOYED_TRAINING', $_ENV['EMPLOYED_TRAINING']);
 
 
 //Data Base SQL Code
 define('UPDATE',     $_ENV['SQL_UPDATE']);
 define('RELATION', $_ENV['SQL_RELATION']);
 define('GET_ID',     $_ENV['SQL_GET_ID']);
-
