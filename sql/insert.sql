@@ -111,9 +111,10 @@ INSERT INTO tbl_funcionario (matricula, nome, id_profissao, telefone, email) VAL
 ('MAT019', 'Bruno Carvalho', 19, '(96) 97890-1234', 'bruno.carvalho@empresa.com'),
 ('MAT020', 'Isabela Freitas', 20, '(91) 98901-2345', 'isabela.freitas@empresa.com');
 
-INSERT INTO tbl_funcionario_treinamento (id_funcionario, id_treinamento, status)
+INSERT INTO tbl_funcionario_treinamento (id_funcionario, id_profissao, id_treinamento, status)
 SELECT
     f.id AS id_funcionario,
+    f.id_profissao,
     pt.id_treinamento,
     (SELECT floor(rand() * 2))
 FROM tbl_funcionario AS f
