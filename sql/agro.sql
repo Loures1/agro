@@ -50,6 +50,7 @@ CREATE TABLE `tbl_funcionario` (
 CREATE TABLE `tbl_funcionario_treinamento` (
   `id` int(11) NOT NULL,
   `id_funcionario` int(11) NOT NULL,
+  `id_profissao` int(11) NOT NULL,
   `id_treinamento` int(11) NOT NULL,
   `status` tinyint(1) DEFAULT 0,
   `data_vencimento` date NULL,
@@ -137,6 +138,7 @@ ALTER TABLE `tbl_funcionario_treinamento`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `id` (`id`),
   ADD KEY `id_funcionario` (`id_funcionario`),
+  ADD KEY `id_profissao` (`id_profissao`),
   ADD KEY `id_treinamento` (`id_treinamento`);
 
 --
@@ -223,7 +225,8 @@ ALTER TABLE `tbl_treinamento`
 --
 ALTER TABLE `tbl_funcionario_treinamento`
   ADD CONSTRAINT `tbl_funcionario_treinamento_ibfk_1` FOREIGN KEY (`id_funcionario`) REFERENCES `tbl_funcionario` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `tbl_funcionario_treinamento_ibfk_2` FOREIGN KEY (`id_treinamento`) REFERENCES `tbl_treinamento` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `tbl_funcionario_treinamento_ibfk_2` FOREIGN KEY (`id_profissao`)   REFERENCES `tbl_profissao` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `tbl_funcionario_treinamento_ibfk_3` FOREIGN KEY (`id_treinamento`) REFERENCES `tbl_treinamento` (`id`) ON DELETE CASCADE;
 
 --
 -- Limitadores para a tabela `tbl_profissao_treinamento`

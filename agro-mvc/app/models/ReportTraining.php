@@ -2,7 +2,7 @@
 
 namespace app\models;
 
-use app\classes\Query;
+use app\models\Query;
 
 class ReportTraining extends Query
 {
