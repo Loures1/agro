@@ -1,9 +1,9 @@
 <?php
 
-namespace app\classes;
+namespace app\classes\training;
 
 use InvalidArgumentException;
-use app\classes\TableElement;
+use app\classes\training\TableElement;
 use app\models\ModelRegister;
 
 class Job extends TableElement

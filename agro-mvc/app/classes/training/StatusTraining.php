@@ -1,11 +1,11 @@
 <?php
 
-namespace app\classes;
+namespace app\classes\training;
 
 define('STATUS', 'status');
 
 use InvalidArgumentException;
-use app\classes\TableElement;
+use app\classes\training\TableElement;
 
 class StatusTraining extends TableElement
 {

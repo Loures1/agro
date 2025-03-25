@@ -7,7 +7,7 @@ define('STATUS_TRAINING', 3);
 define('DATE',            4);
 
 //Class Prospector
-define('HEADER',      'header');
+define('HEADER',       'header');
 define('REGISTERS', 'registers');
 
 //Class ModelRegister, Employed, Job, Training

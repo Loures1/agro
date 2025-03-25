@@ -1,9 +1,9 @@
 <?php
 
-namespace app\classes;
+namespace app\classes\training;
 
-use app\classes\Header;
-use app\classes\Register;
+
+use app\classes\training\Register;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 
 class Prospector

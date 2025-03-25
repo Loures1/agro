@@ -1,8 +1,8 @@
 <?php
 
-namespace app\classes;
+namespace app\classes\training;
 
-use app\classes\TableElement;
+use app\classes\training\TableElement;
 use DateTime;
 use Exception;
 use InvalidArgumentException;

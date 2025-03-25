@@ -1,12 +1,12 @@
 <?php
 
-namespace app\classes;
+namespace app\classes\training;
 
 use InvalidArgumentException;
-use app\classes\TableElement;
+use app\classes\training\TableElement;
 use app\models\ModelRegister;
 
-class Employed extends TableElement
+class TrainingRegister extends TableElement
 {
   private int $id;
   public function __construct(string $name)
@@ -16,13 +16,13 @@ class Employed extends TableElement
 
   private function validade(string $name): string
   {
-    $modelEmployed = new ModelRegister($name, TBL_EMPLOYED);
-    if ($modelEmployed->id == null) {
+    $modelTraining = new ModelRegister($name, TBL_TRAINING);
+    if ($modelTraining->id == null) {
       throw new InvalidArgumentException(
-        "Funcionario '{$name}' nao consta no Banco de Dados"
+        "Treinamento '{$name}' nao consta no Banco de Dados"
       );
     }
-    $this->id = $modelEmployed->id;
+    $this->id = $modelTraining->id;
     return $name;
   }
 

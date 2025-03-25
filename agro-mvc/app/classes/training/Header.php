@@ -1,9 +1,8 @@
 <?php
 
-namespace app\classes;
+namespace app\classes\training;
 
-use app\classes\TableElement;
-use app\classes\HeaderModel;
+use app\classes\training\HeaderModel;
 use InvalidArgumentException;
 
 class Header extends TableElement

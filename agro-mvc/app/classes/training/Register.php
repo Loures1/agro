@@ -1,13 +1,13 @@
 <?php
 
-namespace app\classes;
+namespace app\classes\training;
 
 use InvalidArgumentException;
-use app\classes\Employed;
-use app\classes\Job;
-use app\classes\TrainingRegister;
-use app\classes\StatusTraining;
-use app\classes\Date;
+use app\classes\training\Employed;
+use app\classes\training\Job;
+use app\classes\training\TrainingRegister;
+use app\classes\training\StatusTraining;
+use app\classes\training\Date;
 use app\models\ModelRegister;
 
 class Register extends TableElement
