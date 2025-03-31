@@ -3,8 +3,8 @@
 namespace app\controllers;
 
 use app\models\UpadateRegisterDatabase;
-use app\classes\Prospector;
-use app\classes\TablePath;
+use app\classes\training\Prospector;
+use app\classes\training\TablePath;
 use app\models\ReportTraining;
 use app\views\RenderTraining;
 use RenderReceiverXls;

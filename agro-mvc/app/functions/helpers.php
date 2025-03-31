@@ -1,8 +1,14 @@
 <?php
 
-function dumpDie($dump)
+function dd($dump)
 {
   var_dump($dump);
+  die();
+}
+
+function pdd($dump)
+{
+  print_r($dump);
   die();
 }
 

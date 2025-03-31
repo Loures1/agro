@@ -2,7 +2,7 @@
 
 namespace app\classes\training;
 
-class HeaderModel
+class HeaderForm
 {
   const COLUMMN_NUM = 5;
   const ONE_COLUMN = 'Nome';
