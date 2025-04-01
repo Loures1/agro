@@ -1,8 +1,8 @@
 <?php
 
-namespace app\classes\admin\employed_structs;
+namespace app\classes\admin\general_structs;
 
-use app\classes\admin\employed_structs\Struct;
+use app\classes\admin\general_structs\Struct;
 
 class Name extends Struct
 {

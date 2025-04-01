@@ -2,7 +2,7 @@
 
 namespace app\classes\admin\employed_structs;
 
-use app\classes\admin\employed_structs\Struct;
+use app\classes\admin\general_structs\Struct;
 
 class Email extends Struct
 {

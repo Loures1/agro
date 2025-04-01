@@ -1,6 +1,6 @@
 <?php
 
-namespace app\classes\admin\employed_structs;
+namespace app\classes\admin\general_structs;
 
 abstract class Struct
 {

@@ -2,8 +2,8 @@
 
 namespace app\classes\admin;
 
-use app\classes\admin\employed_structs\Id;
-use app\classes\admin\employed_structs\Name;
+use app\classes\admin\general_structs\Id;
+use app\classes\admin\general_structs\Name;
 use app\classes\admin\employed_structs\Mat;
 use app\classes\admin\employed_structs\Tel;
 use app\classes\admin\employed_structs\Email;
