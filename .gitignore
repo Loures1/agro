@@ -2,4 +2,5 @@ log/
 run/
 lock/
 www/
+tests/
 .env
