@@ -2,7 +2,6 @@
 
 namespace app\models;
 
-use config\Credentials;
 use mysqli;
 
 class Query
