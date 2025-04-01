@@ -24,6 +24,7 @@ require 'app/models/Query.php';
 require 'app/models/ModelRegister.php';
 require 'app/models/ReportTraining.php';
 require 'app/models/UpdateRegisterDataBase.php';
+require 'app/models/ModelAdmin.php';
 require 'app/views/View.php';
 require 'app/views/Home.php';
 require 'app/views/SignUp.php';
