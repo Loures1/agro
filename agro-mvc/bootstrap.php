@@ -12,6 +12,21 @@ require 'app/classes/training/TablePath.php';
 require 'app/classes/training/HeaderForm.php';
 require 'app/classes/training/Header.php';
 require 'app/classes/training/Register.php';
+
+#Admin
+require 'app/classes/admin/general_structs/Struct.php';
+require 'app/classes/admin/general_structs/Id.php';
+require 'app/classes/admin/general_structs/Name.php';
+require 'app/classes/admin/employed_structs/Mat.php';
+require 'app/classes/admin/employed_structs/Email.php';
+require 'app/classes/admin/employed_structs/Tel.php';
+require 'app/classes/admin/Training.php';
+require 'app/classes/admin/Employed.php';
+require 'app/classes/admin/Job.php';
+require 'app/classes/admin/CollectionEmployed.php';
+require 'app/classes/admin/CollectionTraininig.php';
+require 'app/classes/admin/CollectionJob.php';
+
 require 'core/Controller.php';
 require 'core/Method.php';
 require 'core/Parameter.php';

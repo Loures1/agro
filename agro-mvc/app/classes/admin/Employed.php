@@ -21,4 +21,15 @@ class Employed
   private Tel $telefone;
   private Email $email;
   private DateTime $date;
+
+  public function __construct(
+    int $id,
+    string $name,
+    string $mat,
+    string $job,
+    string $trainings,
+    string $tel,
+    string $email,
+    string $date
+  ) {}
 }

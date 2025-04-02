@@ -10,6 +10,7 @@ class Job
 {
   private Id $id;
   private Name $name;
+  private CollectionTraining $trainings;
   private DateTime $date;
 
   public function __construct(int $id, string $name, string $date)
@@ -19,7 +20,7 @@ class Job
     $this->date = new DateTime($date);
   }
 
-  public function __get(string $name)
+  public function __get(string $name): Id|Name|DateTime
   {
     return match ($name) {
       'id' => $this->id,

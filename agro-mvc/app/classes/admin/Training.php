@@ -8,23 +8,24 @@ use DateTime;
 
 class Training
 {
-    private Id $id;
-    private Name $name;
-    private DateTime $date;
+  private Id $id;
+  private Name $name;
+  private DateTime $date;
 
-    public function __construct(int $id, string $name, string $date)
-    {
-        $this->id = new Id($id);
-        $this->name = new Name($name);
-        $this->date = new DateTime($date);
-    }
+  public function __construct(int $id, string $name, string $date)
+  {
+    $this->id = new Id($id);
+    $this->name = new Name($name);
+    $this->date = new DateTime($date);
+  }
 
-    public function __get(string $name)
-    {
-        return match ($name) {
-            'id' => $this->id,
-            'name' => $this->name,
-            'date' => $this->date
-        };
-    }
+  public function __get(string $name): Id|Name|DateTime
+  {
+    return match ($name) {
+      'id' => $this->id,
+      'name' => $this->name,
+      'date' => $this->date
+    };
+  }
 }
+

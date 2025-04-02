@@ -80,7 +80,6 @@ CREATE TABLE `tbl_profissao_treinamento` (
   `id` int(11) NOT NULL,
   `id_profissao` int(11) NOT NULL,
   `id_treinamento` int(11) NOT NULL,
-  `data_vencimento` date NULL,
   `data` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
