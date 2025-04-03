@@ -16,7 +16,7 @@ class RelationStructs extends ModelAdmin
     $replace = [];
     foreach ($replacements as $replacement) {
       $replace[$replacement] = [];
-      array_push($replace[$replacement], $target[$replacement]);
+      array_push($replace[$replacement], ...$target[$replacement]);
     }
     return $replace;
   }

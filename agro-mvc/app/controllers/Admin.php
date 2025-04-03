@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\classes\admin\CollectionEmployed;
 use app\classes\admin\CollectionJob;
 use app\classes\admin\CollectionTraining;
 use app\classes\admin\RelationStructs;
@@ -12,6 +13,8 @@ class Admin
   public function null(): void
   {
     $relationStructs = new RelationStructs;
-    dd($relationStructs->jobs[1]);
+    $colletcionTraining = new CollectionTraining($relationStructs->trainings);
+    $colletcionJobs = new CollectionJob($relationStructs->jobs);
+    $colletcionEmployed = new CollectionEmployed();
   }
 }
