@@ -13,7 +13,15 @@ require 'app/classes/training/HeaderForm.php';
 require 'app/classes/training/Header.php';
 require 'app/classes/training/Register.php';
 
+#Model
+require 'app/models/Query.php';
+require 'app/models/ModelRegister.php';
+require 'app/models/ReportTraining.php';
+require 'app/models/UpdateRegisterDataBase.php';
+require 'app/models/ModelAdmin.php';
+
 #Admin
+require 'app/classes/admin/RelationStructs.php';
 require 'app/classes/admin/general_structs/Struct.php';
 require 'app/classes/admin/general_structs/Id.php';
 require 'app/classes/admin/general_structs/Name.php';
@@ -35,11 +43,6 @@ require 'app/controllers/SignUp.php';
 require 'app/controllers/SignIn.php';
 require 'app/controllers/Training.php';
 require 'app/controllers/Admin.php';
-require 'app/models/Query.php';
-require 'app/models/ModelRegister.php';
-require 'app/models/ReportTraining.php';
-require 'app/models/UpdateRegisterDataBase.php';
-require 'app/models/ModelAdmin.php';
 require 'app/views/View.php';
 require 'app/views/Home.php';
 require 'app/views/SignUp.php';

@@ -13,8 +13,11 @@ class Job
   private CollectionTraining $trainings;
   private DateTime $date;
 
-  public function __construct(int $id, string $name, string $date)
-  {
+  public function __construct(
+    int $id,
+    string $name,
+    string $date,
+  ) {
     $this->id = new Id($id);
     $this->name = new Name($name);
     $this->date = new DateTime($date);

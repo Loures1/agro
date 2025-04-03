@@ -9,7 +9,7 @@ class CollectionJob
 {
   private array $jobs;
 
-  public function __construct(ModelAdmin $model)
+  public function __construct(ModelAdmin &$model)
   {
     $this->jobs = [];
     foreach ($model->jobs as $job) {

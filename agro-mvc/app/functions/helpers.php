@@ -6,7 +6,7 @@ function dd($dump)
   die();
 }
 
-function pdd($dump)
+function pd($dump)
 {
   print_r($dump);
   die();
