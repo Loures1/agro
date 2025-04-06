@@ -2,5 +2,5 @@ log/
 run/
 lock/
 www/
-tests/
 .env
+.phpunit.cache/
