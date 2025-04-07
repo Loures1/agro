@@ -2,12 +2,15 @@
 
 namespace app\controllers;
 
-use app\views\ViewHome;
+use core\Path;
+use core\enums\Method;
 
+#[Path(Method::GET, '/')]
 class Home
 {
-  public function null(): mixed
+  #[Path(Method::GET, '/')]
+  public function landingPage(): void
   {
-    return ViewHome::homePage();
+    echo true;
   }
 }

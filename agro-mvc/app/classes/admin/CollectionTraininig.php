@@ -3,8 +3,7 @@
 namespace app\classes\admin;
 
 use app\classes\admin\Training;
-use app\classes\admin\RelationStructs;
-  
+
 class CollectionTraining
 {
   private array $trainings;
@@ -12,8 +11,8 @@ class CollectionTraining
   public function __construct(?array $trainings)
   {
     $this->trainings = [];
-    foreach ($trainings as $id=>$training) { 
-      if($training !=null) {
+    foreach ($trainings as $id => $training) {
+      if ($training != null) {
         $training = self::createTraining($id, ...$training);
         self::push($training);
       } else {
@@ -23,10 +22,10 @@ class CollectionTraining
   }
 
   private function createTraining(
-    int $id, 
-    string $name, 
-    string $date): Training
-  {
+    int $id,
+    string $name,
+    string $date
+  ): Training {
     $training = new Training($id, $name, $date);
     return $training;
   }

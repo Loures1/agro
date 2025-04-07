@@ -18,7 +18,7 @@ class Employed
   private Mat $mat;
   private Job $job;
   private CollectionTraining $trainings;
-  private Tel $telefone;
+  private Tel $tel;
   private Email $email;
   private DateTime $date;
 
@@ -26,10 +26,36 @@ class Employed
     int $id,
     string $name,
     string $mat,
-    string $job,
-    string $trainings,
     string $tel,
     string $email,
-    string $date
-  ) {}
+    string $date,
+    ?array $job,
+    ?array $trainings
+  ) {
+    $this->id = new Id($id);
+    $this->name = new Name($name);
+    $this->mat = new Mat($mat);
+    $this->tel = new Tel($tel);
+    $this->email = new Email($email);
+    $this->date = new DateTime($date);
+    foreach ($job as $id => $j) {
+      $this->job = new Job($id, ...$j);
+    };
+    $this->trainings = new CollectionTraining($trainings);
+  }
+
+  public function __get(
+    string $name
+  ): Id|Name|Mat|Job|CollectionTraining|Tel|Email|DateTime {
+    return match ($name) {
+      'id' => $this->id,
+      'name' => $this->name,
+      'mat' => $this->mat,
+      'job' => $this->job,
+      'trainings' => $this->trainings,
+      'tel' => $this->tel,
+      'email' => $this->email,
+      'date' => $this->date
+    };
+  }
 }

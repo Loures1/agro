@@ -1,10 +1,10 @@
 <?php
 
-namespace app\classes\admin;
+namespace app\classes\admin\relation;
 
 use app\models\ModelAdmin;
 
-class RelationStructs extends ModelAdmin
+class RelationJob extends ModelAdmin
 {
   public function __construct()
   {
@@ -43,7 +43,6 @@ class RelationStructs extends ModelAdmin
   public function __get(string $name): array
   {
     return match ($name) {
-      'employeds' => [],
       'jobs' => self::relationJobTraining(),
       'trainings' => $this->trainings
     };

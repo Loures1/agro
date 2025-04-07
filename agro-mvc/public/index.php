@@ -1,17 +1,7 @@
 <?php
 require '../bootstrap.php';
 
-use core\Controller;
-use core\Method;
-use core\Parameter;
+use core\controller\ExtractorControllers;
+use core\controller\DirController;
 
-$controller = new Controller;
-$controller = $controller->contructController(Controller::getController());
-
-$method = new Method;
-$method = $method->getMethod();
-
-$parameter = new Parameter;
-$parameter = $parameter->getParameter();
-
-$controller->$method($parameter);
+dd(ExtractorControllers::get(DirController::Path));

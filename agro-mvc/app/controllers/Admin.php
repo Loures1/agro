@@ -5,16 +5,17 @@ namespace app\controllers;
 use app\classes\admin\CollectionEmployed;
 use app\classes\admin\CollectionJob;
 use app\classes\admin\CollectionTraining;
-use app\classes\admin\RelationStructs;
-use app\models\ModelAdmin;
+use app\classes\admin\relation\RelationEmploeyd;
+use app\classes\admin\relation\RelationJob;
 
 class Admin
 {
   public function null(): void
   {
-    $relationStructs = new RelationStructs;
-    $colletcionTraining = new CollectionTraining($relationStructs->trainings);
-    $colletcionJobs = new CollectionJob($relationStructs->jobs);
-    $colletcionEmployed = new CollectionEmployed();
+    $relationJob = new RelationJob;
+    $relationEmployed = new RelationEmploeyd;
+    $collectionTraining = new CollectionTraining($relationJob->trainings);
+    $collectionJob = new CollectionJob($relationJob->jobs);
+    $collectionEmployed = new CollectionEmployed($relationEmployed->employeds);
   }
 }

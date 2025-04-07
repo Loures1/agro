@@ -23,7 +23,7 @@ class Job
     $this->id = new Id($id);
     $this->name = new Name($name);
     $this->date = new DateTime($date);
-    $this->trainings = new CollectionTraining($trainings); 
+    $this->trainings = new CollectionTraining($trainings);
   }
 
   public function __get(string $name): Id|Name|CollectionTraining|DateTime
