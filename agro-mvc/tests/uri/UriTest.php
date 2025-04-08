@@ -1,11 +1,11 @@
 <?php
 
-namespace tests;
+namespace tests\uri;
 
 use PHPUnit\Framework\Attributes\TestDox;
 use core\uri\Uri;
 use PHPUnit\Framework\TestCase;
-use core\expections\InvalidUri;
+use core\uri\exceptions\InvalidUri;
 
 class UriTest extends TestCase
 {
@@ -65,6 +65,15 @@ class UriTest extends TestCase
     $this->expectExceptionMessage("Url Invalida. Caraceteres maisculos e especiais nao sao permitidos");
     new Uri("/training&/*get&&&/mat001/");
   }
+
+  #[TestDox('Uri: // -> False')]
+  public function test_exception_InvalidUri_on_the_form_uri_7(): void
+  {
+    $this->expectException(InvalidUri::class);
+    $this->expectExceptionMessage("Url Invalida. Formato invalido");
+    new Uri("//");
+  }
+
 
   #[TestDox('if (Uri == /), then (Controller == Home) && (Method == Null) && (Parameter == Null)')]
   public function test_assert_home(): void
