@@ -1,7 +1,6 @@
 <?php
 require '../bootstrap.php';
 
-use core\controller\ExtractorControllers;
-use core\controller\DirController;
+use core\Routing;
 
-dd(ExtractorControllers::get(DirController::Path));
+$routing = new Routing();

@@ -1,11 +1,11 @@
 <?php
 
-namespace tests;
+namespace tests\extractor_controller;
 
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
 use core\controller\ExtractorControllers;
-use core\expections\ControllerDirEmpty;
+use core\controller\exceptions\ControllerDirEmpty;
 
 class ExtractorControllersTest extends TestCase
 {

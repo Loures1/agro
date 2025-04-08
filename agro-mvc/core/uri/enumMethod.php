@@ -1,6 +1,6 @@
 <?php
 
-namespace core\enums;
+namespace core\uri;
 
 enum Method
 {

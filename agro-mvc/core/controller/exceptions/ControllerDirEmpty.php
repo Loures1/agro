@@ -1,6 +1,6 @@
 <?php
 
-namespace core\expections;
+namespace core\controller\exceptions;
 
 use Exception;
 

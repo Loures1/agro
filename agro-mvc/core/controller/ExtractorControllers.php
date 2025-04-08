@@ -2,8 +2,8 @@
 
 namespace core\controller;
 
-use core\expections\ControllerDirEmpty;
-use core\expections\InvalidController;
+use core\controller\exceptions\InvalidController;
+use core\controller\exceptions\ControllerDirEmpty;
 
 class ExtractorControllers
 {

@@ -2,7 +2,7 @@
 
 namespace core\uri;
 
-use core\expections\InvalidUri;
+use core\uri\exceptions\InvalidUri;
 
 class Uri
 {
@@ -13,7 +13,7 @@ class Uri
   public function __construct(string $uri)
   {
     $uri = self::validadeUri($uri);
-    $this->controller = ($uri[1] == true) ? $uri[1] : 'home';
+    $this->controller = ($uri[1] == true) ? ucfirst($uri[1]) : 'Home';
     $this->method = (isset($uri[2]) == true) ? $uri[2] : null;
     $this->parameter = (isset($uri[3]) == true) ? $uri[3] : null;
   }
@@ -39,7 +39,7 @@ class Uri
   public function __get(string $name): ?string
   {
     return match ($name) {
-      'controller' => ucfirst($this->controller),
+      'controller' => $this->controller,
       'method' => $this->method,
       'parameter' => $this->parameter
     };

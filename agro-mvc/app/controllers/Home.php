@@ -2,15 +2,16 @@
 
 namespace app\controllers;
 
-use core\Path;
-use core\enums\Method;
+use core\Route;
+use core\controller\Controller;
+use core\uri\Method;
 
-#[Path(Method::GET, '/')]
+#[Controller('Home')]
 class Home
 {
-  #[Path(Method::GET, '/')]
+  #[Route(Method::GET, '/')]
   public function landingPage(): void
   {
-    echo true;
+    echo 'ola';
   }
 }

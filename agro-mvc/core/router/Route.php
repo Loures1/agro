@@ -1,12 +1,12 @@
 <?php
 
-namespace core;
+namespace core\router;
 
 use Attribute;
-use core\enums\Method;
+use core\uri\Method;
 
 #[Attribute]
-readonly class Router
+class Route
 {
   public function __construct(private string $path, private Method $method) {}
 }

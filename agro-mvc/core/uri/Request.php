@@ -2,10 +2,15 @@
 
 namespace core\uri;
 
+use core\uri\Server;
+
 class Request
 {
-  public static function server(string $uri): string
+  public static function server(Server $requisition): string
   {
-    return parse_url($_SERVER[$uri], PHP_URL_PATH);
+    return match ($requisition) {
+      Server::Uri => parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH),
+      Server::RequestMethod => $_SERVER['REQUEST_METHOD']
+    };
   }
 }
