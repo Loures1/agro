@@ -9,20 +9,18 @@
  */
 namespace PHPUnit\TextUI\XmlConfiguration;
 
-use function assert;
-use PHPUnit\Runner\Version;
+use function sprintf;
 use PHPUnit\Util\Xml\Loader as XmlLoader;
 use PHPUnit\Util\Xml\XmlException;
 
 /**
- * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
- *
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class Migrator
+final class Migrator
 {
     /**
      * @throws Exception
+     * @throws MigrationBuilderException
      * @throws MigrationException
      * @throws XmlException
      */
@@ -31,11 +29,12 @@ final readonly class Migrator
         $origin = (new SchemaDetector)->detect($filename);
 
         if (!$origin->detected()) {
-            throw new Exception('The file does not validate against any known schema');
-        }
-
-        if ($origin->version() === Version::series()) {
-            throw new Exception('The file does not need to be migrated');
+            throw new Exception(
+                sprintf(
+                    '"%s" is not a valid PHPUnit XML configuration file that can be migrated',
+                    $filename,
+                ),
+            );
         }
 
         $configurationDocument = (new XmlLoader)->loadFile($filename);
@@ -47,10 +46,6 @@ final readonly class Migrator
         $configurationDocument->formatOutput       = true;
         $configurationDocument->preserveWhiteSpace = false;
 
-        $xml = $configurationDocument->saveXML();
-
-        assert($xml !== false);
-
-        return $xml;
+        return $configurationDocument->saveXML();
     }
 }

@@ -4,6 +4,7 @@ namespace core\controller;
 
 use core\controller\exceptions\InvalidController;
 use core\controller\exceptions\ControllerDirEmpty;
+use ReflectionClass;
 
 class ExtractorControllers
 {
@@ -35,6 +36,6 @@ class ExtractorControllers
       $controller = $matches[0][0] . '\\' . $matches[0][1];
       array_push($controllers, $controller);
     }
-    return $controllers;
+    return array_map(fn($controller) => new ReflectionClass(new $controller), $controllers);
   }
 }

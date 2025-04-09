@@ -1,6 +1,6 @@
 <?php
 require '../bootstrap.php';
 
-use core\Routing;
+use core\router\Routing;
 
 $routing = new Routing();

@@ -15,11 +15,9 @@ use PHPUnit\Util\Filter;
 use PHPUnit\Util\ThrowableToStringMapper;
 
 /**
- * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
- *
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class ThrowableBuilder
+final class ThrowableBuilder
 {
     /**
      * @throws Exception
@@ -37,7 +35,7 @@ final readonly class ThrowableBuilder
             $t::class,
             $t->getMessage(),
             ThrowableToStringMapper::map($t),
-            Filter::stackTraceFromThrowableAsString($t, false),
+            Filter::getFilteredStacktrace($t),
             $previous,
         );
     }

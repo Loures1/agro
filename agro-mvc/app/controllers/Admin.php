@@ -7,7 +7,7 @@ use app\classes\admin\CollectionJob;
 use app\classes\admin\CollectionTraining;
 use app\classes\admin\relation\RelationEmploeyd;
 use app\classes\admin\relation\RelationJob;
-use core\Route;
+use core\router\Route;
 use core\controller\Controller;
 use core\uri\Method;
 

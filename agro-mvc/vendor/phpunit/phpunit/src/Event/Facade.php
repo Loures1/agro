@@ -9,17 +9,12 @@
  */
 namespace PHPUnit\Event;
 
-use const PHP_VERSION;
-use function assert;
-use function interface_exists;
-use function version_compare;
+use function gc_status;
 use PHPUnit\Event\Telemetry\HRTime;
 use PHPUnit\Event\Telemetry\Php81GarbageCollectorStatusProvider;
 use PHPUnit\Event\Telemetry\Php83GarbageCollectorStatusProvider;
 
 /**
- * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
- *
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
 final class Facade
@@ -27,6 +22,7 @@ final class Facade
     private static ?self $instance = null;
     private Emitter $emitter;
     private ?TypeMap $typeMap                         = null;
+    private ?Emitter $suspended                       = null;
     private ?DeferringDispatcher $deferringDispatcher = null;
     private bool $sealed                              = false;
 
@@ -85,12 +81,8 @@ final class Facade
         $this->deferredDispatcher()->registerTracer($tracer);
     }
 
-    /**
-     * @codeCoverageIgnore
-     *
-     * @noinspection PhpUnused
-     */
-    public function initForIsolation(HRTime $offset): CollectingDispatcher
+    /** @noinspection PhpUnused */
+    public function initForIsolation(HRTime $offset, bool $exportObjects): CollectingDispatcher
     {
         $dispatcher = new CollectingDispatcher;
 
@@ -103,6 +95,10 @@ final class Facade
             ),
         );
 
+        if ($exportObjects) {
+            $this->emitter->exportObjects();
+        }
+
         $this->sealed = true;
 
         return $dispatcher;
@@ -110,6 +106,10 @@ final class Facade
 
     public function forward(EventCollection $events): void
     {
+        if ($this->suspended !== null) {
+            return;
+        }
+
         $dispatcher = $this->deferredDispatcher();
 
         foreach ($events as $event) {
@@ -180,6 +180,8 @@ final class Facade
             Test\AfterLastTestMethodFinished::class,
             Test\AfterTestMethodCalled::class,
             Test\AfterTestMethodFinished::class,
+            Test\AssertionSucceeded::class,
+            Test\AssertionFailed::class,
             Test\BeforeFirstTestMethodCalled::class,
             Test\BeforeFirstTestMethodErrored::class,
             Test\BeforeFirstTestMethodFinished::class,
@@ -236,8 +238,6 @@ final class Facade
             TestRunner\GarbageCollectionDisabled::class,
             TestRunner\GarbageCollectionTriggered::class,
             TestRunner\GarbageCollectionEnabled::class,
-            TestRunner\ChildProcessFinished::class,
-            TestRunner\ChildProcessStarted::class,
 
             TestSuite\Filtered::class,
             TestSuite\Finished::class,
@@ -248,22 +248,19 @@ final class Facade
         ];
 
         foreach ($defaultEvents as $eventClass) {
-            $subscriberInterface = $eventClass . 'Subscriber';
-
-            assert(interface_exists($subscriberInterface));
-
-            $typeMap->addMapping($subscriberInterface, $eventClass);
+            $typeMap->addMapping(
+                $eventClass . 'Subscriber',
+                $eventClass,
+            );
         }
     }
 
     private function garbageCollectorStatusProvider(): Telemetry\GarbageCollectorStatusProvider
     {
-        if (version_compare(PHP_VERSION, '8.3.0', '>=')) {
-            return new Php83GarbageCollectorStatusProvider;
+        if (!isset(gc_status()['running'])) {
+            return new Php81GarbageCollectorStatusProvider;
         }
 
-        // @codeCoverageIgnoreStart
-        return new Php81GarbageCollectorStatusProvider;
-        // @codeCoverageIgnoreEnd
+        return new Php83GarbageCollectorStatusProvider;
     }
 }

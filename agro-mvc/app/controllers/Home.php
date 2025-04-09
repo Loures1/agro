@@ -2,7 +2,7 @@
 
 namespace app\controllers;
 
-use core\Route;
+use core\router\Route;
 use core\controller\Controller;
 use core\uri\Method;
 

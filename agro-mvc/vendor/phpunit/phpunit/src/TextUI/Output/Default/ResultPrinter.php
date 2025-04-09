@@ -38,13 +38,12 @@ use PHPUnit\Event\Test\PhpunitErrorTriggered;
 use PHPUnit\Event\Test\PhpunitWarningTriggered;
 use PHPUnit\Event\Test\PhpWarningTriggered;
 use PHPUnit\Event\Test\WarningTriggered;
+use PHPUnit\Event\TestData\NoDataSetFromDataProviderException;
 use PHPUnit\TestRunner\TestResult\Issues\Issue;
 use PHPUnit\TestRunner\TestResult\TestResult;
 use PHPUnit\TextUI\Output\Printer;
 
 /**
- * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
- *
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
 final class ResultPrinter
@@ -83,7 +82,7 @@ final class ResultPrinter
         $this->displayDefectsInReverseOrder                 = $displayDefectsInReverseOrder;
     }
 
-    public function print(TestResult $result, bool $stackTraceForDeprecations = false): void
+    public function print(TestResult $result): void
     {
         if ($this->displayPhpunitErrors) {
             $this->printPhpunitErrors($result);
@@ -142,8 +141,13 @@ final class ResultPrinter
 
         if ($this->displayDetailsOnTestsThatTriggerDeprecations) {
             $this->printIssueList('PHP deprecation', $result->phpDeprecations());
-            $this->printIssueList('deprecation', $result->deprecations(), $stackTraceForDeprecations);
+            $this->printIssueList('deprecation', $result->deprecations());
         }
+    }
+
+    public function flush(): void
+    {
+        $this->printer->flush();
     }
 
     private function printPhpunitErrors(TestResult $result): void
@@ -350,10 +354,10 @@ final class ResultPrinter
     }
 
     /**
-     * @param non-empty-string $type
-     * @param list<Issue>      $issues
+     * @psalm-param non-empty-string $type
+     * @psalm-param list<Issue> $issues
      */
-    private function printIssueList(string $type, array $issues, bool $stackTrace = false): void
+    private function printIssueList(string $type, array $issues): void
     {
         if (empty($issues)) {
             return;
@@ -389,32 +393,24 @@ final class ResultPrinter
                 $issue->line(),
             );
 
-            $body = trim($issue->description()) . PHP_EOL . PHP_EOL;
+            $body = trim($issue->description()) . PHP_EOL . PHP_EOL . 'Triggered by:';
 
-            if ($stackTrace && $issue->hasStackTrace()) {
-                $body .= trim($issue->stackTrace()) . PHP_EOL . PHP_EOL;
-            }
+            $triggeringTests = $issue->triggeringTests();
 
-            if (!$issue->triggeredInTest()) {
-                $body .= 'Triggered by:';
+            ksort($triggeringTests);
 
-                $triggeringTests = $issue->triggeringTests();
+            foreach ($triggeringTests as $triggeringTest) {
+                $body .= PHP_EOL . PHP_EOL . '* ' . $triggeringTest['test']->id();
 
-                ksort($triggeringTests);
+                if ($triggeringTest['count'] > 1) {
+                    $body .= sprintf(
+                        ' (%d times)',
+                        $triggeringTest['count'],
+                    );
+                }
 
-                foreach ($triggeringTests as $triggeringTest) {
-                    $body .= PHP_EOL . PHP_EOL . '* ' . $triggeringTest['test']->id();
-
-                    if ($triggeringTest['count'] > 1) {
-                        $body .= sprintf(
-                            ' (%d times)',
-                            $triggeringTest['count'],
-                        );
-                    }
-
-                    if ($triggeringTest['test']->isTestMethod()) {
-                        $body .= PHP_EOL . '  ' . $triggeringTest['test']->file() . ':' . $triggeringTest['test']->line();
-                    }
+                if ($triggeringTest['test']->isTestMethod()) {
+                    $body .= PHP_EOL . '  ' . $triggeringTest['test']->file() . ':' . $triggeringTest['test']->line();
                 }
             }
 
@@ -463,7 +459,7 @@ final class ResultPrinter
     }
 
     /**
-     * @param list<array{title: string, body: string}> $elements
+     * @psalm-param list<array{title: string, body: string}> $elements
      */
     private function printList(array $elements): void
     {
@@ -511,25 +507,24 @@ final class ResultPrinter
         );
     }
 
+    /**
+     * @throws NoDataSetFromDataProviderException
+     */
     private function name(Test $test): string
     {
         if ($test->isTestMethod()) {
             assert($test instanceof TestMethod);
 
-            if (!$test->testData()->hasDataFromDataProvider()) {
-                return $test->nameWithClass();
-            }
-
-            return $test->className() . '::' . $test->methodName() . $test->testData()->dataFromDataProvider()->dataAsStringForResultOutput();
+            return $test->nameWithClass();
         }
 
         return $test->name();
     }
 
     /**
-     * @param array<string,list<ConsideredRisky|DeprecationTriggered|ErrorTriggered|NoticeTriggered|PhpDeprecationTriggered|PhpNoticeTriggered|PhpunitDeprecationTriggered|PhpunitErrorTriggered|PhpunitWarningTriggered|PhpWarningTriggered|WarningTriggered>> $events
+     * @psalm-param array<string,list<ConsideredRisky|DeprecationTriggered|PhpDeprecationTriggered|PhpunitDeprecationTriggered|ErrorTriggered|NoticeTriggered|PhpNoticeTriggered|WarningTriggered|PhpWarningTriggered|PhpunitErrorTriggered|PhpunitWarningTriggered>> $events
      *
-     * @return array{numberOfTestsWithIssues: int, numberOfIssues: int, elements: list<array{title: string, body: string}>}
+     * @psalm-return array{numberOfTestsWithIssues: int, numberOfIssues: int, elements: list<array{title: string, body: string}>}
      */
     private function mapTestsWithIssuesEventsToElements(array $events): array
     {

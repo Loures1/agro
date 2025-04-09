@@ -40,8 +40,6 @@ use PHPUnit\Framework\Exception as FrameworkException;
 use PHPUnit\TextUI\Output\Printer;
 
 /**
- * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
- *
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
 final class TeamCityLogger
@@ -49,7 +47,7 @@ final class TeamCityLogger
     private readonly Printer $printer;
     private bool $isSummaryTestCountPrinted = false;
     private ?HRTime $time                   = null;
-    private ?int $flowId                    = null;
+    private ?int $flowId;
 
     /**
      * @throws EventFacadeIsSealedException
@@ -131,7 +129,7 @@ final class TeamCityLogger
                 'php_qn://%s::\\%s::%s',
                 $test->file(),
                 $test->className(),
-                $test->name(),
+                $test->methodName(),
             );
         }
 
@@ -146,9 +144,7 @@ final class TeamCityLogger
     public function testMarkedIncomplete(MarkedIncomplete $event): void
     {
         if ($this->time === null) {
-            // @codeCoverageIgnoreStart
             $this->time = $event->telemetryInfo()->time();
-            // @codeCoverageIgnoreEnd
         }
 
         $this->writeMessage(
@@ -207,9 +203,7 @@ final class TeamCityLogger
     public function testFailed(Failed $event): void
     {
         if ($this->time === null) {
-            // @codeCoverageIgnoreStart
             $this->time = $event->telemetryInfo()->time();
-            // @codeCoverageIgnoreEnd
         }
 
         $parameters = [
@@ -234,9 +228,7 @@ final class TeamCityLogger
     public function testConsideredRisky(ConsideredRisky $event): void
     {
         if ($this->time === null) {
-            // @codeCoverageIgnoreStart
             $this->time = $event->telemetryInfo()->time();
-            // @codeCoverageIgnoreEnd
         }
 
         $this->writeMessage(
@@ -298,14 +290,11 @@ final class TeamCityLogger
         }
     }
 
-    /**
-     * @param array<non-empty-string, int|string> $parameters
-     */
     private function writeMessage(string $eventName, array $parameters = []): void
     {
         $this->printer->print(
             sprintf(
-                '##teamcity[%s',
+                "\n##teamcity[%s",
                 $eventName,
             ),
         );
@@ -333,9 +322,7 @@ final class TeamCityLogger
     private function duration(Event $event): int
     {
         if ($this->time === null) {
-            // @codeCoverageIgnoreStart
             return 0;
-            // @codeCoverageIgnoreEnd
         }
 
         return (int) round($event->telemetryInfo()->time()->duration($this->time)->asFloat() * 1000);

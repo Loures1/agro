@@ -3,11 +3,13 @@
 namespace core\router;
 
 use ReflectionClass;
+use ReflectionMethod;
 use core\controller\Controller;
+use core\router\Route;
 use core\controller\DirController;
 use core\controller\ExtractorControllers;
 use core\router\exceptions\ControllerNotExist;
-use core\uri\Request;
+use core\router\exceptions\MethodNotExist;
 use core\uri\Server;
 use core\uri\Uri;
 
@@ -15,21 +17,35 @@ class Routing
 {
   public function __construct()
   {
-    $uri = new Uri(Request::server(Server::Uri));
-    $controllers = ExtractorControllers::get(DirController::Path);
-    $controllers = array_map(
-      fn($controller) => new ReflectionClass(new $controller),
-      $controllers
-    );
-    $controllers = array_map(
-      fn(ReflectionClass $controller): array =>
-      $controller->getAttributes(Controller::class)[0]->getArguments(),
-      $controllers
-    );
+    $uri = new Uri(Server::RequestMethod, Server::Uri);
 
-    if (in_array($uri->controller, $controllers) == false) {
+    $controller = current(array_filter(
+      ExtractorControllers::get(DirController::Path),
+      function (ReflectionClass $controller) use ($uri) {
+        $controller_name =
+          $controller->getAttributes(Controller::class)[0]->getArguments()[0];
+        return $controller_name == $uri->controller;
+      }
+    ));
+
+    if ($controller == null) {
       throw new ControllerNotExist(
-        "O Controller '{$uri->controller}' nao existe"
+        "Controller '{$uri->controller}' nao esta definido."
+      );
+    }
+
+    $method = current(array_filter(
+      $controller->getMethods(),
+      function (ReflectionMethod $method) use ($uri) {
+        $requestion_method = $method->getAttributes(Route::class)[0]->getArguments()[0];
+        $path = $method->getAttributes(Route::class)[0]->getArguments()[1];
+        return $requestion_method == $uri->requisition_method && $path == $uri->path;
+      }
+    ));
+
+    if ($method == null) {
+      throw new MethodNotExist(
+        "Nenhum metodo esta definido para '{$uri->path}'."
       );
     }
   }

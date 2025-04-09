@@ -9,7 +9,6 @@
  */
 namespace PHPUnit\Event;
 
-use const PHP_EOL;
 use function array_key_exists;
 use function dirname;
 use function sprintf;
@@ -17,8 +16,6 @@ use function str_starts_with;
 use Throwable;
 
 /**
- * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
- *
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
 final class DirectDispatcher implements SubscribableDispatcher
@@ -26,12 +23,12 @@ final class DirectDispatcher implements SubscribableDispatcher
     private readonly TypeMap $typeMap;
 
     /**
-     * @var array<class-string, list<Subscriber>>
+     * @psalm-var array<class-string, list<Subscriber>>
      */
     private array $subscribers = [];
 
     /**
-     * @var list<Tracer\Tracer>
+     * @psalm-var list<Tracer\Tracer>
      */
     private array $tracers = [];
 
@@ -89,11 +86,9 @@ final class DirectDispatcher implements SubscribableDispatcher
         foreach ($this->tracers as $tracer) {
             try {
                 $tracer->trace($event);
-                // @codeCoverageIgnoreStart
             } catch (Throwable $t) {
                 $this->handleThrowable($t);
             }
-            // @codeCoverageIgnoreEnd
         }
 
         if (!array_key_exists($eventClassName, $this->subscribers)) {
@@ -102,7 +97,6 @@ final class DirectDispatcher implements SubscribableDispatcher
 
         foreach ($this->subscribers[$eventClassName] as $subscriber) {
             try {
-                /** @phpstan-ignore method.notFound */
                 $subscriber->notify($event);
             } catch (Throwable $t) {
                 $this->handleThrowable($t);
@@ -128,9 +122,7 @@ final class DirectDispatcher implements SubscribableDispatcher
             return;
         }
 
-        // @codeCoverageIgnoreStart
         throw $t;
-        // @codeCoverageIgnoreEnd
     }
 
     private function isThrowableFromThirdPartySubscriber(Throwable $t): bool

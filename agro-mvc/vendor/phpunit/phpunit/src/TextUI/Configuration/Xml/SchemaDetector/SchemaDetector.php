@@ -13,11 +13,9 @@ use PHPUnit\Util\Xml\Loader;
 use PHPUnit\Util\Xml\XmlException;
 
 /**
- * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
- *
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class SchemaDetector
+final class SchemaDetector
 {
     /**
      * @throws XmlException
@@ -26,9 +24,7 @@ final readonly class SchemaDetector
     {
         $document = (new Loader)->loadFile($filename);
 
-        $schemaFinder = new SchemaFinder;
-
-        foreach ($schemaFinder->available() as $candidate) {
+        foreach (['10.0', '9.5', '9.2', '8.5'] as $candidate) {
             $schema = (new SchemaFinder)->find($candidate);
 
             if (!(new Validator)->validate($document, $schema)->hasValidationErrors()) {
