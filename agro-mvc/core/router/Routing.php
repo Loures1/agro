@@ -48,5 +48,7 @@ class Routing
         "Nenhum metodo esta definido para '{$uri->path}'."
       );
     }
+
+    dd($method);
   }
 }
