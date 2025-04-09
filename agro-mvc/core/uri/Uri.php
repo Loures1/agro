@@ -16,12 +16,14 @@ class Uri
 
   public function __construct(Server $requisition_method, Server $uri)
   {
-    $this->path = $uri->value();
     $this->requisition_method = $requisition_method->value();
     $uri = self::validadeUri($uri->value());
-    $this->controller = ($uri[1] == true) ? ucfirst($uri[1]) : 'Home';
+    $this->controller = ($uri[1] == true) ? $uri[1] : 'home';
     $this->method = (isset($uri[2]) == true) ? $uri[2] : null;
     $this->parameter = (isset($uri[3]) == true) ? $uri[3] : null;
+    $this->path = ($this->method == null)
+      ? '/' . $this->controller
+      : '/' . $this->controller . '/' . $this->method . '/$param';  
   }
 
   private function validadeUri(string $uri): ?array
@@ -51,7 +53,7 @@ class Uri
     return match ($name) {
       'path' => $this->path,
       'requisition_method' => $this->requisition_method,
-      'controller' => $this->controller,
+      'controller' => ucfirst($this->controller),
       'method' => $this->method,
       'parameter' => $this->parameter
     };

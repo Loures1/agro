@@ -9,9 +9,9 @@ use core\uri\Method;
 #[Controller('Training')]
 class Training
 {
-  #[Route(Method::GET, '/training/get/$parm')]
+  #[Route(Method::GET, '/training/get/$param')]
   public function getTrainingEmployed(string $mat): void
   {
-    echo 'oi';
+    echo $mat;
   }
 }

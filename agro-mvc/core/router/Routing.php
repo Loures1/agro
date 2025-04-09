@@ -10,6 +10,7 @@ use core\controller\DirController;
 use core\controller\ExtractorControllers;
 use core\router\exceptions\ControllerNotExist;
 use core\router\exceptions\MethodNotExist;
+use core\uri\Request;
 use core\uri\Server;
 use core\uri\Uri;
 
@@ -17,6 +18,7 @@ class Routing
 {
   public function __construct()
   {
+    dd(new Request);
     $uri = new Uri(Server::RequestMethod, Server::Uri);
 
     $controller = current(array_filter(
@@ -37,9 +39,13 @@ class Routing
     $method = current(array_filter(
       $controller->getMethods(),
       function (ReflectionMethod $method) use ($uri) {
-        $requestion_method = $method->getAttributes(Route::class)[0]->getArguments()[0];
-        $path = $method->getAttributes(Route::class)[0]->getArguments()[1];
-        return $requestion_method == $uri->requisition_method && $path == $uri->path;
+        $requestion_method = 
+          $method->getAttributes(Route::class)[0]->getArguments()[0];
+        $path = 
+          $method->getAttributes(Route::class)[0]->getArguments()[1];
+        return 
+          $requestion_method == $uri->requisition_method 
+          && $path == $uri->path;
       }
     ));
 
@@ -48,7 +54,8 @@ class Routing
         "Nenhum metodo esta definido para '{$uri->path}'."
       );
     }
-
-    dd($method);
+    
+    $controller = $controller->getName();
+    $method->invoke(new $controller, $uri->parameter);
   }
 }
