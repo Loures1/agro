@@ -39,12 +39,12 @@ class Routing
     $method = current(array_filter(
       $controller->getMethods(),
       function (ReflectionMethod $method) use ($uri) {
-        $requestion_method = 
+        $requestion_method =
           $method->getAttributes(Route::class)[0]->getArguments()[0];
-        $path = 
+        $path =
           $method->getAttributes(Route::class)[0]->getArguments()[1];
-        return 
-          $requestion_method == $uri->requisition_method 
+        return
+          $requestion_method == $uri->requisition_method
           && $path == $uri->path;
       }
     ));
@@ -54,7 +54,7 @@ class Routing
         "Nenhum metodo esta definido para '{$uri->path}'."
       );
     }
-    
+
     $controller = $controller->getName();
     $method->invoke(new $controller, $uri->parameter);
   }

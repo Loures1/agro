@@ -23,7 +23,7 @@ class Uri
     $this->parameter = (isset($uri[3]) == true) ? $uri[3] : null;
     $this->path = ($this->method == null)
       ? '/' . $this->controller
-      : '/' . $this->controller . '/' . $this->method . '/$param';  
+      : '/' . $this->controller . '/' . $this->method . '/$param';
   }
 
   private function validadeUri(string $uri): ?array

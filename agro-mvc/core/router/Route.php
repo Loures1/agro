@@ -8,5 +8,5 @@ use core\uri\Method;
 #[Attribute]
 class Route
 {
-  public function __construct(private string $path, private Method $method) {}
+  public function __construct(private Method $method, private string $path) {}
 }

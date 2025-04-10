@@ -17,10 +17,16 @@ class Request
   {
     $this->request_method = Server::RequestMethod;
     $this->uri = self::validadeUri(Server::Uri);
-    [$this->controller, $this->method, $this->parameter] = self::getFromUri();
+    $this->controller = current(regex_match(
+      '/(?<=^\/)[\w]+/',
+      $this->uri->value(),
+      fn($item) => ucfirst($item)
+    ));
+    $this->method = null;
+    $this->parameter = null;
   }
 
-  private function validadeUri(Server $uri) 
+  private function validadeUri(Server $uri): Server
   {
     if (preg_match("/[^a-zA-Z0-9\/]|[A-Z]/", $uri->value()) == true) {
       throw new InvalidUri(
@@ -38,14 +44,5 @@ class Request
       );
     }
     return $uri;
-  }
-
-  private function getFromUri(): array
-  {
-    preg_match_all('/(?<=\/)[\w]*/', $this->uri->value(), $matches);
-    return array_map(
-      fn ($match) => ($match != null)? $match : null,
-      current($matches)
-    );
   }
 }
