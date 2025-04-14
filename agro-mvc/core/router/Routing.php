@@ -11,51 +11,48 @@ use core\controller\ExtractorControllers;
 use core\router\exceptions\ControllerNotExist;
 use core\router\exceptions\MethodNotExist;
 use core\uri\Request;
-use core\uri\Server;
-use core\uri\Uri;
 
 class Routing
 {
   public function __construct()
   {
-    dd(new Request);
-    $uri = new Uri(Server::RequestMethod, Server::Uri);
+    $request = new Request;
 
     $controller = current(array_filter(
       ExtractorControllers::get(DirController::Path),
-      function (ReflectionClass $controller) use ($uri) {
+      function (ReflectionClass $controller) use ($request) {
         $controller_name =
           $controller->getAttributes(Controller::class)[0]->getArguments()[0];
-        return $controller_name == $uri->controller;
+        return $controller_name == $request->controller;
       }
     ));
 
     if ($controller == null) {
       throw new ControllerNotExist(
-        "Controller '{$uri->controller}' nao esta definido."
+        "Controller '{$request->controller}' nao esta definido."
       );
     }
 
     $method = current(array_filter(
       $controller->getMethods(),
-      function (ReflectionMethod $method) use ($uri) {
+      function (ReflectionMethod $method) use ($request) {
         $requestion_method =
           $method->getAttributes(Route::class)[0]->getArguments()[0];
         $path =
           $method->getAttributes(Route::class)[0]->getArguments()[1];
         return
-          $requestion_method == $uri->requisition_method
-          && $path == $uri->path;
+          $requestion_method == $request->request_method
+          && $path == $request->uri;
       }
     ));
 
     if ($method == null) {
       throw new MethodNotExist(
-        "Nenhum metodo esta definido para '{$uri->path}'."
+        "Nenhum metodo esta definido para '{$request->uri}'."
       );
     }
 
     $controller = $controller->getName();
-    $method->invoke(new $controller, $uri->parameter);
+    $method->invoke(new $controller, $request->parameter);
   }
 }
