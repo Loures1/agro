@@ -1,8 +1,10 @@
-{% header %} {% if last_question_list %}
+{% header %}
+{% if last_question_list %}
 <ul>
   {% for question in latest_question_list %}
-  <li><a href="/polls/{{question.id}}">{{question.question_test}}</a></li>
+  <li>{{question.question_test}}</li>
   {% endfor %}
 </ul>
 {% else %}
-<p>No polls are avaiable. {% endif %}</p>
+<p>No polls are avaiable.</p>
+{% endif %}

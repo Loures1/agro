@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php 
 
 namespace core\view;
@@ -19,10 +18,3 @@ class View
         $html = file_get_contents($path_html);
     }
 }
-=======
-<?php
-
-namespace core\view;
-
-class View {}
->>>>>>> 1951b28894fbffaf3585095343f0b24e2f849b0b

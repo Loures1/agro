@@ -2,5 +2,6 @@
 require '../bootstrap.php';
 
 use core\router\Routing;
+use core\view\Lexel;
 
-$routing = new Routing;
+dd(new Lexel('./assets/html/home_page.html'));
