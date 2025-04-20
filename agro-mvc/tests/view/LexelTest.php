@@ -8,22 +8,34 @@ use core\view\Lexer;
 
 class LexelTest extends TestCase
 {
-  private Lexer $lexer1;
-  private Lexer $lexer2;
-  private Lexer $lexer3;
-  private Lexer $lexer4;
-
-  public function setUp(): void
+  private function createTempFile(string $content): string
   {
-    $this->lexer1 = new Lexer('./tests/view/files/test1.html');
-    $this->lexer2 = new Lexer('./tests/view/files/test2.html');
-    $this->lexer3 = new Lexer('./tests/view/files/test3.html');
-    $this->lexer4 = new Lexer('./tests/view/files/test4.html');
+    $tempFile = tempnam(sys_get_temp_dir(), 'tpl');
+    file_put_contents($tempFile, $content);
+    return $tempFile;
   }
 
-  #[TestDox('Testing Lexem Reserved and Blank')]
+  private function assertTokens(Lexer $lexer, ?array $tokens): void
+  {
+    $token_list = array_map(
+      fn($token) => [$token->lexem, $token->type],
+      $lexer->tokens
+    );
+
+    foreach ($tokens as $key => $token) {
+      $this->assertEquals($token, $token_list[$key]);
+    }
+  }
+
+  #[TestDox('Testing Lexem Tokens Expression: header if endif for endfor in else')]
   public function test_reserved_token_and_blank(): void
   {
+    $content = <<<TPL
+    header if endif for endfor in else
+    TPL;
+
+    $file = self::createTempFile($content);
+
     $tokens = [
       ['header', 'Reserved'],
       ['\s',        'Blank'],
@@ -40,45 +52,19 @@ class LexelTest extends TestCase
       ['else',   'Reserved']
     ];
 
-    $token_list = array_map(
-      fn($token) => [$token->lexem, $token->type],
-      $this->lexer1->tokens
-    );
-
-    foreach ($tokens as $key => $token) {
-      $this->assertEquals($token, $token_list[$key]);
-    }
-  }
-
-  #[TestDox('Testing Lexem Identifier and Blank')]
-  public function test_identifier_token_and_blank(): void
-  {
-    $tokens = [
-      ['teste',     'Identifier'],
-      ['\s',             'Blank'],
-      ['question',  'Identifier'],
-      ['\s',             'Blank'],
-      ['teste2',    'Identifier'],
-      ['\s',             'Blank'],
-      ['numbers',   'Identifier'],
-      ['\s',             'Blank'],
-      ['numbers_1', 'Identifier'],
-      ['\s',             'Blank']
-    ];
-
-    $token_list = array_map(
-      fn($token) => [$token->lexem, $token->type],
-      $this->lexer2->tokens
-    );
-
-    foreach ($tokens as $key => $token) {
-      $this->assertEquals($token, $token_list[$key]);
-    }
+    $lexer = new Lexer($file);
+    self::assertTokens($lexer, $tokens);
   }
 
   #[TestDox('Testing Lexem Tokens Expression: {% for questions in question %}')]
   public function test_expression_1(): void
   {
+    $content = <<<TPL
+    {% for questions in question %}
+    TPL;
+
+    $file = self::createTempFile($content);
+
     $tokens = [
       ['{',       'OpeningBrace'],
       ['%',        'PercentSign'],
@@ -95,30 +81,56 @@ class LexelTest extends TestCase
       ['}',       'ClosingBrace']
     ];
 
-    $token_list = array_map(
-      fn($token) => [$token->lexem, $token->type],
-      $this->lexer3->tokens
-    );
-
-    foreach ($tokens as $key => $token) {
-      $this->assertEquals($token, $token_list[$key]);
-    }
+    $lexer = new Lexer($file);
+    self::assertTokens($lexer, $tokens);
   }
 
   #[TestDox('Testing Lexem Tokens Expression: <li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li>')]
   public function test_expression_2(): void
   {
+    $content = <<<TPL
+    <li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li> 
+    TPL;
+
+    $file = self::createTempFile($content);
+
     $tokens = [
-      ['<li>', 'TagHtmlStarting'],
-      ['<a', 'TagHtmlStarting'],
-      ['href',]
+      ['<',                        'LessThan'],
+      ['li',                     'Identifier'],
+      ['>',                     'GreaterThan'],
+      ['<',                        'LessThan'],
+      ['a',                      'Identifier'],
+      ['\s',                          'Blank'],
+      ['href',                   'Identifier'],
+      ['=',                           'Equal'],
+      ['"/polls/',                   'String'],
+      ['{',                    'OpeningBrace'],
+      ['{',                    'OpeningBrace'],
+      ['\s',                          'Blank'],
+      ['question.id',            'Identifier'],
+      ['\s',                          'Blank'],
+      ['}',                    'ClosingBrace'],
+      ['}',                    'ClosingBrace'],
+      ['/"',                         'String'],
+      ['>',                     'GreaterThan'],
+      ['{',                    'OpeningBrace'],
+      ['{',                    'OpeningBrace'],
+      ['\s',                          'Blank'],
+      ['question.question_text', 'Identifier'],
+      ['\s',                          'Blank'],
+      ['}',                    'ClosingBrace'],
+      ['}',                    'ClosingBrace'],
+      ['<',                        'LessThan'],
+      ['/',                    'ForwardSlash'],
+      ['a',                      'Identifier'],
+      ['>',                     'GreaterThan'],
+      ['<',                        'LessThan'],
+      ['/',                    'ForwardSlash'],
+      ['li',                     'Identifier'],
+      ['>',                     'GreaterThan']
     ];
 
-    $token_list = array_map(
-      fn($token) => [$token->lexem, $token->type],
-      $this->lexer4->tokens
-    );
-
-    $this->assertEquals($tokens[0], $token_list[0]);
+    $lexer = new Lexer($file);
+    self::assertTokens($lexer, $tokens);
   }
 }

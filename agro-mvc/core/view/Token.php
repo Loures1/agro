@@ -4,7 +4,13 @@ namespace core\view;
 
 class Token
 {
-  public function __construct(private string $lexem, private string $type) {}
+  private string $lexem;
+  private string $type;
+  public function __construct(string $lexem, string $type)
+  {
+    $this->lexem = $lexem;
+    $this->type = $type;
+  }
 
   public function __get(string $name): string
   {
