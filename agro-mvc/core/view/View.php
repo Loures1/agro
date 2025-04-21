@@ -7,7 +7,7 @@ class View
   public static function render(
     string $file_name,
     ?array $matches
-  ) {
+  ): void {
     $path_html = current(array_filter(
       glob('./assets/html/*.html'),
       function ($file_path) use ($file_name) {
