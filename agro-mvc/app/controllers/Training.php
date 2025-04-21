@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\SqlCode;
 use core\controller\Controller;
 use core\model\Model;
 use core\router\Route;
@@ -13,9 +14,16 @@ class Training
   #[Route(Method::GET, '/training/get/$param')]
   public function get(string $mat): void
   {
-    $name = Model::query(
-      "SELECT nome, matricula FROM tbl_funcionario WHERE matricula = '{$mat}'"
+    $employed = Model::query(SqlCode::SelectEmployed, [$mat]);
+
+    $done_trainings = Model::query(
+      SqlCode::SelectTraining,
+      [$employed->id, $employed->job_id, 'TRUE']
     );
-    dd($name);
+
+    $not_done_trainings = Model::query(
+      SqlCode::SelectTraining,
+      [$employed->id, $employed->job_id, 'FALSE']
+    );
   }
 }

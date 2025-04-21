@@ -2,6 +2,7 @@
 
 namespace core\model;
 
+use core\model\IQuery;
 use mysqli;
 
 class Model
@@ -17,10 +18,10 @@ class Model
     $this->fields = $fields;
   }
 
-  public static function query(string $code): mixed
+  public static function query(IQuery $code, ?array $values): mixed
   {
     $dataBase = new mysqli(HOSTNAME, USERNAME, PASSWORD, DATABASE);
-    $fetch = $dataBase->query($code);
+    $fetch = $dataBase->query($code->match($values));
     $fields = array_map(
       fn($field) => [$field->name],
       $fetch->fetch_fields()
