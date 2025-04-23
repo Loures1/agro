@@ -2,5 +2,6 @@
 require '../bootstrap.php';
 
 use core\router\Routing;
+use core\view\Parser;
 
-new Routing();
+$teste = new Parser('./assets/html/home_page.html');

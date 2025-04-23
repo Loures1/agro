@@ -4,7 +4,7 @@ namespace tests\view;
 
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
-use core\view\Lexer;
+use core\view\Parser;
 
 class LexelTest extends TestCase
 {
@@ -15,7 +15,7 @@ class LexelTest extends TestCase
     return $tempFile;
   }
 
-  private function assertTokens(Lexer $lexer, ?array $tokens): void
+  private function assertTokens(Parser $lexer, ?array $tokens): void
   {
     $token_list = array_map(
       fn($token) => [$token->lexem, $token->type],
@@ -27,110 +27,36 @@ class LexelTest extends TestCase
     }
   }
 
-  #[TestDox('Testing Lexem Tokens Expression: header if endif for endfor in else')]
-  public function test_reserved_token_and_blank(): void
+  #[TestDox('Expression: {% header %}')]
+  public function test_expression_0(): void
   {
     $content = <<<TPL
-    header if endif for endfor in else
+    {% header %}
     TPL;
 
-    $file = self::createTempFile($content);
-
-    $tokens = [
-      ['header', 'Reserved'],
-      ['\s',        'Blank'],
-      ['if',     'Reserved'],
-      ['\s',        'Blank'],
-      ['endif',  'Reserved'],
-      ['\s',        'Blank'],
-      ['for',    'Reserved'],
-      ['\s',        'Blank'],
-      ['endfor', 'Reserved'],
-      ['\s',        'Blank'],
-      ['in',     'Reserved'],
-      ['\s',        'Blank'],
-      ['else',   'Reserved']
-    ];
-
-    $lexer = new Lexer($file);
-    self::assertTokens($lexer, $tokens);
+    $file = $this->createTempFile($content);
+    $this->assertTokens(new Parser($file), [['{% header %}', 'Header']]);
   }
 
-  #[TestDox('Testing Lexem Tokens Expression: {% for questions in question %}')]
+  #[TestDox('Expression: {% for question in questions %}')]
   public function test_expression_1(): void
   {
     $content = <<<TPL
-    {% for questions in question %}
+    {% for question in questions %}
     TPL;
 
-    $file = self::createTempFile($content);
-
-    $tokens = [
-      ['{',       'OpeningBrace'],
-      ['%',        'PercentSign'],
-      ['\s',             'Blank'],
-      ['for',         'Reserved'],
-      ['\s',             'Blank'],
-      ['questions', 'Identifier'],
-      ['\s',             'Blank'],
-      ['in',          'Reserved'],
-      ['\s',             'Blank'],
-      ['question',  'Identifier'],
-      ['\s',             'Blank'],
-      ['%',        'PercentSign'],
-      ['}',       'ClosingBrace']
-    ];
-
-    $lexer = new Lexer($file);
-    self::assertTokens($lexer, $tokens);
+    $file = $this->createTempFile($content);
+    $this->assertTokens(new Parser($file), [['{% for question in questions %}', 'StructFor']]);
   }
 
-  #[TestDox('Testing Lexem Tokens Expression: <li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li>')]
+  #[TestDox('Expression: {% for questions %}')]
   public function test_expression_2(): void
   {
     $content = <<<TPL
-    <li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li> 
+    {% if questions %}
     TPL;
 
-    $file = self::createTempFile($content);
-
-    $tokens = [
-      ['<',                        'LessThan'],
-      ['li',                     'Identifier'],
-      ['>',                     'GreaterThan'],
-      ['<',                        'LessThan'],
-      ['a',                      'Identifier'],
-      ['\s',                          'Blank'],
-      ['href',                   'Identifier'],
-      ['=',                           'Equal'],
-      ['"/polls/',                   'String'],
-      ['{',                    'OpeningBrace'],
-      ['{',                    'OpeningBrace'],
-      ['\s',                          'Blank'],
-      ['question.id',            'Identifier'],
-      ['\s',                          'Blank'],
-      ['}',                    'ClosingBrace'],
-      ['}',                    'ClosingBrace'],
-      ['/"',                         'String'],
-      ['>',                     'GreaterThan'],
-      ['{',                    'OpeningBrace'],
-      ['{',                    'OpeningBrace'],
-      ['\s',                          'Blank'],
-      ['question.question_text', 'Identifier'],
-      ['\s',                          'Blank'],
-      ['}',                    'ClosingBrace'],
-      ['}',                    'ClosingBrace'],
-      ['<',                        'LessThan'],
-      ['/',                    'ForwardSlash'],
-      ['a',                      'Identifier'],
-      ['>',                     'GreaterThan'],
-      ['<',                        'LessThan'],
-      ['/',                    'ForwardSlash'],
-      ['li',                     'Identifier'],
-      ['>',                     'GreaterThan']
-    ];
-
-    $lexer = new Lexer($file);
-    self::assertTokens($lexer, $tokens);
+    $file = $this->createTempFile($content);
+    $this->assertTokens(new Parser($file), [['{% if questions %}', 'StructIf']]);
   }
 }

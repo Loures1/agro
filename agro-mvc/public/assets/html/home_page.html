@@ -1,10 +1,16 @@
-{% header %}
-{% if last_question_list %}
-<ul>
-  {% for question in latest_question_list %}
-  <li>{{question.question_test}}</li>
-  {% endfor %}
-</ul>
-{% else %}
-<p>No polls are avaiable.</p>
-{% endif %}
+{% header %} 
+  title: 'title' 
+  css: 'path' 
+{% endheader %} 
+{% body %} 
+  {% if last_question_list %}
+    <ul>
+    {% for question in latest_question_list %}
+      <li>{{question.question_test}}</li>
+    {% endfor %}
+    </ul>
+  {% else %}
+    <p>No polls are avaiable.</p>
+  {% endif %} 
+{% endbody %}
+

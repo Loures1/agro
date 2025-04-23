@@ -2,36 +2,23 @@
 
 namespace core\view;
 
-enum RegexToken: string
-{
-  case Reserved = '(?<Reserved>header|if|endif|else|for|endfor|in)';
-  case OpeningBrace = '(?<OpeningBrace>{)';
-  case ClosingBrace = '(?<ClosingBrace>})';
-  case PercentSign = '(?<PercentSign>%)';
-  case LessThan = '(?<LessThan><)';
-  case GreaterThan = '(?<GreaterThan>>)';
-  case String = '(?<String>["\/\w]+(?={)|(?<=})["\/\w]+|(?<=>).+(?=<))';
-  case ForwardSlash = '(?<ForwardSlash>\/)';
-  case Equal = '(?<Equal>=)';
-  case Identifier = '(?<Identifier>[\w\.]+)';
-  case Blank = '(?<Blank>\s+)';
+use core\view\NodeHeader;
 
-  public static function expression(): string
+enum RegexToken
+{
+  case StructHeader;
+
+  public function expression(): string
   {
-    $regex = array_map(
-      fn($case) => $case->value,
-      self::cases()
-    );
-    return '/' . implode('|', $regex) . '/';
+    return match ($this) {
+      self::StructHeader => "/(?<StructHeader>(?<={%\sheader\s%})[\\n\s\w:']+(?={% endheader %}))/"
+    };
   }
 
-  public static function getNames(): array
+  public function nodeOwner(string $input): object
   {
-    $names = array_map(
-      fn($case) => $case->name,
-      self::cases()
-    );
-
-    return $names;
+    return match ($this) {
+      self::StructHeader => new NodeHeader($input)
+    };
   }
 }
