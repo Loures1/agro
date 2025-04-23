@@ -5,6 +5,7 @@ namespace core\uri;
 use core\uri\Server;
 use core\uri\Method;
 use core\uri\Uri;
+use function core\functions\regex_match;
 
 class Request
 {

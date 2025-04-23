@@ -25,5 +25,7 @@ class Training
       SqlCode::SelectTraining,
       [$employed->id, $employed->job_id, 'FALSE']
     );
+
+    echo $employed->name;
   }
 }
