@@ -2,22 +2,30 @@
 
 namespace core\view;
 
-use function core\functions\regex_match;
+use core\view\exceptions\InvalidHtml;
+use core\view\RegexToken;
 
 class Parser
 {
-  public function __construct(string $path_file)
+  public static function createQueue(string $path_file)
   {
     $file = file_get_contents($path_file);
-    foreach (RegexToken::cases() as $enum) {
-      $node = current(
-        regex_match(
-          $enum->expression(),
-          $file,
-          fn($match) => ($match != null) ? $enum->nodeOwner($match) : null
-        )
-      );
-      dd($node);
+    preg_match_all(
+      RegexToken::expression(), 
+      $file, 
+      $matches, 
+      PREG_PATTERN_ORDER + PREG_UNMATCHED_AS_NULL
+    );
+    $stack = [];
+    foreach (RegexToken::cases() as $key => $enum) {
+      $lexem = $matches[$enum->name][$key];
+      if ($lexem == null) {
+        throw new InvalidHtml(
+          "Arquivo '{$path_file}' invalido. Falta da {$enum->name}"
+        );
+      }
+      array_push($stack, $enum->ownerConstructor($lexem));
     }
+    return $stack;
   }
 }

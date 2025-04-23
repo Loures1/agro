@@ -2,11 +2,13 @@
 
 namespace core\view;
 
+use core\view\RegexToken;
+
 class Token
 {
   private string $lexem;
-  private string $type;
-  public function __construct(string $lexem, string $type)
+  private RegexToken $type;
+  public function __construct(string $lexem, RegexToken $type)
   {
     $this->lexem = $lexem;
     $this->type = $type;
