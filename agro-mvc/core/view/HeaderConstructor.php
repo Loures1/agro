@@ -2,6 +2,10 @@
 
 namespace core\view;
 
+use core\view\TypeGroup;
+use core\view\Group;
+use core\view\Lexer;
+
 class HeaderConstructor
 {
   private string $title;
@@ -9,6 +13,7 @@ class HeaderConstructor
 
   public function __construct(string $content)
   {
-    $content = explode("\r\n", $content);
+    $values = Lexer::createQueue($content, TypeGroup::Header);
+    [$this->title, $this->path_css] = $values; 
   }
 }

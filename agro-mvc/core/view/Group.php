@@ -4,29 +4,22 @@ namespace core\view;
 
 use core\view\HeaderConstructor;
 use core\view\BodyConstructor;
+use core\view\Lexer;
+use core\view\TypeGroup;
 
 enum Group: string
 {
-  case Header = "(?<StructHeader>(?<={%\sheader\s%})[\\n\s\w:']+(?={%\sendheader\s%}))";
-  case Body = "(?<StructBody>(?<={%\sbody\s%})[\\n\s<>\w{}%.\/]+((?={%\sendbody\s%})))";
-  case Title = "(?<HeaderPathCss>(?<=title:'|title:\s')\w+(?='))";
-  case PathCss = "(?<HeaderPathCss>(?<=css:'|css:\s')\w+(?='))";
+  case Header = "(?<Header>(?<={%\sheader\s%})[\\n\s\w:']+(?={%\sendheader\s%}))";
+  case Body = "(?<Body>(?<={%\sbody\s%})[\\n\s<>\w{}%.\/]+((?={%\sendbody\s%})))";
+  case Title = "(?<Title>(?<=title:'|title:\s')\w+(?='))";
+  case PathCss = "(?<PathCss>(?<=css:'|css:\s')\w+(?='))";
 
-  public static function expression(): string
-  {
-    $expression = array_map(
-      fn (self $match) => $match->value,
-      self::cases()
-    );
-    $expression = implode("|", $expression);
-    return '/' . $expression . '/';
-  }
-
-  public function ownerConstructor(string $input): object
+  public function ownerConstructor(string $input): mixed
   {
     return match ($this) {
-      self::StructHeader => new HeaderConstructor($input),
-      self::StructBody => new BodyConstructor($input)
+      self::Header => Lexer::createQueue($input, TypeGroup::Header),
+      self::Body => new BodyConstructor($input),
+      self::Title, self::PathCss => $input,
     };
   }
 }

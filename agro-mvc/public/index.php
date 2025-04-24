@@ -2,9 +2,11 @@
 require '../bootstrap.php';
 
 use core\router\Routing;
-use core\view\Parser;
+use core\view\Lexer;
 use core\view\TypeGroup;
 
-dd(TypeGroup::getGroup(TypeGroup::Struct));
-$stack = Parser::createQueue('./assets/html/home_page.html');
-dd($stack);
+$queue = Lexer::createQueue(
+    file_get_contents('./assets/html/home_page.html'),
+    TypeGroup::Struct
+);
+dd($queue);
