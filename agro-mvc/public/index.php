@@ -2,11 +2,21 @@
 require '../bootstrap.php';
 
 use core\router\Routing;
-use core\view\Lexer;
-use core\view\TypeGroup;
+use core\view\Parser;
 
-$queue = Lexer::createQueue(
-    file_get_contents('./assets/html/home_page.html'),
-    TypeGroup::Struct
-);
-dd($queue);
+$file = <<<TPL
+{% if latest_question_list %}
+    <ul>
+    {% for question in latest_question_list %}
+        <li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
+TPL;
+$code = Parser::generateCode($file);
+$latest_question_list = null;
+$html = null;
+eval($code);
+echo $html;

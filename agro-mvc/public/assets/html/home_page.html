@@ -1,13 +1,7 @@
-{% header %} 
-  title: 'title' 
-  css: 'path' 
-{% endheader %} 
-
-{% body %} 
-  <ul>
-    {% for question in latest_question_list %}
-      <li>{{question.question_test}}</li>
-    {% endfor %}
-  </ul> 
+{% body %}
+<ul>
+  {% for question in latest_question_list %}
+  <li>{{question.question_test}}</li>
+  {% endfor %}
+</ul>
 {% endbody %}
-
