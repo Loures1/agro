@@ -30,6 +30,7 @@ class Parser
     }
 
     $content = implode("\n", $content);
+    $content = "\$html = null;\n" . $content . "\necho \$html;";
     return $content;
   }
 }

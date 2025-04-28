@@ -7,6 +7,7 @@ use core\controller\Controller;
 use core\model\Model;
 use core\router\Route;
 use core\uri\Method;
+use core\view\View;
 
 #[Controller('Training')]
 class Training
@@ -26,6 +27,6 @@ class Training
       [$employed->id, $employed->job_id, 'FALSE']
     );
 
-    echo $employed->name;
+    View::render('home_page', ['names' => null]);
   }
 }

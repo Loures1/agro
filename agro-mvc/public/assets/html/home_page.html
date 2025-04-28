@@ -1,7 +1,9 @@
-{% body %}
+{% if names %}
 <ul>
-  {% for question in latest_question_list %}
-  <li>{{question.question_test}}</li>
-  {% endfor %}
+{% for name in names %}
+    <li>{{name}}</li>
+{% endfor %}
 </ul>
-{% endbody %}
+{% else %}
+<p>Nao existe usuarios</p>
+{% endif %}
