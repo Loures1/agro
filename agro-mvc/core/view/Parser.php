@@ -14,12 +14,17 @@ class Parser
       explode("\n", $content)
     );
 
+    $content = array_filter(
+      $content,
+      fn($item) => $item != b''
+    );
+
     foreach ($content as $key => &$item) {
       foreach (Token::cases() as $token) {
         if ($token == Token::ErrorSyntax) {
           ++$key;
           throw new ErrorSyntax(
-            "Error Syntax line: {$key}"
+            "Error Syntax line: {$key} '{$item}'"
           );
         }
         if (preg_match($token->value, $item)) {

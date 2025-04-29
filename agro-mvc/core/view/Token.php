@@ -14,7 +14,7 @@ enum Token: string
   case TagHtml = '/(?<TagHtml><.+>)/';
   case ErrorSyntax = b'';
 
-  public function relation(string $content): string
+  public function relation(string $content): mixed
   {
     preg_match_all($this->value, $content, $match);
     $match = $match[0];
