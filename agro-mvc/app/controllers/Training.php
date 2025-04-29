@@ -15,18 +15,8 @@ class Training
   #[Route(Method::GET, '/training/get/$param')]
   public function get(string $mat): void
   {
-    $employed = Model::query(SqlCode::SelectEmployed, [$mat]);
 
-    $done_trainings = Model::query(
-      SqlCode::SelectTraining,
-      [$employed->id, $employed->job_id, 'TRUE']
-    );
-
-    $not_done_trainings = Model::query(
-      SqlCode::SelectTraining,
-      [$employed->id, $employed->job_id, 'FALSE']
-    );
-
+    $table = Model::query(SqlCode::SelectTrainingMat, [$mat]);
     View::render(
       'training_employed', 
       ['table' => null]

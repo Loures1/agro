@@ -6,28 +6,22 @@ use core\model\IQuery;
 
 enum SqlCode: string implements IQuery
 {
-  case SelectEmployed = "
+  case SelectTrainingMat = "
     SELECT
-    f.id AS id,
-    f.id_profissao AS job_id,
-    f.nome AS name,
-    f.matricula AS mat,
-    p.nome AS job_name
-    FROM tbl_funcionario AS f
-    INNER JOIN tbl_profissao AS p
-    ON f.id_profissao = p.id
-    WHERE f.matricula = '{mat}'";
-
-  case SelectTraining = "
-    SELECT
-    t.nome AS name,
-    DATE_FORMAT(ft.data_vencimento, \"%d-%m-%Y\") AS date
-    FROM tbl_funcionario_treinamento AS ft
-    INNER JOIN tbl_treinamento AS t
-    ON ft.id_treinamento = t.id
-    WHERE ft.id_funcionario = {employed_id}
-    AND ft.id_profissao = {job_id}
-    AND ft.status = {status}";
+    tbl_f.nome AS name,  
+    tbl_p.nome AS job, 
+    tbl_t.nome AS training, 
+    tbl_ft.status, 
+    DATE_FORMAT(tbl_ft.data_vencimento, \"%d-%m-%Y\") AS date
+    FROM tbl_funcionario_treinamento AS tbl_ft
+    INNER JOIN tbl_funcionario AS tbl_f
+    ON tbl_f.id = tbl_ft.id_funcionario
+    INNER JOIN tbl_profissao as tbl_p
+    ON tbl_p.id = tbl_ft.id_profissao
+    INNER JOIN tbl_treinamento tbl_t
+    ON tbl_t.id = tbl_ft.id_treinamento
+    WHERE tbl_f.matricula = '{mat}';
+  ";
 
   public function match(?array $values): string
   {
@@ -43,3 +37,5 @@ enum SqlCode: string implements IQuery
     );
   }
 }
+
+
