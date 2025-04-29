@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/assets/css/stylesTraining.css" type="text/css">
+    <title>Agro</title>
+</head>
+
+<body>
+    {% if table %}  
+        <header>
+            <h1>{{name}}-{{job_hired}}</h1>
+            <h5>Numero de treinamentos: {{training_num}}</h5>
+        </header>
+        <table>
+            
+        </table>
+        <table>
+        </table>
+    {% else %}
+        <p>Coloborador nao Existe</p>
+    {% endif %}
+
+    <script src="/assets/js/scriptTraining.js"></script>
+</body>
+</html>

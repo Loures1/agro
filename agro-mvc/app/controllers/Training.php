@@ -27,6 +27,9 @@ class Training
       [$employed->id, $employed->job_id, 'FALSE']
     );
 
-    View::render('home_page', ['names' => null, 'getting' => 'Ola']);
+    View::render(
+      'training_employed', 
+      ['table' => null]
+    );
   }
 }
