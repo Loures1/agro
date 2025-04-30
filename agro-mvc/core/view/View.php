@@ -8,7 +8,7 @@ class View
 {
   public static function render(
     string $file_name,
-    ?array $identifier
+    ?array $identifier = null
   ): void {
     $html_path = './assets/html/' . $file_name . '.html';
     $yield_html = Parser::generateCode(file_get_contents($html_path));

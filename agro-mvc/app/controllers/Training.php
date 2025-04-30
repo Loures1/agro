@@ -16,7 +16,6 @@ class Training
   public function get(string $mat): void
   {
     $table = Model::query(SqlCode::SelectTrainingMat, [$mat]);
-
     View::render(
       'training_employed',
       [

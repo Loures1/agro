@@ -5,6 +5,7 @@ namespace app\controllers;
 use core\router\Route;
 use core\controller\Controller;
 use core\uri\Method;
+use core\view\View;
 
 #[Controller('Home')]
 class Home
@@ -12,6 +13,8 @@ class Home
   #[Route(Method::GET, '/')]
   public function landingPage(): void
   {
-    echo 'Ola';
+    View::render(
+      'home_page'
+    );
   }
 }

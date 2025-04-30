@@ -7,15 +7,9 @@
     <link href="/assets/css/styles.css" rel="stylesheet" />
   </head>
   <body>
-    <h1>{{getting}}</h1> 
-    {% if names %}
-    <ul>
-      {% for name in names %}
-      <li>{{name}}</li>
-      {% endfor %}
-    </ul>
-    {% else %}
-    <p>Nao existe usuarios</p>
-    {% endif %}
+    <h1>Digite o Numero de Matricula do Colaborador</h1>
+    <input id="num_mat" type="text">
   </body>
 </html>
+
+<script src="/assets/js/home_page.js"></script>
