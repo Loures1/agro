@@ -8,9 +8,6 @@ use mysqli;
 
 class Model
 {
-
-  private function __construct(private ?array $registers) {}
-
   public static function query(IQuery $code, ?array $values): mixed
   {
     $dataBase = new mysqli(HOSTNAME, USERNAME, PASSWORD, DATABASE);
@@ -20,14 +17,9 @@ class Model
       $fetch->fetch_fields()
     );
     $register = array_map(
-      fn ($register) => new Register(array_combine($fields, $register)),
+      fn($register) => new Register(array_combine($fields, $register)),
       $fetch->fetch_all(),
     );
-    return new Model($register);
-  }
-
-  public function __get(string $name): ?array
-  {
-    return $this->$name;
+    return $register;
   }
 }

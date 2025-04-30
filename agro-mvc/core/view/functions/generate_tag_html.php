@@ -9,7 +9,7 @@ function generate_tag_html(string $content): string
   }
 
   $content = preg_replace(
-    ['/(?<=\w)\.(?=\w+\s}})/', '/"/', '/{{\s*/', '/\s*}}/'],
+    ['/(?<=\w)\.(?=\w+\s*}})/', '/"/', '/{{\s*/', '/\s*}}/'],
     ['->', '\"', '{$', '}'],
     $content
   );

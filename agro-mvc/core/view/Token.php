@@ -6,6 +6,7 @@ use function core\view\functions\generate_tag_html;
 
 enum Token: string
 {
+  case Comment = '/(<--[\w\s\']*-->)/';
   case If = '/(?<If>(?<={%\sif\s)\w+(?=\s%}))/';
   case Else = '/(?<Else>{%\selse\s%})/';
   case EndIF = '/(?<EndIf>){%\sendif\s%}/';
@@ -25,6 +26,7 @@ enum Token: string
       self::For => "foreach (\${$match[1]} as \${$match[0]}) {",
       self::EndFor => "}",
       self::TagHtml => generate_tag_html($match[0]),
+      self::Comment => b''
     };
   }
 }

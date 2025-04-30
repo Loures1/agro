@@ -20,7 +20,8 @@ enum SqlCode: string implements IQuery
     ON tbl_p.id = tbl_ft.id_profissao
     INNER JOIN tbl_treinamento tbl_t
     ON tbl_t.id = tbl_ft.id_treinamento
-    WHERE tbl_f.matricula = '{mat}';
+    WHERE tbl_f.matricula = '{mat}'
+    ORDER BY tbl_ft.data_vencimento;
   ";
 
   public function match(?array $values): string
@@ -37,5 +38,3 @@ enum SqlCode: string implements IQuery
     );
   }
 }
-
-

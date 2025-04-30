@@ -15,11 +15,16 @@ class Training
   #[Route(Method::GET, '/training/get/$param')]
   public function get(string $mat): void
   {
-
     $table = Model::query(SqlCode::SelectTrainingMat, [$mat]);
+
     View::render(
-      'training_employed', 
-      ['table' => null]
+      'training_employed',
+      [
+        'name' => ($table) ? $table[0]->name : null,
+        'job' => ($table) ? $table[0]->job : null,
+        'table1' => array_filter($table, fn($cell) => $cell->status == true),
+        'table0' => array_filter($table, fn($cell) => $cell->status == false)
+      ]
     );
   }
 }
