@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agro</title>
+    <link rel="stylesheet" href="/assets/css/stylesReceiver.css" type="text/css">
+  </head>
+  <body>
+    <h1>Tabela de Treinamento</h1>
+    <form method="post" enctype="multipart/form-data" action="/training/post">
+      <div class="upload-button">
+        <input type="file" id="file-upload" name="file" accept=".xlsx, .xls">
+        <span>Escolher arquivo</span>
+      </div>
+      <div class="file-name">Nenhum arquivo escolhido</div>
+      <input type="submit" value="Enviar">
+    </form>
+  </body>
+</html>
+<script src="/assets/js/scriptReceiverXls.js">

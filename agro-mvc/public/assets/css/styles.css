@@ -1,109 +1,107 @@
 /* Definindo as cores principais */
 :root {
-    --primary-color: #ff6347;  /* Tom de laranja */
-    --secondary-color: #2c3e50; /* Tom escuro para contraste */
-    --bg-color: #f5f7fa; /* Fundo claro */
-    --card-bg: #fff; /* Fundo dos cards */
-    --text-color: #333; /* Cor do texto */
-    --input-border: #e1e5ea; /* Cor da borda de input */
-    --shadow-light: rgba(0, 0, 0, 0.1); /* Sombra suave */
-    --shadow-dark: rgba(0, 0, 0, 0.2); /* Sombra mais intensa */
-    --error-color: #dc3545;
-    --success-color: #28a745;
+  --primary-color: #ff6347; /* Tom de laranja */
+  --secondary-color: #2c3e50; /* Tom escuro para contraste */
+  --bg-color: #f5f7fa; /* Fundo claro */
+  --card-bg: #fff; /* Fundo dos cards */
+  --text-color: #333; /* Cor do texto */
+  --input-border: #e1e5ea; /* Cor da borda de input */
+  --shadow-light: rgba(0, 0, 0, 0.1); /* Sombra suave */
+  --shadow-dark: rgba(0, 0, 0, 0.2); /* Sombra mais intensa */
+  --error-color: #dc3545;
+  --success-color: #28a745;
 }
 
 /* Reset e ajuste de layout */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif; /* Fonte moderna */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif; /* Fonte moderna */
 }
 
 /* Corpo da página */
 body {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px;
-    font-size: 16px;
-    line-height: 1.5;
+  color: var(--text-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  font-size: 16px;
+  line-height: 1.5;
 }
 
 /* Título principal com estilo mais moderno */
 h1 {
-    font-size: 3rem;
-    color: var(--secondary-color);
-    text-align: center;
-    margin-bottom: 30px;
-    text-transform: uppercase;
-    font-weight: 700;
-    letter-spacing: 4px; /* Aumento no espaçamento */
-    animation: fadeIn 1.2s ease-in-out;
+  font-size: 3rem;
+  color: var(--secondary-color);
+  text-align: center;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 4px; /* Aumento no espaçamento */
+  animation: fadeIn 1.2s ease-in-out;
 }
-
 
 /* Links com design clean e moderno */
 a {
-    text-decoration: none;
-    color: var(--primary-color);
-    padding: 12px 30px;
-    border: 2px solid var(--primary-color);
-    border-radius: 30px;
-    font-weight: 600;
-    font-size: 1.2rem;
-    text-transform: uppercase;
-    display: inline-block;
-    margin: 10px 15px;
-    transition: all 0.3s ease;
-    animation: fadeIn 1.3s ease-in-out;
+  text-decoration: none;
+  color: var(--primary-color);
+  padding: 12px 30px;
+  border: 2px solid var(--primary-color);
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  display: inline-block;
+  margin: 10px 15px;
+  transition: all 0.3s ease;
+  animation: fadeIn 1.3s ease-in-out;
 }
 
 /* Efeito hover nos links */
 a:hover {
-    background-color: var(--primary-color);
-    color: #fff;
-    transform: translateY(-5px);
-    box-shadow: 0 5px 20px var(--shadow-dark);
+  background-color: var(--primary-color);
+  color: #fff;
+  transform: translateY(-5px);
+  box-shadow: 0 5px 20px var(--shadow-dark);
 }
 
 /* Formulário com fundo e borda modernas */
 form {
-    background-color: var(--card-bg);
-    padding: 40px;
-    border-radius: 20px;
-    width: 100%;
-    max-width: 480px;
-    box-shadow: 0 10px 25px var(--shadow-light);
-    animation: slideUp 0.5s ease-out;
+  background-color: var(--card-bg);
+  padding: 40px;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 10px 25px var(--shadow-light);
+  animation: slideUp 0.5s ease-out;
 }
 
 /* Título do formulário */
 .form-title {
-    font-size: 1.8rem;
-    color: var(--secondary-color);
-    text-align: center;
-    margin-bottom: 30px;
-    font-weight: 600;
+  font-size: 1.8rem;
+  color: var(--secondary-color);
+  text-align: center;
+  margin-bottom: 30px;
+  font-weight: 600;
 }
 
 /* Container para cada campo */
 .form-group {
-    margin-bottom: 15px;
-    position: relative;
+  margin-bottom: 15px;
+  position: relative;
 }
 
 /* Labels com animação */
 label {
-    display: block;
-    font-size: 0.95rem;
-    color: var(--secondary-color);
-    margin-bottom: 8px;
-    font-weight: 500;
-    transition: all 0.3s ease;
+  display: block;
+  font-size: 0.95rem;
+  color: var(--secondary-color);
+  margin-bottom: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
 }
 
 /* Inputs e Select com estilo moderno */
@@ -112,169 +110,171 @@ input[type="password"],
 input[type="email"],
 input[type="tel"],
 select {
-    width: 100%;
-    padding: 15px;
-    border: 2px solid var(--input-border);
-    border-radius: 12px;
-    background-color: #fff;
-    font-size: 1rem;
-    color: var(--text-color);
-    transition: all 0.3s ease;
+  width: 100%;
+  padding: 15px;
+  border: 2px solid var(--input-border);
+  border-radius: 12px;
+  background-color: #fff;
+  font-size: 1rem;
+  transition: all 0.3s ease;
 }
 
 /* Efeito de foco nos inputs */
 input:focus,
 select:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 4px rgba(255, 99, 71, 0.1);
-    outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 4px rgba(255, 99, 71, 0.1);
+  outline: none;
 }
 
 /* Botão de submit */
 input[type="submit"] {
-    width: 100%;
-    padding: 15px;
-    background-color: var(--primary-color);
-    color: #fff;
-    border: none;
-    border-radius: 12px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 20px;
+  width: 100%;
+  padding: 15px;
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 20px;
 }
 
 input[type="submit"]:hover {
-    background-color: #e5573e;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px var(--shadow-dark);
+  background-color: #e5573e;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px var(--shadow-dark);
 }
 
 /* Mensagens de validação */
 .validation-message {
-    font-size: 0.85rem;
-    margin-top: 5px;
-    display: none;
-    animation: fadeIn 0.3s ease;
+  font-size: 0.85rem;
+  margin-top: 5px;
+  display: none;
+  animation: fadeIn 0.3s ease;
 }
 
 .error-message {
-    color: var(--error-color);
+  color: var(--error-color);
 }
 
 .success-message {
-    color: var(--success-color);
+  color: var(--success-color);
 }
 
 /* Ícones de validação */
 .input-icon {
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    display: none;
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: none;
 }
 
 /* Animações */
 @keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* Responsividade */
 @media (max-width: 480px) {
-    form {
-        padding: 25px;
-    }
+  form {
+    padding: 25px;
+  }
 
-    .form-title {
-        font-size: 1.5rem;
-    }
+  .form-title {
+    font-size: 1.5rem;
+  }
 
-    input[type="submit"] {
-        font-size: 1rem;
-    }
+  input[type="submit"] {
+    font-size: 1rem;
+  }
 }
 
 /* Modo escuro */
 @media (prefers-color-scheme: dark) {
-    :root {
-        --bg-color: #1a1a1a;
-        --card-bg: #2d2d2d;
-        --text-color: #ffffff;
-        --input-border: #404040;
-    }
+  :root {
+    --bg-color: #1a1a1a;
+    --card-bg: #2d2d2d;
+    --text-color: #ffffff;
+    --input-border: #404040;
+  }
 
-    input, select {
-        background-color: #363636;
-    }
+  input,
+  select {
+    background-color: #363636;
+  }
 }
 
 /* Melhorar contraste em hover states */
 a:focus-visible {
-    outline: 3px solid var(--primary-color);
-    outline-offset: 2px;
+  outline: 3px solid var(--primary-color);
+  outline-offset: 2px;
 }
 
 /* Remova os estilos anteriores do select e use este */
 select[name="funcao"] {
-    width: 100%;
-    padding: 15px;
-    margin-bottom: 20px;
-    border: 2px solid var(--input-border);
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    font-size: 1.1rem;
-    color: var(--text-color);
-    transition: border 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
-    /* Estiliza a seta do select */
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 15px center;
-    padding-right: 40px;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 2px solid var(--input-border);
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  font-size: 1.1rem;
+  color: var(--text-color);
+  transition:
+    border 0.3s ease,
+    box-shadow 0.3s ease;
+  cursor: pointer;
+  /* Estiliza a seta do select */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  padding-right: 40px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
 /* Efeito de foco no select */
 select[name="funcao"]:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 10px rgba(255, 99, 71, 0.2);
-    outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 10px rgba(255, 99, 71, 0.2);
+  outline: none;
 }
 
 /* Hover no select */
 select[name="funcao"]:hover {
-    border-color: var(--primary-color);
+  border-color: var(--primary-color);
 }
 
 /* Estilo das options */
 select[name="funcao"] option {
-    padding: 15px;
-    font-size: 1.1rem;
-    background-color: #fff;
-    color: var(--text-color);
+  padding: 15px;
+  font-size: 1.1rem;
+  background-color: #fff;
+  color: var(--text-color);
 }
 
 /* Remove a seta padrão no IE */
 select[name="funcao"]::-ms-expand {
-    display: none;
+  display: none;
 }
