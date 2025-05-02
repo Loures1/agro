@@ -17,7 +17,8 @@ class TablePath
   {
     if (pathinfo($path['name'], PATHINFO_EXTENSION) != 'xlsx') {
       throw new InvalidArgumentException(
-        'Arquivo nao e xlsx: ' . $path['name']);
+        'Arquivo nao e xlsx: ' . $path['name']
+      );
     }
     return $path['tmp_name'];
   }

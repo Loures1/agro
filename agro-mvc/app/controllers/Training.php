@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\classes\xls_file\FileXls;
 use app\models\SqlCode;
 use core\controller\Controller;
 use core\model\Model;
@@ -37,6 +38,9 @@ class Training
   #[Route(Method::POST, '/training/post', TypeHint::File)]
   public function store(?array $file): void
   {
+    $file = FileXls::validadeFileType($file);
+    $file = FileXls::prospector($file);
+    $file = FileXls::validadeInputs($file);
     dd($file);
   }
 }

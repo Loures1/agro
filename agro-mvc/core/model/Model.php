@@ -8,9 +8,14 @@ use mysqli;
 
 class Model
 {
+  private static function conn(): mysqli
+  {
+    return new mysqli(HOSTNAME, USERNAME, PASSWORD, DATABASE);
+  }
+
   public static function query(IQuery $code, ?array $values): mixed
   {
-    $dataBase = new mysqli(HOSTNAME, USERNAME, PASSWORD, DATABASE);
+    $dataBase = self::conn();
     $fetch = $dataBase->query($code->match($values));
     $fields = array_map(
       fn($field) => $field->name,
@@ -20,6 +25,19 @@ class Model
       fn($register) => new Register(array_combine($fields, $register)),
       $fetch->fetch_all(),
     );
+    return $register;
+  }
+
+  public static function multiQuery(IQuery $code, ?array $values): mixed
+  {
+    $dataBase = self::conn();
+    $querys = array_map(
+      fn($value) => $code->match($value),
+      $values
+    );
+    $querys = implode(b'', $querys);
+    $dataBase->multi_query($querys);
+    $register = [];
     return $register;
   }
 }

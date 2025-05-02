@@ -54,7 +54,7 @@ class Routing
 
     $parameter = match ($method->getAttributes(Route::class)[0]->getArguments()[2]) {
       TypeHint::Parameter => $request->parameter,
-      TypeHint::File => $_FILES,
+      TypeHint::File => current($_FILES),
       TypeHint::Null => null
     };
 
