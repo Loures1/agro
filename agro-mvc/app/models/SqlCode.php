@@ -41,6 +41,14 @@ enum SqlCode: string implements IQuery
       AND tbl_t.nome = '{training_name}';
   ";
 
+  case Update = "
+      UPDATE tbl_funcionario_treinamento
+      SET status = {status}, data_vencimento = {date}
+      WHERE id_funcionario = {employed_id}
+      AND id_profissao = {job_id}
+      AND id_treinamento = {training_id};
+  ";
+
   public function match(?array $values): string
   {
     $index = 0;

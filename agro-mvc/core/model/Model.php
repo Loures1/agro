@@ -38,6 +38,13 @@ class Model
     $querys = implode(b'', $querys);
     $dataBase->multi_query($querys);
     $register = [];
+    do {
+      if ($result = $dataBase->store_result()) {
+        $fetch = $result->fetch_assoc();
+        $fetch = ($fetch != null) ? new Register($fetch) : null;
+        array_push($register, $fetch);
+      }
+    } while ($dataBase->next_result());
     return $register;
   }
 }

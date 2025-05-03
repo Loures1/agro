@@ -10,4 +10,3 @@ class Register
     return $this->register[$name];
   }
 }
-

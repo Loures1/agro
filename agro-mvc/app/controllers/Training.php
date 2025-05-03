@@ -40,7 +40,8 @@ class Training
   {
     $file = FileXls::validadeFileType($file);
     $file = FileXls::prospector($file);
-    $file = FileXls::validadeInputs($file);
-    dd($file);
+    $file = FileXls::prepe($file);
+    Model::multiQuery(SqlCode::Update, $file);
+    View::render('update_table');
   }
 }
