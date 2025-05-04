@@ -49,6 +49,15 @@ enum SqlCode: string implements IQuery
       AND id_treinamento = {training_id};
   ";
 
+  case Authenticate = "
+    SELECT EXIST(
+      SELECT * 
+      FROM tbl_superuser
+      WHERE name = '{name}'
+      AND password = '{password}'
+    );
+  ";
+
   public function match(?array $values): string
   {
     $index = 0;

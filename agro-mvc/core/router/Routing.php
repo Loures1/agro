@@ -55,7 +55,8 @@ class Routing
     $parameter = match ($method->getAttributes(Route::class)[0]->getArguments()[2]) {
       TypeHint::Parameter => $request->parameter,
       TypeHint::File => current($_FILES),
-      TypeHint::Null => null
+      TypeHint::Null => null,
+      TypeHint::Form => $_POST
     };
 
     $controller = $controller->getName();

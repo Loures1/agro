@@ -2,25 +2,25 @@
 
 namespace app\controllers;
 
-use app\classes\admin\CollectionEmployed;
-use app\classes\admin\CollectionJob;
-use app\classes\admin\CollectionTraining;
-use app\classes\admin\relation\RelationEmploeyd;
-use app\classes\admin\relation\RelationJob;
 use core\router\Route;
 use core\controller\Controller;
+use core\router\TypeHint;
 use core\uri\Method;
+use core\view\View;
 
 #[Controller('Admin')]
 class Admin
 {
-  #[Route(Method::GET, '/admin')]
-  public function null(): void
+  #[Route(Method::GET, '/admin', TypeHint::Null)]
+  public function authentication(): void
   {
-    $relationJob = new RelationJob;
-    $relationEmployed = new RelationEmploeyd;
-    $collectionTraining = new CollectionTraining($relationJob->trainings);
-    $collectionJob = new CollectionJob($relationJob->jobs);
-    $collectionEmployed = new CollectionEmployed($relationEmployed->employeds);
+    View::render('authentication_admin');
+  }
+
+  #[Route(Method::POST, '/admin', TypeHint::Form)]
+  public function auth(?array $credential): void
+  {
+    $credential['password'] = hash('sha256', $credential['password']);
+    dd($credential);
   }
 }
