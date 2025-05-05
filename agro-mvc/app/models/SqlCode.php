@@ -49,13 +49,19 @@ enum SqlCode: string implements IQuery
       AND id_treinamento = {training_id};
   ";
 
-  case Authenticate = "
-    SELECT EXIST(
-      SELECT * 
-      FROM tbl_superuser
-      WHERE name = '{name}'
-      AND password = '{password}'
-    );
+  case AuthenticateAdmin = "
+    SELECT
+    CASE
+      WHEN (
+        SELECT EXISTS (
+          SELECT * 
+          FROM tbl_admin 
+          WHERE nome = '{name}' 
+          AND senha = '{password}')
+        ) 
+      LIKE 1 THEN TRUE
+      ELSE FALSE
+    END AS status;
   ";
 
   public function match(?array $values): string

@@ -89,7 +89,7 @@ CREATE TABLE `tbl_profissao_treinamento` (
 -- Estrutura da tabela `tbl_supervisor`
 --
 
-CREATE TABLE `tbl_supervisor` (
+CREATE TABLE `tbl_admin` (
   `id` int(11) NOT NULL,
   `nome` varchar(255) NOT NULL,
   `cpf` varchar(255) NOT NULL,
@@ -160,7 +160,7 @@ ALTER TABLE `tbl_profissao_treinamento`
 --
 -- Índices para tabela `tbl_supervisor`
 --
-ALTER TABLE `tbl_supervisor`
+ALTER TABLE `tbl_admin`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `id` (`id`),
   ADD UNIQUE KEY `cpf` (`cpf`),
@@ -192,7 +192,7 @@ ALTER TABLE `tbl_funcionario_treinamento`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `tbl_profissao`
+-- AUTO_INCREMENT de tabela q`tbl_profissao`
 --
 ALTER TABLE `tbl_profissao`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
@@ -206,7 +206,7 @@ ALTER TABLE `tbl_profissao_treinamento`
 --
 -- AUTO_INCREMENT de tabela `tbl_supervisor`
 --
-ALTER TABLE `tbl_supervisor`
+ALTER TABLE `tbl_admin`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --

@@ -14,6 +14,9 @@
       <br />
       <input type="submit" />
     </form>
+    {% if error_authenticated %}
+      <footer>Login ou Senha errado</footer>
+    {% endif %}
   </body>
 </html>
 <script src="/assets/js/authentication_admin.js"></script>
