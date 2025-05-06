@@ -1,0 +1,11 @@
+table#employed {
+    display: block;
+}
+
+table#job {
+    display: none;
+}
+
+table#training {
+    display: none;
+}
