@@ -22,7 +22,7 @@ enum SqlCode: string implements IQuery
     ON tbl_t.id = tbl_ft.id_treinamento
     WHERE tbl_f.matricula = '{mat}'
     ORDER BY name, tbl_ft.data_vencimento;
-";
+  ";
 
   case SelectExistRegisterXls = "
       SELECT
@@ -62,6 +62,39 @@ enum SqlCode: string implements IQuery
       LIKE 1 THEN TRUE
       ELSE FALSE
     END AS status;
+  ";
+
+  case EmployedsForAdmin = "
+    SELECT
+    tbl_f.id AS id,
+    tbl_f.nome AS name,
+    tbl_f.matricula AS mat,
+    tbl_p.nome AS job,
+    tbl_f.telefone AS tel,
+    tbl_f.email AS email,
+    DATE_FORMAT(tbl_f.data, \"%d-%m-%Y\") AS date
+    FROM tbl_funcionario AS tbl_f
+    INNER JOIN tbl_profissao AS tbl_p
+    ON tbl_p.id = tbl_f.id_profissao
+    WHERE tbl_f.status = {status};
+  ";
+
+  case JobsForAdmin = "
+  SELECT
+  tbl_p.id AS id,
+  tbl_p.nome AS name,
+  DATE_FORMAT(tbl_p.data, \"%d-%m-%Y\") AS date
+  FROM tbl_profissao AS tbl_p
+  WHERE tbl_p.status = {status};
+  ";
+
+  case TrainingForAdmin = "
+  SELECT
+  tbl_t.id AS id,
+  tbl_t.nome AS name,
+  DATE_FORMAT(tbl_t.data, \"%d-%m-%Y\") AS date
+  FROM tbl_treinamento AS tbl_t
+  WHERE tbl_t.status = {status};
   ";
 
   public function match(?array $values): string

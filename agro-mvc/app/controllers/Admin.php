@@ -16,7 +16,7 @@ use core\view\View;
 class Admin
 {
   #[Route(Method::GET, '/admin', TypeHint::Null)]
-  public function authentication():void 
+  public function authentication(): void
   {
     View::render('authentication_admin', ['error_authenticated' => false]);
   }
@@ -26,7 +26,8 @@ class Admin
   {
     $credential['password'] = hash('sha256', $credential['password']);
     $authentication = current(Model::query(
-      SqlCode::AuthenticateAdmin, array_values($credential)
+      SqlCode::AuthenticateAdmin,
+      array_values($credential)
     ));
 
     if ($authentication->status) {
@@ -44,7 +45,12 @@ class Admin
     if (!$session->authenticated) {
       HttpResponse::redirect('/admin');
     }
-    
-    $session->authenticated = false;
+    $employeds = Model::query(SqlCode::EmployedsForAdmin, ['TRUE']);
+    $jobs = Model::query(SqlCode::JobsForAdmin, ['TRUE']);
+    $trainings = Model::query(SqlCode::TrainingForAdmin, ['TRUE']);
+    View::render(
+      'dashboard',
+      ['employeds' => $employeds, 'jobs' => $jobs, 'trainings' => $trainings]
+    );
   }
 }

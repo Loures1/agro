@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agro</title>
+    <link href="" rel="stylesheet" />
+  </head>
+
+  <body>
+    <h1>Dashboard Admin</h1>
+    <button>Funcionarios</button>
+    <button>Profissoes</button>
+    <button>Treinamentos</button>
+
+    <table>
+      <tr>
+        <th>Id</th>
+        <th>Nome</th>
+        <th>Matricula</th>
+        <th>Profissao</th>
+        <th>Telefone</th>
+        <th>Email</th>
+        <th>Data de Criacao</th>
+      </tr>
+      {% for employed in employeds %}
+      <tr>
+        <td>{{employed.id}}</td>
+        <td>{{employed.name}}</td>
+        <td>{{employed.mat}}</td>
+        <td>{{employed.job}}</td>
+        <td>{{employed.tel}}</td>
+        <td>{{employed.email}}</td>
+        <td>{{employed.date}}</td>
+      </tr>
+      {% endfor %}
+    </table>
+
+    <table>
+      <tr>
+        <th>Id</th>
+        <th>Nome</th>
+        <th>Data de Criacao</th>
+      </tr>
+      {% for job in jobs %}
+      <tr>
+        <td>{{job.id}}</td>
+        <td>{{job.name}}</td>
+        <td>{{job.date}}</td>
+      </tr>
+      {% endfor %}
+    </table>
+
+    <table>
+      <tr>
+        <th>Id</th>
+        <th>Nome</th>
+        <th>Data de Criacao</th>
+      </tr>
+      {% for training in trainings %}
+      <tr>
+        <td>{{training.id}}</td>
+        <td>{{training.name}}</td>
+        <td>{{training.date}}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </body>
+</html>

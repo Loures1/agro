@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\classes\xls_file\FileXls;
 use app\models\SqlCode;
 use core\controller\Controller;
+use core\http\HttpResponse;
 use core\model\Model;
 use core\router\Route;
 use core\router\TypeHint;
@@ -42,6 +43,6 @@ class Training
     $file = FileXls::prospector($file);
     $file = FileXls::prepe($file);
     Model::multiQuery(SqlCode::Update, $file);
-    View::render('update_table');
+    HttpResponse::redirect('/');
   }
 }

@@ -2,21 +2,29 @@
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Agro</title>
-    <link href="css/style.css" rel="stylesheet" />
+    <link href="/assets/css/styles.css" rel="stylesheet" />
   </head>
   <body>
-    <form id="form" method="POST" action="/admin">
-      <label>Login: </label><input type="text" name="username" required />
+    <form method="POST" action="/admin" id="loginForm">
+      <h2>Login Administrativo</h2>
       <br />
-      <label>Senha: </label><input type="password" name="password" required />
-      <br />
-      <input type="submit" />
+
+      <div class="form-group">
+        <label for="email">Nome:</label>
+        <input type="text" id="email" name="username" required />
+      </div>
+
+      <div class="form-group">
+        <label for="senha">Senha:</label>
+        <input type="password" id="senha" name="password" required />
+      </div>
+
+      <input type="submit" value="Entrar" />
+      {% if error_authenticated %}
+      <footer>Login ou Senha errados</footer>
+      {% endif %}
     </form>
-    {% if error_authenticated %}
-      <footer>Login ou Senha errado</footer>
-    {% endif %}
   </body>
 </html>
-<script src="/assets/js/authentication_admin.js"></script>

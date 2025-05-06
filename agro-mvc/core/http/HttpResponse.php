@@ -1,11 +1,12 @@
 <?php
 
-namespace core\Http;
+namespace core\http;
 
 class HttpResponse
 {
-    public static function redirect(string $url) 
-    {
-        header("Location: {$url}");
-    }
+  public static function redirect(string $url): void
+  {
+    header("Location: {$url}");
+  }
 }
+
