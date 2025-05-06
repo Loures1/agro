@@ -4,16 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Agro</title>
-    <link href="" rel="stylesheet" />
+    <link href="/assets/css/dashboard_admin.css" rel="stylesheet" />
   </head>
 
   <body>
     <h1>Dashboard Admin</h1>
-    <button>Funcionarios</button>
-    <button>Profissoes</button>
-    <button>Treinamentos</button>
+    <--Buttons-->
+    <button class="switch" id="employed">Funcionarios</button>
+    <button class="switch" id="job">Profissoes</button>
+    <button class="switch" id="training">Treinamentos</button>
 
-    <table>
+    <--Employed Table-->
+    <table class="table" id="employed">
       <tr>
         <th>Id</th>
         <th>Nome</th>
@@ -35,8 +37,9 @@
       </tr>
       {% endfor %}
     </table>
-
-    <table>
+    
+    <--Job Table-->
+    <table class="table" id="job">
       <tr>
         <th>Id</th>
         <th>Nome</th>
@@ -51,7 +54,8 @@
       {% endfor %}
     </table>
 
-    <table>
+    <--Training Table-->
+    <table class="table" id="training">
       <tr>
         <th>Id</th>
         <th>Nome</th>
@@ -67,3 +71,4 @@
     </table>
   </body>
 </html>
+<script src="/assets/js/dashboard_admin.js"></script>
