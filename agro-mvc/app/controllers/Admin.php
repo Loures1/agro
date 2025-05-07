@@ -47,9 +47,15 @@ class Admin
     $employeds = Model::query(SqlCode::EmployedsForAdmin, ['TRUE']);
     $jobs = Model::query(SqlCode::JobsForAdmin, ['TRUE']);
     $trainings = Model::query(SqlCode::TrainingForAdmin, ['TRUE']);
+    $relations = Model::query(SqlCode::Relation, ['TRUE']);
     HttpResponse::view(
       'admin_dashboard',
-      ['employeds' => $employeds, 'jobs' => $jobs, 'trainings' => $trainings]
+      [
+        'employeds' => $employeds,
+        'jobs' => $jobs,
+        'trainings' => $trainings,
+        'relation' => $relation
+      ]
     );
   }
 }

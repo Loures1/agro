@@ -97,6 +97,15 @@ enum SqlCode: string implements IQuery
   WHERE tbl_t.status = {status};
   ";
 
+  case Relation = "
+  SELECT
+  tbl_ft.id_funcionario AS id_employed,
+  tbl_ft.id_profissao AS id_job,
+  tbl_ft.id_trainamentos AS id_training
+  FROM tbl_funcionario_treinamento AS tbl_ft
+  WHERE tbl_ft.status = {status};
+  ";
+
   public function match(?array $values): string
   {
     $index = 0;
