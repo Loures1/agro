@@ -14,6 +14,6 @@ class Home
   #[Route(Method::GET, '/', TypeHint::Null)]
   public function landingPage(): void
   {
-    HttpResponse::view('home_page');
+    HttpResponse::view('teste');
   }
 }
