@@ -1,0 +1,190 @@
+/* Definindo as cores principais */
+:root {
+  --primary-color: #ff6347;
+  --secondary-color: #2c3e50;
+  --bg-color: #f3f3f3;
+  --card-bg: #fff;
+  --text-color: #333;
+  --input-border: #ddd;
+  --shadow-light: rgba(0, 0, 0, 0.1);
+  --shadow-dark: rgba(0, 0, 0, 0.2);
+}
+
+/* Reset e ajuste de layout */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Corpo da página */
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 30px;
+  font-size: 16px;
+  line-height: 1.5;
+  flex-direction: column;
+}
+
+/* Título principal */
+h1 {
+  font-size: 2.5rem;
+  color: var(--secondary-color);
+  text-align: center;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 2px;
+  animation: fadeIn 1.2s ease-in-out;
+}
+
+/* Formulário */
+form {
+  background-color: var(--card-bg);
+  padding: 40px;
+  border-radius: 15px;
+  width: 100%;
+  max-width: 450px;
+  box-shadow: 0 4px 20px var(--shadow-light);
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+/* Estilização personalizada do botão de upload */
+.upload-button {
+  width: 100%;
+  padding: 15px;
+  background-color: var(--primary-color);
+  border-radius: 8px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  text-align: center;
+  transition: all 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.upload-button input[type="file"] {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.upload-button span {
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 500;
+  display: block;
+}
+
+.upload-button:hover {
+  background-color: #e5573e;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px var(--shadow-dark);
+}
+
+/* Estilo para o texto "Nenhum arquivo escolhido" */
+.file-name {
+  margin-top: 8px;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+  color: var(--text-color);
+  text-align: center;
+}
+
+/* Botão de submit */
+input[type="submit"] {
+  width: 100%;
+  padding: 15px;
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+input[type="submit"]:hover {
+  background-color: #e5573e;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px var(--shadow-dark);
+}
+
+/* Links */
+a {
+  text-decoration: none;
+  color: var(--primary-color);
+  padding: 12px 30px;
+  border: 2px solid var(--primary-color);
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  display: inline-block;
+  margin: 10px 15px;
+  transition: all 0.3s ease;
+  animation: fadeIn 1.3s ease-in-out;
+}
+
+a:hover {
+  background-color: var(--primary-color);
+  color: #fff;
+  transform: translateY(-5px);
+  box-shadow: 0 5px 20px var(--shadow-dark);
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+  h1 {
+    font-size: 2.2rem;
+  }
+
+  form {
+    padding: 25px;
+  }
+
+  input[type="submit"] {
+    font-size: 1rem;
+  }
+
+  a {
+    font-size: 1rem;
+  }
+
+  .upload-button span {
+    font-size: 1rem;
+  }
+}
+
+/* Animação fadeIn */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Modo escuro */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-color: #1a1a1a;
+    --card-bg: #2d2d2d;
+    --text-color: #ffffff;
+  }
+}
