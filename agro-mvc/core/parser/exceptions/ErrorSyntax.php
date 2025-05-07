@@ -1,6 +1,6 @@
 <?php
 
-namespace core\view\exceptions;
+namespace core\parser\exceptions;
 
 use Exception;
 

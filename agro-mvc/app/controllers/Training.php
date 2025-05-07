@@ -10,7 +10,6 @@ use core\model\Model;
 use core\router\Route;
 use core\router\TypeHint;
 use core\uri\Method;
-use core\view\View;
 
 #[Controller('Training')]
 class Training
@@ -19,7 +18,7 @@ class Training
   public function get(string $mat): void
   {
     $table = Model::query(SqlCode::SelectTrainingMat, [$mat]);
-    View::render(
+    HttpResponse::view(
       'training_employed',
       [
         'name' => ($table) ? $table[0]->name : null,
@@ -33,7 +32,7 @@ class Training
   #[Route(Method::GET, '/training/post', TypeHint::Null)]
   public function send_xls_file(): void
   {
-    View::render('send_xls_file');
+    HttpResponse::view('send_xls_file');
   }
 
   #[Route(Method::POST, '/training/post', TypeHint::File)]

@@ -1,8 +1,8 @@
 <?php
 
-namespace core\view;
+namespace core\parser;
 
-use function core\view\functions\generate_tag_html;
+use function core\functions\generate_tag_html;
 
 enum Token: string
 {

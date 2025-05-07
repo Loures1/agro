@@ -1,6 +1,6 @@
 <?php
 
-namespace core\view\functions;
+namespace core\functions;
 
 function generate_tag_html(string $content): string
 {

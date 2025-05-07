@@ -1,9 +1,9 @@
 <?php
 
-namespace core\view;
+namespace core\parser;
 
-use core\view\Token;
-use core\view\exceptions\ErrorSyntax;
+use core\parser\Token;
+use core\parser\exceptions\ErrorSyntax;
 
 class Parser
 {

@@ -10,7 +10,6 @@ use core\model\Model;
 use core\router\TypeHint;
 use core\session\Session;
 use core\uri\Method;
-use core\view\View;
 
 #[Controller('Admin')]
 class Admin
@@ -18,7 +17,7 @@ class Admin
   #[Route(Method::GET, '/admin', TypeHint::Null)]
   public function authentication(): void
   {
-    View::render('authentication_admin', ['error_authenticated' => false]);
+    HttpResponse::view('authentication_admin', ['error_authenticated' => false]);
   }
 
   #[Route(Method::POST, '/admin', TypeHint::Form)]
@@ -35,7 +34,7 @@ class Admin
       $session->authenticated = true;
       HttpResponse::redirect('/admin/dashboard');
     }
-    View::render('authentication_admin', ['error_authenticated' => true]);
+    HttpResponse::view('authentication_admin', ['error_authenticated' => true]);
   }
 
   #[Route(Method::GET, '/admin/dashboard', TypeHint::Null)]
@@ -48,7 +47,7 @@ class Admin
     $employeds = Model::query(SqlCode::EmployedsForAdmin, ['TRUE']);
     $jobs = Model::query(SqlCode::JobsForAdmin, ['TRUE']);
     $trainings = Model::query(SqlCode::TrainingForAdmin, ['TRUE']);
-    View::render(
+    HttpResponse::view(
       'admin_dashboard',
       ['employeds' => $employeds, 'jobs' => $jobs, 'trainings' => $trainings]
     );
