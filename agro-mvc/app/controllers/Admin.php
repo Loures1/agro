@@ -61,7 +61,8 @@ class Admin
         'employeds' => $employeds,
         'jobs' => $jobs,
         'trainings' => $trainings,
-        'relations_employed_training' => $relations_employed_training
+        'relations_employed_training' => $relations_employed_training,
+        'relations_job_training' => $relations_job_training
       ]
     );
   }
