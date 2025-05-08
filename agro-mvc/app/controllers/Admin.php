@@ -18,7 +18,9 @@ class Admin
   public function authentication(): void
   {
     HttpResponse::view(
-      'authentication_admin', ['error_authenticated' => false]);
+      'authentication_admin',
+      ['error_authenticated' => false]
+    );
   }
 
   #[Route(Method::POST, '/admin', TypeHint::Form)]
@@ -50,9 +52,13 @@ class Admin
     $jobs = Model::query(SqlCode::JobsForAdmin, ['TRUE']);
     $trainings = Model::query(SqlCode::TrainingForAdmin, ['TRUE']);
     $relations_employed_training = Model::query(
-      SqlCode::RelationEmployedTraining, ['TRUE']);
+      SqlCode::RelationEmployedTraining,
+      ['TRUE']
+    );
     $relations_job_training = Model::query(
-      SqlCode::RelationJobTraining, ['TRUE']);
+      SqlCode::RelationJobTraining,
+      ['TRUE']
+    );
     HttpResponse::view(
       'admin_dashboard',
       [

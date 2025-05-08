@@ -13,7 +13,7 @@ class Parser
       fn($item) => preg_replace("/(?!\w)\s+(?![\w%}=])/", b'', $item),
       explode("\n", $content)
     );
-    
+
     $content = array_filter(
       $content,
       fn($item) => $item != b''

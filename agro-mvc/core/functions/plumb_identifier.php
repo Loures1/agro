@@ -10,4 +10,3 @@ function plumb_identifier(array $identifier, string $content): string
   }
   return $content;
 }
-

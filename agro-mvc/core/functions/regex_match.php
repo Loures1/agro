@@ -3,12 +3,12 @@
 namespace core\functions;
 
 function regex_match(
-  string $expression, 
-  string $subject, 
-  ?callable $callable = null): array
-{
+  string $expression,
+  string $subject,
+  ?callable $callable = null
+): array {
   preg_match_all($expression, $subject, $matches);
-  
+
   $matches = current($matches);
 
   if ($matches == null) {

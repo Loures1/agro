@@ -23,4 +23,3 @@ class Session
     $_SESSION = $this->session;
   }
 }
-
