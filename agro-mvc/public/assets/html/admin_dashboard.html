@@ -14,14 +14,14 @@
     <button class="switch" id="job">Profissoes</button>
     <button class="switch" id="training">Treinamentos</button>
 
-    <--Employed Table-->
+    <--Employed's Table-->
     <table class="table" id="employed">
       <tr>
         <th>Id</th>
         <th>Nome</th>
         <th>Matricula</th>
         <th>Profissao</th>
-	<th>Treimento(s)</th>
+	      <th>Treimento(s)</th>
         <th>Telefone</th>
         <th>Email</th>
         <th>Data de Criacao</th>
@@ -32,13 +32,13 @@
         <td>{{employed.name}}</td>
         <td>{{employed.mat}}</td>
         <td>{{employed.job}}</td>
-	<td>
-	{% for relation in relations %}
-	{% if relation.id_employed == employed.id %}
-	<button>{{relation.training_name}}</button>
-	{% endif %}
-	{% endfor %}
-	</td>
+	      <td>
+	      {% for relation in relations_employed_training %}
+	      {% if relation.id_employed == employed.id %}
+	      <button>{{relation.training_name}}</button>
+	      {% endif %}
+	      {% endfor %}
+	      </td>
         <td>{{employed.tel}}</td>
         <td>{{employed.email}}</td>
         <td>{{employed.date}}</td>
@@ -46,26 +46,31 @@
       {% endfor %}
     </table>
     
-    <--Job Table-->
+    <--Job's Table-->
     <table class="table" id="job">
       <tr>
         <th>Id</th>
         <th>Nome</th>
-	<th>Treinamento(s)</th>
+	      <th>Treinamento(s)</th>
         <th>Data de Criacao</th>
       </tr>
       {% for job in jobs %}
       <tr>
         <td>{{job.id}}</td>
         <td>{{job.name}}</td>
-	<td>
-	</td>
+	      <td>
+        {% for relation in relations_job_training %}
+        {% if relation.id_job == job.id %}
+        <button>{{relation.training_name}}</button>
+        {% endif %}
+        {% endfor %}
+        </td>
         <td>{{job.date}}</td>
       </tr>
       {% endfor %}
     </table>
 
-    <--Training Table-->
+    <--Training's Table-->
     <table class="table" id="training">
       <tr>
         <th>Id</th>
