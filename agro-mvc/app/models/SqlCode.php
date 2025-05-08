@@ -97,13 +97,24 @@ enum SqlCode: string implements IQuery
   WHERE tbl_t.status = {status};
   ";
 
-  case Relation = "
+  case RelationEmployedTraining = "
   SELECT
   tbl_ft.id_funcionario AS id_employed,
-  tbl_ft.id_profissao AS id_job,
-  tbl_ft.id_trainamentos AS id_training
+  tbl_t.nome AS training_name
   FROM tbl_funcionario_treinamento AS tbl_ft
+  INNER JOIN tbl_treinamento AS tbl_t
+  ON tbl_t.id = tbl_ft.id_treinamento
   WHERE tbl_ft.status = {status};
+  ";
+
+  case RelationJobTraining = "
+  SELECT
+  tbl_pt.id_profissao AS id_job,
+  tbl_t.nome AS training_name
+  FROM tbl_profissao_treinamento AS tbl_pt
+  INNER JOIN tbl_treinamento AS tbl_t
+  ON tbl_pt.id_treinamento = tbl_t.id
+  WHERE tbl_t.status = {status};
   ";
 
   public function match(?array $values): string
