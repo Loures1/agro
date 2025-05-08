@@ -8,7 +8,7 @@
   </head>
 
   <body>
-    <h1>Dashboard Admin</h1>
+    <h1>Admin's Dashboard</h1>
     <--Buttons-->
     <button class="switch" id="employed">Funcionarios</button>
     <button class="switch" id="job">Profissoes</button>
@@ -25,6 +25,7 @@
         <th>Telefone</th>
         <th>Email</th>
         <th>Data de Criacao</th>
+        <th>Ações</th>
       </tr>
       {% for employed in employeds %}
       <tr>
@@ -42,8 +43,13 @@
         <td>{{employed.tel}}</td>
         <td>{{employed.email}}</td>
         <td>{{employed.date}}</td>
+        <td>
+        <button>Editar</button>
+        <button>Esconder</button>
+        <button>Excluir</button>
+        </td>
       </tr>
-      {% endfor %}
+      {% endfor %} 
     </table>
     
     <--Job's Table-->
@@ -53,6 +59,7 @@
         <th>Nome</th>
 	      <th>Treinamento(s)</th>
         <th>Data de Criacao</th>
+        <th>Ações</th>
       </tr>
       {% for job in jobs %}
       <tr>
@@ -66,6 +73,11 @@
         {% endfor %}
         </td>
         <td>{{job.date}}</td>
+        <td>
+        <button>Editar</button>
+        <button>Esconder</button>
+        <button>Excluir</button>
+        </td>
       </tr>
       {% endfor %}
     </table>
@@ -76,12 +88,18 @@
         <th>Id</th>
         <th>Nome</th>
         <th>Data de Criacao</th>
+        <th>Ações</th>
       </tr>
       {% for training in trainings %}
       <tr>
         <td>{{training.id}}</td>
         <td>{{training.name}}</td>
         <td>{{training.date}}</td>
+        <td>
+        <button>Editar</button>
+        <button>Esconder</button>
+        <button>Excluir</button>
+        </td>
       </tr>
       {% endfor %}
     </table>
