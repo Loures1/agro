@@ -1,11 +1,15 @@
 table#employed {
-    display: block;
+  display: block;
 }
 
 table#job {
-    display: none;
+  display: none;
 }
 
 table#training {
-    display: none;
+  display: none;
+}
+
+.popup {
+  display: none;
 }

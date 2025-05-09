@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Agro</title>
-    <link href="/assets/css/dashboard_admin.css" rel="stylesheet" />
+    <link href="/assets/css/dashboard_admin.css" rel="stylesheet" type="text/css"/>
   </head>
 
   <body>
@@ -28,7 +28,7 @@
         <th>Ações</th>
       </tr>
       {% for employed in employeds %}
-      <tr>
+      <tr class="employeds">
         <td>{{employed.id}}</td>
         <td>{{employed.name}}</td>
         <td>{{employed.mat}}</td>
@@ -41,12 +41,12 @@
 	      {% endfor %}
 	      </td>
         <td>{{employed.tel}}</td>
-        <td>{{employed.email}}</td>
+        <td>{{employed.email}}</td>1
         <td>{{employed.date}}</td>
         <td>
-        <button>Editar</button>
-        <button>Esconder</button>
-        <button>Excluir</button>
+        <button class="action" id="edit">Editar</button>
+        <button class="action" id="hidden">Esconder</button>
+        <button class="action" id="delete">Excluir</button>
         </td>
       </tr>
       {% endfor %} 
@@ -104,5 +104,14 @@
       {% endfor %}
     </table>
   </body>
+  <div class="popup" id="edit_employed">
+    <input type="text" id="id" placeholder="">
+    <input type="text" id="name" placeholder="">
+    <input type="text" id="mat" placeholder="">
+  </div>
+  <div class="popup" id="job">
+  </div>
+  <div class="popup" id="training">
+  </div>
 </html>
 <script src="/assets/js/dashboard_admin.js"></script>
