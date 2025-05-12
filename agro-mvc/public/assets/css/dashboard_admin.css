@@ -11,5 +11,5 @@ table#training {
 }
 
 .popup {
-  display: none;
+  display: block;
 }

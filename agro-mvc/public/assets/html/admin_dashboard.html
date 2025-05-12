@@ -29,10 +29,10 @@
       </tr>
       {% for employed in employeds %}
       <tr class="employeds">
-        <td>{{employed.id}}</td>
-        <td>{{employed.name}}</td>
-        <td>{{employed.mat}}</td>
-        <td>{{employed.job}}</td>
+        <td id="id">{{employed.id}}</td>
+        <td id="name">{{employed.name}}</td>
+        <td id="mat">{{employed.mat}}</td>
+        <td id="job">{{employed.job}}</td>
 	      <td>
 	      {% for relation in relations_employed_training %}
 	      {% if relation.id_employed == employed.id %}
@@ -40,8 +40,8 @@
 	      {% endif %}
 	      {% endfor %}
 	      </td>
-        <td>{{employed.tel}}</td>
-        <td>{{employed.email}}</td>1
+        <td id="tel">{{employed.tel}}</td>
+        <td id="email">{{employed.email}}</td>
         <td>{{employed.date}}</td>
         <td>
         <button class="action" id="edit">Editar</button>
@@ -105,9 +105,26 @@
     </table>
   </body>
   <div class="popup" id="edit_employed">
-    <input type="text" id="id" placeholder="">
-    <input type="text" id="name" placeholder="">
-    <input type="text" id="mat" placeholder="">
+    <h1>Edit_Employed</h1>
+    <button>Sair</button>
+    <br>
+    <label>Nome: </label><input type="text" id="name" placeholder="">
+    <br>
+    <label>Matricula: </label><input type="text" id="mat" placeholder="">
+    <br>
+    <select id="trainings">
+      {% if trainings %}
+      {% for training in trainings %}
+      <option value="{{training.id}}">{{training.name}}</option>
+      {% endfor %}
+      {% endif %}
+    </select>
+    <br>
+    <label>Telefone: </label><input type="text" id="tel" placeholder="">
+    <br>
+    <label>Email: </label><input type="email" id="email" placeholder="">
+    <br>
+    <button>Salvar</button>
   </div>
   <div class="popup" id="job">
   </div>
