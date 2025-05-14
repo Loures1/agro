@@ -1,50 +1,31 @@
-const switchs = Array.from(document.getElementsByClassName("switch"));
-const tables = Array.from(document.getElementsByClassName("table"));
-const btn_poup = Array.from(document.getElementsByClassName("action"));
-
-let PoupEmployed = {
-  set: function (btn) {
-    let placeholders = this.placeholders();
-    let placeholders_values = this.placeholders_values(btn);
-    placeholders.forEach((_) => {
-      if (placeholders_values.has(_.id)) {
-        _.id == "trainings"
-          ? (_.innerHTML = placeholders_values.get(_.id))
-          : (_.placeholder = placeholders_values.get(_.id));
-      }
-    });
-  },
-
-  placeholders: function () {
-    return Array.from(document.getElementById("edit_employed").children).filter(
-      (_) => _.id,
-    );
-  },
-
-  placeholders_values: function (btn) {
-    let tr_html = Array.from(document.getElementsByClassName("employeds"))
-      .filter((_) => _.contains(btn))
-      .shift();
-    return new Map(
-      Array.from(tr_html.children).map((_) => [_.id, _.innerHTML]),
+let Tables = {
+  buttons: Array.from(document.getElementsByClassName("switch")),
+  tables: Array.from(document.getElementsByClassName("table")),
+  set: function (button) {
+    this.tables.map((_) =>
+      _.id == button.value
+        ? (_.style.display = "block")
+        : (_.style.display = "none"),
     );
   },
 };
 
-switchs.forEach((element) => {
-  element.addEventListener("click", function () {
-    tables.forEach((table) =>
-      table.id == element.id
-        ? (table.style.display = "block")
-        : (table.style.display = "none"),
-    );
+let PoupEdit = {
+  buttons: Array.from(document.getElementsByClassName("action")),
+  layout: function (button) {
+    return Tables.tables.filter((_) => _.contains(button)).shift();
+  },
+  set: function (button) {},
+};
+
+Tables.buttons.forEach((button) => {
+  button.addEventListener("click", function () {
+    Tables.set(button);
   });
 });
 
-btn_poup.forEach((btn) => {
-  btn.addEventListener("click", function () {
-    if (btn.id == "edit") {
-      console.log(PoupEmployed.set(btn));
-    }
+PoupEdit.buttons.forEach((button) => {
+  button.addEventListener("click", function () {
+    console.log(PoupEdit.layout(button));
   });
 });

@@ -1,15 +1,23 @@
-table#employed {
+#table_employed {
   display: block;
 }
 
-table#job {
+#table_job {
   display: none;
 }
 
-table#training {
+#table_training {
   display: none;
 }
 
-.popup {
-  display: block;
+#poup_employed {
+  display: none;
+}
+
+#poup_job {
+  display: none;
+}
+
+#poup_training {
+  display: none;
 }

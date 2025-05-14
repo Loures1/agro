@@ -10,84 +10,84 @@
   <body>
     <h1>Admin's Dashboard</h1>
     <--Buttons-->
-    <button class="switch" id="employed">Funcionarios</button>
-    <button class="switch" id="job">Profissoes</button>
-    <button class="switch" id="training">Treinamentos</button>
+    <button class="switch" value="table_employed">Funcionarios</button>
+    <button class="switch" value="table_job">Profissoes</button>
+    <button class="switch" value="table_training">Treinamentos</button>
 
     <--Employed's Table-->
-    <table class="table" id="employed">
+    <table class="table" id="table_employed">
       <tr>
         <th>Id</th>
         <th>Nome</th>
         <th>Matricula</th>
         <th>Profissao</th>
-	<th>Treimento(s)</th>
+	      <th>Treimento(s)</th>
         <th>Telefone</th>
         <th>Email</th>
         <th>Data de Criacao</th>
         <th>Ações</th>
       </tr>
       {% for employed in employeds %}
-      <tr class="employeds">
+      <tr class="employeds" id="{{employed.id}}">
         <td id="id">{{employed.id}}</td>
         <td id="name">{{employed.name}}</td>
         <td id="mat">{{employed.mat}}</td>
         <td id="job">{{employed.job}}</td>
-	<td id="trainings">
-	<ul>
-	{% for relation in relations_employed_training %}
-	{% if relation.id_employed == employed.id %}
-	<li>{{relation.training_name}}</li>
-	{% endif %}
-	{% endfor %}
-	</ul>
-	</td>
+	      <td id="trainings">
+	        <ul>
+	          {% for relation in relations_employed_training %}
+	            {% if relation.id_employed == employed.id %}
+	              <li>{{relation.training_name}}</li>
+	            {% endif %}
+	          {% endfor %}
+	        </ul>
+	      </td>
         <td id="tel">{{employed.tel}}</td>
         <td id="email">{{employed.email}}</td>
         <td>{{employed.date}}</td>
         <td>
-        <button class="action" id="edit">Editar</button>
-        <button class="action" id="hidden">Esconder</button>
-        <button class="action" id="delete">Excluir</button>
+          <button name="edit" class="action" value="{{employed.id}}">Editar</button>
+          <button name="hidden" class="action" value="{{employed.id}}">Esconder</button>
+          <button name="delete" class="action" value="{{employed.id}}">Excluir</button>
         </td>
       </tr>
       {% endfor %} 
     </table>
     
     <--Job's Table-->
-    <table class="table" id="job">
+    <table class="table" id="table_job">
       <tr>
         <th>Id</th>
         <th>Nome</th>
-	<th>Treinamento(s)</th>
+	      <th>Treinamento(s)</th>
         <th>Data de Criacao</th>
         <th>Ações</th>
       </tr>
       {% for job in jobs %}
-      <tr>
+      <tr id="{{job.id}}">
         <td>{{job.id}}</td>
         <td>{{job.name}}</td>
-	<td>
-	<ul>
-        {% for relation in relations_job_training %}
-        {% if relation.id_job == job.id %}
-        <li>{{relation.training_name}}</li>
-        {% endif %}
-        {% endfor %}
-	</ul>
+	      <td>
+	        <ul>
+          {% for relation in relations_job_training %}
+            {% if relation.id_job == job.id %}
+              <li>{{relation.training_name}}</li>
+            {% endif %}
+          {% endfor %}
+	        </ul>
         </td>
         <td>{{job.date}}</td>
         <td>
-        <button>Editar</button>
-        <button>Esconder</button>
-        <button>Excluir</button>
+          <button name="edit" class="action" value="{{job.id}}">Editar</button>
+          <button name="hidden" class="action" value="{{job.id}}">Esconder</button>
+          <button name="delete" class="action" value="{{job.id}}">Excluir</button>
         </td>
       </tr>
       {% endfor %}
     </table>
 
     <--Training's Table-->
-    <table class="table" id="training">
+    <table class="table" id="table_training">
       <tr>
         <th>Id</th>
         <th>Nome</th>
@@ -95,46 +95,74 @@
         <th>Ações</th>
       </tr>
       {% for training in trainings %}
-      <tr>
-        <td>{{training.id}}</td>
-        <td>{{training.name}}</td>
-        <td>{{training.date}}</td>
-        <td>
-        <button>Editar</button>
-        <button>Esconder</button>
-        <button>Excluir</button>
-        </td>
-      </tr>
+        <tr id="{{training.id}}">
+          <td>{{training.id}}</td>
+          <td>{{training.name}}</td>
+          <td>{{training.date}}</td>
+          <td>
+            <button name="edit" class="action" value="{{training.id}}">Editar</button>
+            <button name="hidden" class="action" value="{{training.id}}">Esconder</button>
+            <button name="delete" class="action" value="{{training.id}}">Excluir</button>
+          </td>
+        </tr>
       {% endfor %}
     </table>
+
+    <div id="poup_employed">
+      <div id="poup_edit_content">
+        <h1>Edit_Employed</h1>
+        <button>Sair</button>
+        <br>
+        <label>Nome: </label><input type="text" id="name" placeholder="">
+        <br>
+        <label>Matricula: </label><input type="text" id="mat" placeholder="">
+        <br>
+        <select id="trainings">
+          {% if trainings %}
+          {% for training in trainings %}
+          <option value="{{training.id}}">{{training.name}}</option>
+          {% endfor %}
+          {% endif %}
+        </select>
+        <br>
+        <label>Telefone: </label><input type="text" id="tel" placeholder="">
+        <br>
+        <label>Email: </label><input type="email" id="email" placeholder="">
+        <br>
+        <button>Salvar</button>
+      </div>
+    </div>
+
+    <div id="poup_job">
+      <div id="poup_edit_content">
+        <h1>Edit_Job</h1>
+        <button>Sair</button>
+        <br>
+        <label>Nome: </label><input type="text" id="name" placeholder="">
+        <br>
+        <select id="trainings">
+          {% if trainings %}
+            {% for training in trainings %}
+              <option value="{{training.id}}">{{training.name}}</option>
+            {% endfor %}
+          {% endif %}
+        </select>
+        <br>
+        <button>Salvar</button>
+      </div>
+    </div>
+
+    <div id="poup_training">
+      <div id="poup_edit_content">
+        <h1>Training_Employed</h1>
+        <button>Sair</button>
+        <br>
+        <label>Nome: </label><input type="text" id="name" placeholder="">
+        <br>
+        <button>Salvar</button>
+      </div>
+    </div>
+
   </body>
-  <div class="popup" id="edit_employed">
-    	<h1>Edit_Employed</h1>
-    	<button>Sair</button>
-    	<br>
-    	<label>Nome: </label><input type="text" id="name" placeholder="">
-    	<br>
-    	<label>Matricula: </label><input type="text" id="mat" placeholder="">
-    	<br>
-	<div id="trainings">
-	</div>	
-    	<select>
-      	{% if trainings %}
-      	{% for training in trainings %}
-      	<option value="{{training.id}}">{{training.name}}</option>
-      	{% endfor %}
-      	{% endif %}
-    	</select>
-    	<br>
-    	<label>Telefone: </label><input type="text" id="tel" placeholder="">
-    	<br>
-    	<label>Email: </label><input type="email" id="email" placeholder="">
-    	<br>
-    	<button>Salvar</button>
-  </div>
-  <div class="popup" id="job">
-  </div>
-  <div class="popup" id="training">
-  </div>
 </html>
 <script src="/assets/js/dashboard_admin.js"></script>
