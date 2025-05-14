@@ -15,7 +15,7 @@
     <button class="switch" value="table_training">Treinamentos</button>
 
     <--Employed's Table-->
-    <table class="table" id="table_employed">
+    <table class="employed" id="table_employed">
       <tr>
         <th>Id</th>
         <th>Nome</th>
@@ -28,12 +28,12 @@
         <th>Ações</th>
       </tr>
       {% for employed in employeds %}
-      <tr class="employeds" id="{{employed.id}}">
-        <td id="id">{{employed.id}}</td>
-        <td id="name">{{employed.name}}</td>
-        <td id="mat">{{employed.mat}}</td>
-        <td id="job">{{employed.job}}</td>
-	      <td id="trainings">
+      <tr id="employed_{{employed.id}}">
+        <td class="id">{{employed.id}}</td>
+        <td class="name">{{employed.name}}</td>
+        <td class="mat">{{employed.mat}}</td>
+        <td class="job">{{employed.job}}</td>
+	      <td class="trainings">
 	        <ul>
 	          {% for relation in relations_employed_training %}
 	            {% if relation.id_employed == employed.id %}
@@ -42,20 +42,20 @@
 	          {% endfor %}
 	        </ul>
 	      </td>
-        <td id="tel">{{employed.tel}}</td>
-        <td id="email">{{employed.email}}</td>
+        <td class="tel">{{employed.tel}}</td>
+        <td class="email">{{employed.email}}</td>
         <td>{{employed.date}}</td>
         <td>
-          <button name="edit" class="action" value="{{employed.id}}">Editar</button>
-          <button name="hidden" class="action" value="{{employed.id}}">Esconder</button>
-          <button name="delete" class="action" value="{{employed.id}}">Excluir</button>
+          <button name="edit" class="action" value="employed_{{employed.id}}">Editar</button>
+          <button name="hidden" class="action" value="employed_{{employed.id}}">Esconder</button>
+          <button name="delete" class="action" value="employed_{{employed.id}}">Excluir</button>
         </td>
       </tr>
       {% endfor %} 
     </table>
     
     <--Job's Table-->
-    <table class="table" id="table_job">
+    <table class="job" id="table_job">
       <tr>
         <th>Id</th>
         <th>Nome</th>
@@ -64,7 +64,7 @@
         <th>Ações</th>
       </tr>
       {% for job in jobs %}
-      <tr id="{{job.id}}">
+      <tr id="job_{{job.id}}">
         <td>{{job.id}}</td>
         <td>{{job.name}}</td>
 	      <td>
@@ -77,17 +77,17 @@
 	        </ul>
         </td>
         <td>{{job.date}}</td>
-        <td>
-          <button name="edit" class="action" value="{{job.id}}">Editar</button>
-          <button name="hidden" class="action" value="{{job.id}}">Esconder</button>
-          <button name="delete" class="action" value="{{job.id}}">Excluir</button>
+        <td class="action_job">
+          <button name="edit" class="action" value="job_{{job.id}}">Editar</button>
+          <button name="hidden" class="action" value="job_{{job.id}}">Esconder</button>
+          <button name="delete" class="action" value="job_{{job.id}}">Excluir</button>
         </td>
       </tr>
       {% endfor %}
     </table>
 
     <--Training's Table-->
-    <table class="table" id="table_training">
+    <table class="training" id="table_training">
       <tr>
         <th>Id</th>
         <th>Nome</th>
@@ -95,28 +95,29 @@
         <th>Ações</th>
       </tr>
       {% for training in trainings %}
-        <tr id="{{training.id}}">
+        <tr id="training_{{training.id}}">
           <td>{{training.id}}</td>
           <td>{{training.name}}</td>
           <td>{{training.date}}</td>
-          <td>
-            <button name="edit" class="action" value="{{training.id}}">Editar</button>
-            <button name="hidden" class="action" value="{{training.id}}">Esconder</button>
-            <button name="delete" class="action" value="{{training.id}}">Excluir</button>
+          <td class="action_training">
+            <button name="edit" class="action" value="training_{{training.id}}">Editar</button>
+            <button name="hidden" class="action" value="training_{{training.id}}">Esconder</button>
+            <button name="delete" class="action" value="training_{{training.id}}">Excluir</button>
           </td>
         </tr>
       {% endfor %}
     </table>
 
-    <div id="poup_employed">
+    <div class="employed poup_edit">
       <div id="poup_edit_content">
         <h1>Edit_Employed</h1>
         <button>Sair</button>
         <br>
-        <label>Nome: </label><input type="text" id="name" placeholder="">
+        <label>Nome: </label><input type="text" class="name" placeholder="">
         <br>
-        <label>Matricula: </label><input type="text" id="mat" placeholder="">
+        <label>Matricula: </label><input type="text" class="mat" placeholder="">
         <br>
+        <div class="employed_trainings"></div>
         <select id="trainings">
           {% if trainings %}
           {% for training in trainings %}
@@ -125,21 +126,22 @@
           {% endif %}
         </select>
         <br>
-        <label>Telefone: </label><input type="text" id="tel" placeholder="">
+        <label>Telefone: </label><input type="text" class="tel" placeholder="">
         <br>
-        <label>Email: </label><input type="email" id="email" placeholder="">
+        <label>Email: </label><input type="email" class="email" placeholder="">
         <br>
         <button>Salvar</button>
       </div>
     </div>
 
-    <div id="poup_job">
+    <div class="job poup_edit">
       <div id="poup_edit_content">
         <h1>Edit_Job</h1>
         <button>Sair</button>
         <br>
-        <label>Nome: </label><input type="text" id="name" placeholder="">
+        <label>Nome: </label><input type="text" class="name" placeholder="">
         <br>
+        <div class="job_trainings"></div>
         <select id="trainings">
           {% if trainings %}
             {% for training in trainings %}
@@ -152,12 +154,12 @@
       </div>
     </div>
 
-    <div id="poup_training">
+    <div class="training poup_edit">
       <div id="poup_edit_content">
         <h1>Training_Employed</h1>
         <button>Sair</button>
         <br>
-        <label>Nome: </label><input type="text" id="name" placeholder="">
+        <label>Nome: </label><input type="text" class="name" placeholder="">
         <br>
         <button>Salvar</button>
       </div>

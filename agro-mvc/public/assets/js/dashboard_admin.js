@@ -1,6 +1,7 @@
 let Tables = {
   buttons: Array.from(document.getElementsByClassName("switch")),
-  tables: Array.from(document.getElementsByClassName("table")),
+  
+  tables: Array.from(document.getElementsByTagName("table")),
   set: function (button) {
     this.tables.map((_) =>
       _.id == button.value
@@ -12,10 +13,22 @@ let Tables = {
 
 let PoupEdit = {
   buttons: Array.from(document.getElementsByClassName("action")),
+
   layout: function (button) {
-    return Tables.tables.filter((_) => _.contains(button)).shift();
+    return document.getElementById(button.value)
   },
-  set: function (button) {},
+
+  set: function (button) {
+    var type_poup = Tables.tables
+    .filter((_) => _.contains(button))
+    .shift()
+    var poup = Array.from(
+      document.querySelector(`.${type_poup.className}.poup_edit`).children
+      .item(0)
+      .children
+      ).filter((_) => _.className);
+    return poup;
+  },
 };
 
 Tables.buttons.forEach((button) => {
@@ -26,6 +39,8 @@ Tables.buttons.forEach((button) => {
 
 PoupEdit.buttons.forEach((button) => {
   button.addEventListener("click", function () {
-    console.log(PoupEdit.layout(button));
+    if (button.name == 'edit') {
+      console.log(PoupEdit.set(button));
+    }
   });
 });
