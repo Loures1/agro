@@ -12,6 +12,8 @@ let Tables = {
 };
 
 let PoupEdit = {
+  poups: Array.from(document.getElementsByClassName("popup_edit")),
+  
   buttons: Array.from(document.getElementsByClassName("action")),
 
   layout: function (button) {
@@ -20,12 +22,19 @@ let PoupEdit = {
 
   set: function (button) {
     var type_poup = Tables.tables.filter((_) => _.contains(button)).shift();
-    var poup = Array.from(
-      document
-        .querySelector(`.${type_poup.className}.poup_edit`)
-        .children.item(0).children,
-    ).filter((_) => _.className);
-    return poup;
+    var poup = this.poups.filter((_) => _.classList.filter((_) => _ == type_poup.className));
+    console.log(poup);
+    return 0;
+    var row = Array.from(document.getElementById(button.value).children);
+    poup.forEach((field_poup) => {
+      row.forEach((field_row) => {
+        if (field_poup.className == field_row.className) {
+          field_poup.className != 'trainings' 
+            ? (field_poup.placeholder = field_row.innerHTML)
+            : (field_poup.innerHTML = field_row.innerHTML);
+        }
+      });
+    });  
   },
 };
 
@@ -38,7 +47,7 @@ Tables.buttons.forEach((button) => {
 PoupEdit.buttons.forEach((button) => {
   button.addEventListener("click", function () {
     if (button.name == "edit") {
-      console.log(PoupEdit.set(button));
+      PoupEdit.set(button);
     }
   });
 });

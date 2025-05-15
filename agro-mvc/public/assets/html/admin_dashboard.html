@@ -65,9 +65,9 @@
       </tr>
       {% for job in jobs %}
       <tr id="job_{{job.id}}">
-        <td>{{job.id}}</td>
-        <td>{{job.name}}</td>
-	      <td>
+        <td class="id">{{job.id}}</td>
+        <td class="name">{{job.name}}</td>
+	      <td class="trainings">
 	        <ul>
           {% for relation in relations_job_training %}
             {% if relation.id_job == job.id %}
@@ -76,7 +76,7 @@
           {% endfor %}
 	        </ul>
         </td>
-        <td>{{job.date}}</td>
+        <td class="date">{{job.date}}</td>
         <td class="action_job">
           <button name="edit" class="action" value="job_{{job.id}}">Editar</button>
           <button name="hidden" class="action" value="job_{{job.id}}">Esconder</button>
@@ -96,9 +96,9 @@
       </tr>
       {% for training in trainings %}
         <tr id="training_{{training.id}}">
-          <td>{{training.id}}</td>
-          <td>{{training.name}}</td>
-          <td>{{training.date}}</td>
+          <td class="id">{{training.id}}</td>
+          <td class="name">{{training.name}}</td>
+          <td class="date">{{training.date}}</td>
           <td class="action_training">
             <button name="edit" class="action" value="training_{{training.id}}">Editar</button>
             <button name="hidden" class="action" value="training_{{training.id}}">Esconder</button>
@@ -108,8 +108,9 @@
       {% endfor %}
     </table>
 
-    <div class="employed poup_edit">
-      <div id="poup_edit_content">
+    <--Employed's Popup-->
+    <div class="employed popup_edit">
+      <div id="popup_edit_content">
         <h1>Edit_Employed</h1>
         <button>Sair</button>
         <br>
@@ -117,8 +118,8 @@
         <br>
         <label>Matricula: </label><input type="text" class="mat" placeholder="">
         <br>
-        <div class="employed_trainings"></div>
-        <select id="trainings">
+        <div class="trainings"></div>
+        <select>
           {% if trainings %}
           {% for training in trainings %}
           <option value="{{training.id}}">{{training.name}}</option>
@@ -134,15 +135,16 @@
       </div>
     </div>
 
-    <div class="job poup_edit">
+    <--Jobs's Popup-->
+    <div class="job popup_edit">
       <div id="poup_edit_content">
         <h1>Edit_Job</h1>
         <button>Sair</button>
         <br>
         <label>Nome: </label><input type="text" class="name" placeholder="">
         <br>
-        <div class="job_trainings"></div>
-        <select id="trainings">
+        <div class="trainings"></div>
+        <select>
           {% if trainings %}
             {% for training in trainings %}
               <option value="{{training.id}}">{{training.name}}</option>
@@ -154,8 +156,9 @@
       </div>
     </div>
 
-    <div class="training poup_edit">
-      <div id="poup_edit_content">
+    <--Training's Popup-->
+    <div class="training popup_edit">
+      <div id="popup_edit_content">
         <h1>Training_Employed</h1>
         <button>Sair</button>
         <br>
