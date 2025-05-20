@@ -1,42 +1,32 @@
 let Tables = {
+  state: 'employed',
   buttons: Array.from(document.getElementsByClassName("switch")),
-
   tables: Array.from(document.getElementsByTagName("table")),
+
   set: function (button) {
-    this.tables.map((_) =>
-      _.id == button.value
-        ? (_.style.display = "block")
-        : (_.style.display = "none"),
+    this.tables.map((_) => {
+      if (_.className == button.value) {
+        _.style.display = "block"
+        this.state = _.className
+      } else {
+        _.style.display = "none"
+      }
+    }
     );
   },
 };
 
-let PoupEdit = {
-  poups: Array.from(document.getElementsByClassName("popup_edit")),
-  
-  buttons: Array.from(document.getElementsByClassName("action")),
+let Popup = {
+  poups: Array.from(document.getElementsByClassName('popup_edit')),
 
-  layout: function (button) {
-    return document.getElementById(button.value);
-  },
+  buttons: Array.from(document.getElementsByClassName('action')),
 
   set: function (button) {
-    var type_poup = Tables.tables.filter((_) => _.contains(button)).shift();
-    var poup = this.poups.filter((_) => _.classList.filter((_) => _ == type_poup.className));
-    console.log(poup);
-    return 0;
-    var row = Array.from(document.getElementById(button.value).children);
-    poup.forEach((field_poup) => {
-      row.forEach((field_row) => {
-        if (field_poup.className == field_row.className) {
-          field_poup.className != 'trainings' 
-            ? (field_poup.placeholder = field_row.innerHTML)
-            : (field_poup.innerHTML = field_row.innerHTML);
-        }
-      });
-    });  
-  },
-};
+    let popup = document.getElementsByClassName(`${Tables.state} popup_edit`)
+    let register = document.getElementById(button.value)
+    return Array.from(popup)
+  }
+}
 
 Tables.buttons.forEach((button) => {
   button.addEventListener("click", function () {
@@ -44,10 +34,10 @@ Tables.buttons.forEach((button) => {
   });
 });
 
-PoupEdit.buttons.forEach((button) => {
+Popup.buttons.forEach((button) => {
   button.addEventListener("click", function () {
-    if (button.name == "edit") {
-      PoupEdit.set(button);
+    if (button.name == 'edit') {
+      console.log(Popup.set(button))
     }
   });
-});
+})

@@ -10,9 +10,9 @@
   <body>
     <h1>Admin's Dashboard</h1>
     <--Buttons-->
-    <button class="switch" value="table_employed">Funcionarios</button>
-    <button class="switch" value="table_job">Profissoes</button>
-    <button class="switch" value="table_training">Treinamentos</button>
+    <button class="switch" value="employed">Funcionarios</button>
+    <button class="switch" value="job">Profissoes</button>
+    <button class="switch" value="training">Treinamentos</button>
 
     <--Employed's Table-->
     <table class="employed" id="table_employed">
@@ -45,7 +45,7 @@
         <td class="tel">{{employed.tel}}</td>
         <td class="email">{{employed.email}}</td>
         <td>{{employed.date}}</td>
-        <td>
+        <td class="action employed">
           <button name="edit" class="action" value="employed_{{employed.id}}">Editar</button>
           <button name="hidden" class="action" value="employed_{{employed.id}}">Esconder</button>
           <button name="delete" class="action" value="employed_{{employed.id}}">Excluir</button>
@@ -77,7 +77,7 @@
 	        </ul>
         </td>
         <td class="date">{{job.date}}</td>
-        <td class="action_job">
+        <td class="action job">
           <button name="edit" class="action" value="job_{{job.id}}">Editar</button>
           <button name="hidden" class="action" value="job_{{job.id}}">Esconder</button>
           <button name="delete" class="action" value="job_{{job.id}}">Excluir</button>
@@ -99,7 +99,7 @@
           <td class="id">{{training.id}}</td>
           <td class="name">{{training.name}}</td>
           <td class="date">{{training.date}}</td>
-          <td class="action_training">
+          <td class="action training">
             <button name="edit" class="action" value="training_{{training.id}}">Editar</button>
             <button name="hidden" class="action" value="training_{{training.id}}">Esconder</button>
             <button name="delete" class="action" value="training_{{training.id}}">Excluir</button>
@@ -136,8 +136,8 @@
     </div>
 
     <--Jobs's Popup-->
-    <div class="job popup_edit">
-      <div id="poup_edit_content">
+    <div>
+      <div id="job popup_edit">
         <h1>Edit_Job</h1>
         <button>Sair</button>
         <br>
