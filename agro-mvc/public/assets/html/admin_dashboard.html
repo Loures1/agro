@@ -14,7 +14,7 @@
     <button class="switch" value="job">Profissoes</button>
     <button class="switch" value="training">Treinamentos</button>
 
-    <--Employed's Table-->
+    <--Employeds Table-->
     <table class="employed" id="table_employed">
       <tr>
         <th>Id</th>
@@ -54,7 +54,7 @@
       {% endfor %} 
     </table>
     
-    <--Job's Table-->
+    <--Job Table-->
     <table class="job" id="table_job">
       <tr>
         <th>Id</th>
@@ -86,7 +86,7 @@
       {% endfor %}
     </table>
 
-    <--Training's Table-->
+    <--Training Table-->
     <table class="training" id="table_training">
       <tr>
         <th>Id</th>
@@ -108,11 +108,11 @@
       {% endfor %}
     </table>
 
-    <--Employed's Popup-->
-    <div class="employed popup_edit">
-      <div id="popup_edit_content">
-        <h1>Edit_Employed</h1>
-        <button>Sair</button>
+    <--Employed Popup-->
+    <dialog class="employed">
+      <div class="employed popup_edit">
+        <h1>Editar Employed</h1>
+        <button class="exit">Sair</button>
         <br>
         <label>Nome: </label><input type="text" class="name" placeholder="">
         <br>
@@ -133,13 +133,13 @@
         <br>
         <button>Salvar</button>
       </div>
-    </div>
+    </dialog>
 
-    <--Jobs's Popup-->
-    <div>
-      <div id="job popup_edit">
-        <h1>Edit_Job</h1>
-        <button>Sair</button>
+    <--Job Popup-->
+    <dialog class="job">
+      <div class="job popup_edit">
+        <h1>Editar Job</h1>
+        <button class="exit">Sair</button>
         <br>
         <label>Nome: </label><input type="text" class="name" placeholder="">
         <br>
@@ -154,19 +154,19 @@
         <br>
         <button>Salvar</button>
       </div>
-    </div>
+    </dialog>
 
-    <--Training's Popup-->
-    <div class="training popup_edit">
-      <div id="popup_edit_content">
-        <h1>Training_Employed</h1>
-        <button>Sair</button>
+    <--Training Popup-->
+    <dialog class="training">
+      <div class="training popup_edit">
+        <h1>Editar Training</h1>
+        <button class="exit">Sair</button>
         <br>
         <label>Nome: </label><input type="text" class="name" placeholder="">
         <br>
         <button>Salvar</button>
       </div>
-    </div>
+    </dialog>
 
   </body>
 </html>

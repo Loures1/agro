@@ -1,13 +1,20 @@
+let dashboard = {
+  state: "employed",
+  scroll: "relative",
+  modal: null,
+  query: null
+}
+
 let Tables = {
-  state: 'employed',
   buttons: Array.from(document.getElementsByClassName("switch")),
+
   tables: Array.from(document.getElementsByTagName("table")),
 
-  set: function (button) {
+  set: function(button) {
     this.tables.map((_) => {
       if (_.className == button.value) {
         _.style.display = "block"
-        this.state = _.className
+        dashboard.state = _.className
       } else {
         _.style.display = "none"
       }
@@ -17,27 +24,66 @@ let Tables = {
 };
 
 let Popup = {
-  poups: Array.from(document.getElementsByClassName('popup_edit')),
+  exit_buttons: Array.from(document.getElementsByClassName("exit")),
 
-  buttons: Array.from(document.getElementsByClassName('action')),
+  modals: Array.from(document.getElementsByTagName('dialog')),
 
-  set: function (button) {
-    let popup = document.getElementsByClassName(`${Tables.state} popup_edit`)
-    let register = document.getElementById(button.value)
-    return Array.from(popup)
+  register_buttons: Array.from(document.getElementsByClassName('action')),
+
+
+  set: function(button) {
+    let popup = document.getElementsByClassName(`${dashboard.state} popup_edit`)
+    popup = Array.from(popup[0].children)
+
+    let modal = this.modals.filter((_) => _.className == dashboard.state)
+      .shift()
+
+    let registers = document.getElementById(button.value)
+    registers = Array.from(registers.children)
+
+    popup.forEach((field) => {
+      registers.forEach((register) => {
+        if (field.className == register.className) {
+          field.className == 'trainings'
+            ? (field.innerHTML = register.innerHTML)
+            : (field.placeholder = register.innerText)
+        }
+      })
+    })
+    modal.showModal()
+    document.body.style.position = "fixed"
+
+    dashboard.modal = modal;
+    dashboard.scroll = "fixed"
   }
 }
 
 Tables.buttons.forEach((button) => {
-  button.addEventListener("click", function () {
+  button.addEventListener("click", function() {
     Tables.set(button);
   });
 });
 
-Popup.buttons.forEach((button) => {
-  button.addEventListener("click", function () {
+Popup.register_buttons.forEach((button) => {
+  button.addEventListener("click", function() {
     if (button.name == 'edit') {
-      console.log(Popup.set(button))
+      Popup.set(button)
     }
   });
 })
+
+Popup.exit_buttons.forEach((button) => {
+  button.addEventListener("click", function() {
+    dashboard.modal.close()
+    document.body.style.position = "relative"
+    dashboard.scroll = "relative"
+  })
+})
+
+document.addEventListener("keydown", function(event) {
+  if (event.key == "Escape" && dashboard.scroll == "fixed") {
+    document.body.style.position = "relative"
+    dashboard.scroll = "relative"
+  }
+})
+
