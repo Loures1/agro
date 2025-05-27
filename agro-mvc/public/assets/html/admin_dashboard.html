@@ -30,7 +30,7 @@
       </tr>
       {% for employed in employeds %}
       <tr id="employed_{{employed.id}}">
-        <td class="id">{{employed.id}}</td>
+        <td>{{employed.id}}</td>
         <td class="name">{{employed.name}}</td>
         <td class="mat">{{employed.mat}}</td>
         <td class="job">{{employed.job}}</td>
@@ -46,13 +46,13 @@
         <td class="tel">{{employed.tel}}</td>
         <td class="email">{{employed.email}}</td>
         <td>{{employed.date}}</td>
-        <td class="action employed">
-          <button name="edit" class="action" value="employed_{{employed.id}}">Editar</button>
-          <button name="hidden" class="action" value="employed_{{employed.id}}">Esconder</button>
-          <button name="delete" class="action" value="employed_{{employed.id}}">Excluir</button>
+        <td>
+          <button class="edit" value="employed_{{employed.id}}">Editar</button>
+          <button class="hidden" value="employed_{{employed.id}}">Esconder</button>
+          <button class="delete" value="employed_{{employed.id}}">Excluir</button>
         </td>
       </tr>
-      {% endfor %} 
+      {% endfor %}
     </table>
     
     <--Job Table-->
@@ -78,10 +78,10 @@
 	        </ul>
         </td>
         <td class="date">{{job.date}}</td>
-        <td class="action job">
-          <button name="edit" class="action" value="job_{{job.id}}">Editar</button>
-          <button name="hidden" class="action" value="job_{{job.id}}">Esconder</button>
-          <button name="delete" class="action" value="job_{{job.id}}">Excluir</button>
+        <td>
+          <button class="edit" value="job_{{job.id}}">Editar</button>
+          <button class="hidden" value="job_{{job.id}}">Esconder</button>
+          <button class="delete" value="job_{{job.id}}">Excluir</button>
         </td>
       </tr>
       {% endfor %}
@@ -100,73 +100,18 @@
           <td class="id">{{training.id}}</td>
           <td class="name">{{training.name}}</td>
           <td class="date">{{training.date}}</td>
-          <td class="action training">
-            <button name="edit" class="action" value="training_{{training.id}}">Editar</button>
-            <button name="hidden" class="action" value="training_{{training.id}}">Esconder</button>
-            <button name="delete" class="action" value="training_{{training.id}}">Excluir</button>
+          <td>
+            <button class="edit" value="training_{{training.id}}">Editar</button>
+            <button class="hidden" value="training_{{training.id}}">Esconder</button>
+            <button class="delete" value="training_{{training.id}}">Excluir</button>
           </td>
         </tr>
       {% endfor %}
     </table>
 
-    <--Employed Edit-->
-    <dialog class="employed">
-      <div class="employed popup_edit">
-        <h1>Editar Employed</h1>
-        <button class="exit">Sair</button>
-        <br>
-        <label>Nome: </label><input type="text" class="name" placeholder="">
-        <br>
-        <label>Matricula: </label><input type="text" class="mat" placeholder="">
-        <br>
-        <div class="trainings"></div>
-        <select>
-          {% if trainings %}
-          {% for training in trainings %}
-          <option value="{{training.id}}">{{training.name}}</option>
-          {% endfor %}
-          {% endif %}
-        </select>
-        <br>
-        <label>Telefone: </label><input type="text" class="tel" placeholder="">
-        <br>
-        <label>Email: </label><input type="email" class="email" placeholder="">
-        <br>
-        <button>Salvar</button>
-      </div>
-    </dialog>
-
-    <--Job Edit-->
-    <dialog class="job">
-      <div class="job popup_edit">
-        <h1>Editar Job</h1>
-        <button class="exit">Sair</button>
-        <br>
-        <label>Nome: </label><input type="text" class="name" placeholder="">
-        <br>
-        <div class="trainings"></div>
-        <select>
-          {% if trainings %}
-            {% for training in trainings %}
-              <option value="{{training.id}}">{{training.name}}</option>
-            {% endfor %}
-          {% endif %}
-        </select>
-        <br>
-        <button>Salvar</button>
-      </div>
-    </dialog>
-
-    <--Training Edit-->
-    <dialog class="training">
-      <div class="training popup_edit">
-        <h1>Editar Training</h1>
-        <button class="exit">Sair</button>
-        <br>
-        <label>Nome: </label><input type="text" class="name" placeholder="">
-        <br>
-        <button>Salvar</button>
-      </div>
+    <--Popup Edit-->
+    <dialog>
+      <div class="content"></div>
     </dialog>
   </body>
 </html>
