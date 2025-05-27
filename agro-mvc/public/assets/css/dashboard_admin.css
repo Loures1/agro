@@ -1,20 +1,2 @@
-#table_employed {
-  display: block;
-}
 
-#table_job {
-  display: none;
-}
-
-#table_training {
-  display: none;
-}
-
-.poup_edit {
-  display: none;
-}
-
-body::-webkit-scrollbar {
-  display: none;
-}
 
