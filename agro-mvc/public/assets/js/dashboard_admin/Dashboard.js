@@ -37,7 +37,7 @@ class Dashboard {
     Table.fields(target).forEach((field) => {
       poup.set(field)
     });
-    poup.show();
+    poup.show()
   }
 }
 

@@ -5,34 +5,54 @@ class Poup {
     this.content = "";
   }
 
+  #formText = `
+    <label>{header}:
+      <input type="text" placeholder="{value}">
+    </label><br>`;
+
+  #formUl = `
+    <div>
+      <label> {header}:
+        {list_unorder}
+        <select>
+          {options}
+        </select>
+      </label>
+    </div>`;
+
   set(item) {
     let type = item.firstChild.nodeName;
     if (type == "#text") {
-      this.content += `
-        <label>${Table.header(item.className)}:
-        <input type="text" placeholder="${item.innerHTML}">
-        </label><br>`;
+      this.content += this.#formText.replace(/{header}|{value}/g, (match) => {
+        switch (match) {
+          case "{header}": return Table.header(item.className);
+          case "{value}": return item.innerHTML;
+        };
+      });
     }
     if (type == "UL") {
-      this.content += `<div>`;
-      this.content += `<label> ${Table.header(item.className)}:`
-      this.content += item.innerHTML;
-      let options = Table.tables
-        .filter((table) => table.className == item.className)
+      let selecters = Table.tables
+        .filter((selecter) => selecter.className == item.className)
         .shift()
         .querySelectorAll("tr");
-      this.content += `<select>`;
-      Array.from(options)
-        .filter((option) => option.className)
-        .forEach((option) => {
-          this.content += `
-            <option values="${option.className}">
-              ${option.querySelector("td.name").innerHTML}
+
+      let options = "";
+      Array.from(selecters)
+        .filter((selecter) => selecter.className)
+        .forEach((selecter) => {
+          options += `
+            <option values="${selecter.className}'>
+              ${selecter.querySelector("td.name").innerHTML}
             </option>`;
         });
-      this.content += `</select>`;
-      this.content += `</label>`
-      this.content += `</div>`;
+      this.content += this.#formUl.replace(
+        /{header}|{list_unorder}|{options}/g, (match) => {
+          switch (match) {
+            case "{header}": return Table.header(item.className);
+            case "{list_unorder}": return item.innerHTML;
+            case "{options}": return options;
+          };
+        });
     }
   }
 
