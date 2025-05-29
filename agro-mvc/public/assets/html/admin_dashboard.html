@@ -1,12 +1,14 @@
 <!doctype html>
 <html lang="pt-br">
   <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Agro</title>
     <link href="/assets/css/dashboard_admin.css" rel="stylesheet" type="text/css"/>
-    <script type="module" src="/assets/js/dashboard_admin/content.js"></script>
-    <script type="module" src="/assets/js/dashboard_admin/dashboard.js"></script>
+    <script type="module" src="/assets/js/dashboard_admin/Popup.js"></script>
+    <script type="module" src="/assets/js/dashboard_admin/Table.js"></script>
+    <script type="module" src="/assets/js/dashboard_admin/Button.js"></script>
+    <script type="module" src="/assets/js/dashboard_admin/Dashboard.js"></script>
   </head>
 
   <body>
@@ -18,7 +20,7 @@
     <button class="create">Criar</button>
 
     <--Employeds Table-->
-    <table class="employed" id="table_employed" style="display: block;">
+    <table class="employed" style="display: block;">
       <tr>
         <th>Id</th>
         <th class="name">Nome</th>
@@ -31,7 +33,7 @@
         <th>Ações</th>
       </tr>
       {% for employed in employeds %}
-      <tr id="employed_{{employed.id}}">
+      <tr class="employed_{{employed.id}}">
         <td>{{employed.id}}</td>
         <td class="name">{{employed.name}}</td>
         <td class="mat">{{employed.mat}}</td>
@@ -58,16 +60,16 @@
     </table>
     
     <--Job Table-->
-    <table class="job" id="table_job" style="display: none;">
+    <table class="job" style="display: none;">
       <tr>
         <th>Id</th>
-        <th>Nome</th>
-	      <th>Treinamento(s)</th>
+        <th class="name">Nome</th>
+	      <th class="training">Treinamento(s)</th>
         <th>Data de Criacao</th>
         <th>Ações</th>
       </tr>
       {% for job in jobs %}
-      <tr id="job_{{job.id}}">
+      <tr class="job_{{job.id}}">
         <td>{{job.id}}</td>
         <td class="name">{{job.name}}</td>
 	      <td class="training">
@@ -93,12 +95,12 @@
     <table class="training" id="table_training" style="display: none;">
       <tr>
         <th>Id</th>
-        <th>Nome</th>
+        <th class="name">Nome</th>
         <th>Data de Criacao</th>
         <th>Ações</th>
       </tr>
       {% for training in trainings %}
-        <tr id="training_{{training.id}}">
+        <tr class="training_{{training.id}}">
           <td>{{training.id}}</td>
           <td class="name">{{training.name}}</td>
           <td>{{training.date}}</td>

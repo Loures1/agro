@@ -1,13 +1,15 @@
-import Content from './content.js'
+import Button from './Button.js'
+import Table from './Table.js';
+import Poup from './Popup.js';
 
 class Dashboard {
   button_response = new Map([
     ["switch", this.unCoverTable],
     ["edit", this.unCoverPopup],
-  ]); 
+  ]);
 
   listerner() {
-    Content.buttons.forEach((button) => {
+    Button.buttons.forEach((button) => {
       button.addEventListener("click", (e) => {
         this.action(e);
       });
@@ -21,7 +23,7 @@ class Dashboard {
   }
 
   unCoverTable(target) {
-    Content.tables.map((table) => {
+    Table.tables.map((table) => {
       if (target == table.className) {
         table.style.display = "block";
       } else {
@@ -30,9 +32,14 @@ class Dashboard {
     });
   }
 
-  unCoverPopup() {
+  unCoverPopup(target) {
+    let poup = new Poup();
+    Table.fields(target).forEach((field) => {
+      poup.set(field)
+    });
+    poup.show();
   }
 }
 
 const dash = new Dashboard();
-dash.listerner()
+dash.listerner();
