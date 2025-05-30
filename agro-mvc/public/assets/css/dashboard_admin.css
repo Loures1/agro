@@ -1,2 +1,19 @@
+h1, div.header {
+  display: block;
+}
 
+div.header_buttons {
+  display: block;
+}
 
+table.hidden {
+  display: none;
+}
+
+table.visiable {
+  display: block;
+}
+
+div#popup {
+  display: none;
+}

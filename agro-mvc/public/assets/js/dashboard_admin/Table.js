@@ -10,7 +10,7 @@ class Table {
 
   static header(field) {
     let headers = this.tables
-      .filter((table) => table.style.display == "block")
+      .filter((table) => table.classList.contains("visiable"))
       .shift()
       .querySelectorAll("tr > th");
 

@@ -1,15 +1,20 @@
-import Button from './Button.js'
+import Listerner from './Listener.js'
 import Table from './Table.js';
 import Poup from './Popup.js';
 
 class Dashboard {
+  constructor() {
+    this.listener = new Listerner();
+  }
+
   button_response = new Map([
     ["switch", this.unCoverTable],
     ["edit", this.unCoverPopup],
+    ["close_edit", this.coverPopup]
   ]);
 
   listerner() {
-    Button.buttons.forEach((button) => {
+    Array.from(document.querySelectorAll("button")).forEach((button) => {
       button.addEventListener("click", (e) => {
         this.action(e);
       });
@@ -24,10 +29,10 @@ class Dashboard {
 
   unCoverTable(target) {
     Table.tables.map((table) => {
-      if (target == table.className) {
-        table.style.display = "block";
+      if (table.classList.contains(target)) {
+        table.classList.replace("hidden", "visiable");
       } else {
-        table.style.display = "none";
+        table.classList.replace("visiable", "hidden");
       }
     });
   }
@@ -37,7 +42,12 @@ class Dashboard {
     Table.fields(target).forEach((field) => {
       poup.set(field)
     });
-    poup.show()
+    poup.show();
+  }
+
+  coverPopup() {
+    let poup = new Poup();
+    poup.close();
   }
 }
 

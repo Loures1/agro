@@ -2,6 +2,7 @@ import Table from "./Table.js";
 
 class Poup {
   constructor() {
+    this.element = document.querySelector("div#popup");
     this.content = "";
   }
 
@@ -32,7 +33,7 @@ class Poup {
     }
     if (type == "UL") {
       let selecters = Table.tables
-        .filter((selecter) => selecter.className == item.className)
+        .filter((selecter) => selecter.classList.contains(item.className))
         .shift()
         .querySelectorAll("tr");
 
@@ -57,9 +58,13 @@ class Poup {
   }
 
   show() {
-    let poup = document.querySelector("dialog");
-    poup.querySelector("div.content").innerHTML = this.content;
-    poup.showModal();
+    this.element.querySelector("div.content").innerHTML = this.content;
+    this.element.style.display = "block";
+  }
+
+  close() {
+    this.element.querySelector("div.content").innerHTML = this.content;
+    this.element.style.display = "none";
   }
 }
 
