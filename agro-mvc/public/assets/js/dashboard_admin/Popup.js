@@ -2,14 +2,14 @@ import Table from "./Table.js";
 
 class Poup {
   constructor() {
-    this.element = document.querySelector("div#popup");
+    this.element = document.querySelector("div.popup");
     this.content = "";
   }
 
   #formText = `
-    <label>{header}:
+    {header}:
       <input type="text" placeholder="{value}">
-    </label><br>`;
+    <br>`;
 
   #formUl = `
     <div>
@@ -18,53 +18,67 @@ class Poup {
         <select>
           {options}
         </select>
+        {button_schema}
       </label>
     </div>`;
 
   set(item) {
     let type = item.firstChild.nodeName;
+
+    let field = Array.from(item.classList)
+      .filter((className) => {
+        return className != "unique_item" || className != "many_items"
+      })
+      .shift();
+
+    let button_schema = Array.from(item.classList)
+      .filter((button_schema) => {
+        return button_schema == "unique_item" || button_schema == "many_items"
+      })
+      .shift();
+    
     if (type == "#text") {
       this.content += this.#formText.replace(/{header}|{value}/g, (match) => {
         switch (match) {
-          case "{header}": return Table.header(item.className);
+          case "{header}": return Table.header(field);
           case "{value}": return item.innerHTML;
         };
       });
     }
     if (type == "UL") {
       let selecters = Table.tables
-        .filter((selecter) => selecter.classList.contains(item.className))
+        .filter((selecter) => selecter.classList.contains(field))
         .shift()
         .querySelectorAll("tr");
-
+    
       let options = "";
       Array.from(selecters)
         .filter((selecter) => selecter.className)
         .forEach((selecter) => {
           options += `
-            <option values="${selecter.className}'>
+            <option values="${selecter.className}">
               ${selecter.querySelector("td.name").innerHTML}
             </option>`;
         });
       this.content += this.#formUl.replace(
         /{header}|{list_unorder}|{options}/g, (match) => {
           switch (match) {
-            case "{header}": return Table.header(item.className);
+            case "{header}": return Table.header(field);
             case "{list_unorder}": return item.innerHTML;
             case "{options}": return options;
           };
-        });
+        });''
     }
   }
 
   show() {
     this.element.querySelector("div.content").innerHTML = this.content;
-    this.element.style.display = "block";
+    this.element.classList.replace("hidden", "visiable");
   }
 
   close() {
     this.element.querySelector("div.content").innerHTML = this.content;
-    this.element.style.display = "none";
+    this.element.classList.replace("visiable", "hidden");
   }
 }
 

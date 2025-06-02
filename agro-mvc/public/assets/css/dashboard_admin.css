@@ -6,11 +6,11 @@ div.header_buttons {
   display: block;
 }
 
-table.hidden {
+.hidden {
   display: none;
 }
 
-table.visiable {
+.visiable {
   display: block;
 }
 

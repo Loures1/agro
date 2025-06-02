@@ -39,8 +39,8 @@
         <td>{{employed.id}}</td>
         <td class="name">{{employed.name}}</td>
         <td class="mat">{{employed.mat}}</td>
-        <td class="job"><ul><li>{{employed.job}}</li></ul></td>
-	      <td class="training">
+        <td class="job unique_item"><ul><li>{{employed.job}}</li></ul></td>
+	      <td class="training many_items">
 	        <ul>
 	          {% for relation in relations_employed_training %}
 	            {% if relation.id_employed == employed.id %}
@@ -54,7 +54,6 @@
         <td>{{employed.date}}</td>
         <td>
           <button class="edit" value="employed_{{employed.id}}">Editar</button>
-          <button class="hidden" value="employed_{{employed.id}}">Esconder</button>
           <button class="delete" value="employed_{{employed.id}}">Excluir</button>
         </td>
       </tr>
@@ -75,7 +74,7 @@
         <td>{{job.id}}</td>
         <td class="name">{{job.name}}</td>
 	      <td class="training">
-	        <ul>
+	        <ul class="many_items">
           {% for relation in relations_job_training %}
             {% if relation.id_job == job.id %}
               <li>{{relation.training_name}}</li>
@@ -86,7 +85,6 @@
         <td>{{job.date}}</td>
         <td>
           <button class="edit" value="job_{{job.id}}">Editar</button>
-          <button class="hidden" value="job_{{job.id}}">Esconder</button>
           <button class="delete" value="job_{{job.id}}">Excluir</button>
         </td>
       </tr>
@@ -108,7 +106,6 @@
           <td>{{training.date}}</td>
           <td>
             <button class="edit" value="training_{{training.id}}">Editar</button>
-            <button class="hidden" value="training_{{training.id}}">Esconder</button>
             <button class="delete" value="training_{{training.id}}">Excluir</button>
           </td>
         </tr>
@@ -116,7 +113,7 @@
     </table>
 
     <--Popup Edit-->
-    <div id="popup">
+    <div class="popup hidden">
       <h1>Alterar</h1>
       <div class="content"></div>
       <button>Salvar</button>
