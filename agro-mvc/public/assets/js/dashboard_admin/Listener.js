@@ -1,13 +1,10 @@
 class Listener {
-  constructor() {
-    this.context = new Map();
-  }
-
-  set(context_identifier) {
-    this.context.set(
-      context_class,
-      document.querySelectorAll(context_identifier)
-    );
+  #context;
+  constructor(context) {
+    this.#context = Array.from(context);
+    this.#context.forEach((item) => {
+      element.addEventListener();
+    })
   }
 
   listen(context) {

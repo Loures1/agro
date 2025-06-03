@@ -1,33 +1,28 @@
-import Listerner from './Listener.js'
 import Table from './Table.js';
 import Poup from './Popup.js';
 
 class Dashboard {
-  constructor() {
-    this.listener = new Listerner();
-  }
-
-  button_response = new Map([
+  #response = new Map([
     ["switch", this.unCoverTable],
     ["edit", this.unCoverPopup],
-    ["close_edit", this.coverPopup]
+    ["close_edit", this.coverPopup],
+    ["change_item", this.changeItemFromPopup],
+    ["add_item", this.addItemFromPopup]
   ]);
 
-  listerner() {
-    Array.from(document.querySelectorAll("button")).forEach((button) => {
-      button.addEventListener("click", (e) => {
-        this.action(e);
-      });
-    });
+  listen(elements, type_event) {
+    Array.from(elements)
+      .forEach((button) => button.addEventListener(type_event, (e) => this.action(e)
+    ));
   }
 
   action(event) {
     let button = event.srcElement;
-    let response = this.button_response.get(button.className);
-    response(button.value);
+    let response = this.#response.get(button.className);
+    response(this, button.value);
   }
 
-  unCoverTable(target) {
+  unCoverTable(self, target) {
     Table.tables.map((table) => {
       if (table.classList.contains(target)) {
         table.classList.replace("hidden", "visiable");
@@ -37,19 +32,26 @@ class Dashboard {
     });
   }
 
-  unCoverPopup(target) {
+  unCoverPopup(self, target) {
     let poup = new Poup();
-    Table.fields(target).forEach((field) => {
-      poup.set(field)
-    });
+    Table.fields(target).forEach((field) => poup.set(field));
     poup.show();
+    self.listen(document.querySelectorAll(".popup .content button"), "click");
   }
 
-  coverPopup() {
+  coverPopup(self) {
     let poup = new Poup();
     poup.close();
   }
+
+  changeItemFromPopup(self) {
+    console.log('ola');
+  }
+
+  addItemFromPopup(self) {
+    console.log('oi');
+  }
 }
 
-const dash = new Dashboard();
-dash.listerner();
+var dash = new Dashboard();
+dash.listen(document.querySelectorAll("button"), "click");

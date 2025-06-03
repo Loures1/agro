@@ -52,9 +52,12 @@ class Poup {
         .shift();
 
       let list_unorder = item.innerHTML.replace(
-        /<\/li>/g, (match) => {
+        /(?<=<li>)[\w\s()\d-]+(?=<\/li>)/g, (match) => {
           if (button_schema == "many_items") {
-            return `<button class="remove">Remover</button>` + match;
+            return `
+              <label>
+                <input type="checkbox"> ${match}
+              </label>`;
           } else {
             return match;
           }
@@ -62,9 +65,9 @@ class Poup {
       );
 
       if (button_schema == "many_items") {
-        button_schema = `<button>Adicionar</button>`;
+        button_schema = `<button class="add_item">Adicionar</button>`;
       } else {
-        button_schema = `<button>Trocar</button>`
+        button_schema = `<button class="change_item">Trocar</button>`
       }
 
       let options = "";
