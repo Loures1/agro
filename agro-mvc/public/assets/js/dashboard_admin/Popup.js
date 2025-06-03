@@ -56,7 +56,8 @@ class Poup {
           if (button_schema == "many_items") {
             return `
               <label>
-                <input type="checkbox"> ${match}
+                <input type="checkbox" class="checkbox_item">
+                <p>${match}</p>
               </label>`;
           } else {
             return match;
