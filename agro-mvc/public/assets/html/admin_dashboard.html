@@ -73,8 +73,8 @@
       <tr class="job_{{job.id}}">
         <td>{{job.id}}</td>
         <td class="name">{{job.name}}</td>
-	      <td class="training">
-	        <ul class="many_items">
+	      <td class="training many_items">
+	        <ul>
           {% for relation in relations_job_training %}
             {% if relation.id_job == job.id %}
               <li>{{relation.training_name}}</li>

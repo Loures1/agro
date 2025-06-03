@@ -31,12 +31,6 @@ class Poup {
       })
       .shift();
 
-    let button_schema = Array.from(item.classList)
-      .filter((button_schema) => {
-        return button_schema == "unique_item" || button_schema == "many_items"
-      })
-      .shift();
-    
     if (type == "#text") {
       this.content += this.#formText.replace(/{header}|{value}/g, (match) => {
         switch (match) {
@@ -50,7 +44,29 @@ class Poup {
         .filter((selecter) => selecter.classList.contains(field))
         .shift()
         .querySelectorAll("tr");
-    
+
+      let button_schema = Array.from(item.classList)
+        .filter((button_schema) => {
+          return button_schema == "unique_item" || button_schema == "many_items";
+        })
+        .shift();
+
+      let list_unorder = item.innerHTML.replace(
+        /<\/li>/g, (match) => {
+          if (button_schema == "many_items") {
+            return `<button class="remove">Remover</button>` + match;
+          } else {
+            return match;
+          }
+        }
+      );
+
+      if (button_schema == "many_items") {
+        button_schema = `<button>Adicionar</button>`;
+      } else {
+        button_schema = `<button>Trocar</button>`
+      }
+
       let options = "";
       Array.from(selecters)
         .filter((selecter) => selecter.className)
@@ -61,13 +77,14 @@ class Poup {
             </option>`;
         });
       this.content += this.#formUl.replace(
-        /{header}|{list_unorder}|{options}/g, (match) => {
+        /{header}|{list_unorder}|{options}|{button_schema}/g, (match) => {
           switch (match) {
             case "{header}": return Table.header(field);
-            case "{list_unorder}": return item.innerHTML;
+            case "{list_unorder}": return list_unorder;
             case "{options}": return options;
+            case "{button_schema}": return button_schema;
           };
-        });''
+        }); ''
     }
   }
 
