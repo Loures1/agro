@@ -12,13 +12,13 @@ class Poup {
     <br>`;
 
   #formUl = `
-    <div>
+    <div class="{button_schema}">
       <label> {header}:
         {list_unorder}
         <select>
           {options}
         </select>
-        {button_schema}
+        {button}
       </label>
     </div>`;
 
@@ -65,10 +65,11 @@ class Poup {
         }
       );
 
+      let button = "";
       if (button_schema == "many_items") {
-        button_schema = `<button class="add_item">Adicionar</button>`;
+        button = `<button class="add_item">Adicionar</button>`;
       } else {
-        button_schema = `<button class="change_item">Trocar</button>`
+        button = `<button class="change_item">Trocar</button>`
       }
 
       let options = "";
@@ -81,12 +82,13 @@ class Poup {
             </option>`;
         });
       this.content += this.#formUl.replace(
-        /{header}|{list_unorder}|{options}|{button_schema}/g, (match) => {
+        /{header}|{list_unorder}|{options}|{button_schema}|{button}/g, (match) => {
           switch (match) {
             case "{header}": return Table.header(field);
             case "{list_unorder}": return list_unorder;
             case "{options}": return options;
             case "{button_schema}": return button_schema;
+            case "{button}": return button;
           };
         }); ''
     }

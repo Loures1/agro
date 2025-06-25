@@ -49,29 +49,11 @@ class Dashboard {
   }
 
   #changeItemFromPopup(self) {
-    let item = document.querySelector("div.unique_item label ul li");
-    let new_item = document.querySelector("div.unique_item label select").value;
-    if (item.textContent != new_item) {
-      item.innerHTML = new_item;
-    }
+    console.log('ola');
   }
 
   #addItemFromPopup(self) {
-    let item = document.querySelector("div.many_items label select").value;
-    let list = document.querySelector("div.many_items label ul");
-    let have_item = Array.from(list.querySelectorAll("li label p"))
-      .filter((li) => li.textContent == item);
-    if (!have_item.length) {
-      list.innerHTML += `
-        <li>
-          <label>
-            <input class="checkbox_item" type="checkbox">
-            <p>${item}</p>
-          </label>
-        </li>`;
-
-      self.listen(list.querySelectorAll("li label input"), "change");
-    }
+    console.log('oi');
   }
 
   #changeCheckBox(self, event) {
