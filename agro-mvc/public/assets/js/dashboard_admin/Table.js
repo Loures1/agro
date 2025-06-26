@@ -1,24 +1,13 @@
 class Table {
-  static tables = Array.from(document.querySelectorAll("table"));
+    #element;
 
-  static fields(target) {
-    return Array.from(document.querySelectorAll(`.${target}`)
-      .item(0)
-      .children
-    ).filter((field) => field.className);
-  }
+    constructor(element) {
+        this.#element = element;
+    }
 
-  static header(field) {
-    let headers = this.tables
-      .filter((table) => table.classList.contains("visiable"))
-      .shift()
-      .querySelectorAll("tr > th");
-
-    return Array.from(headers)
-      .filter((header) => header.className == field)
-      .shift()
-      .innerHTML;
-  }
+    get buttons() {
+        return [this.#element.querySelectorAll("button")];
+    }
 }
 
 export default Table;
