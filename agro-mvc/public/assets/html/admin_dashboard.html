@@ -6,15 +6,17 @@
     <title>Agro</title>
     <link href="/assets/css/dashboard_admin.css" rel="stylesheet" type="text/css"/>
     <script type="module" src="/assets/js/dashboard_admin/Compound.js"></script>
-    <script type="module" src="/assets/js/dashboard_admin/Table.js"></script>
-    <script type="module" src="/assets/js/dashboard_admin/Popup.js"></script>
-    <script type="module" src="/assets/js/dashboard_admin/Dashboard.js"></script>
+    <script type="module" src="/assets/js/dashboard_admin/Listener.js"></script>
+    <script type="module" src="/assets/js/dashboard_admin/Action.js"></script>
+    <script type="module" src="/assets/js/dashboard_admin/Button.js"></script>
+    <script type="module" src="/assets/js/dashboard_admin/Tag.js"></script>
+    <script type="module" src="/assets/js/dashboard_admin/main.js"></script>
   </head>
 
   <body>
     <h1>Admin's Dashboard</h1>
     <--Buttons-->
-    <div class="header_buttons">
+    <div class="main_buttons">
       <button class="switch" value="employed">Funcionarios</button>
       <button class="switch" value="job">Profissoes</button>
       <button class="switch" value="training">Treinamentos</button>
@@ -22,7 +24,7 @@
     </div>
 
     <--Employeds Table-->
-    <table class="employed visiable">
+    <table class="employed visible">
       <tr>
         <th>Id</th>
         <th class="name">Nome</th>
