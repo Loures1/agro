@@ -5,3 +5,5 @@
 var Tag = {
   Button: "BUTTON"
 };
+
+export default Tag;
