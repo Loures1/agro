@@ -1,4 +1,5 @@
-import Table from "./Table.js ";
+import Popup from "./Popup.js";
+import Table from "./Table.js";
 
 /**
  * @class
@@ -13,7 +14,7 @@ class Compound {
    * table's buttons or popup's buttons.
    * @description If popup is visible it returns the your buttons. If popup isn't
    * visible it returns the table visible's buttons.
-   */
+  */
   static get buttons() {
     let popup_visiable = document
       .querySelector("div.popup")
@@ -28,13 +29,13 @@ class Compound {
   }
 
   /**
-   * It changes the context.
+   * It changes table.
    * @static
    * @param {PointerEvent} event - It's event when a button is click.
    * @description It defines the visible table for hidden and defines the hidden
    * target table for visible.
   */
-  static changeContext(event) {
+  static changeTable(event) {
     document
       .querySelector("table.visible")
       .classList
@@ -47,7 +48,27 @@ class Compound {
   }
 
   static assemblyPopup(event) {
-    let row = Table.row(event.target);
+    let content = Table
+      .row(event.target)
+      .filter((td) => (td.className));
+
+    content = content.map((td) => {
+      switch (Table.type(td)) {
+        case '#text':
+          return Popup.text(
+            Table.attribute(td),
+            Table.header(td),
+            Table.content(td)
+          );
+        case 'UL':
+          return Popup.list(
+            Table.button_schema(td),
+            Table.header(td),
+            Table.content(td),
+            Table.options(td),
+          );
+      }
+    });
   }
 }
 
