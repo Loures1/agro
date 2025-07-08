@@ -1,11 +1,14 @@
 class Popup {
-  #content = null;
-
+  #content;
+  constructor() {
+    this.#content = '';
+  }
   /**
    * @param {String} content
   */
-  set defineContent(content) {
+  defineContent(content) {
     this.#content += content;
+    console.log(this.#content);
   }
 
   static text(attribute, header, value) {
@@ -21,22 +24,30 @@ class Popup {
     switch (button_schema) {
       case 'many_items':
         value_button = 'Adicionar';
+        list_unorder = list_unorder.map((li) => this.#pumpedCheckBoxInList(li));
         break;
-      case 'unique_items':
+      case 'unique_item':
         value_button = 'Trocar';
         break;
     };
     options = options.map((option) => this.#options(...option));
     return `
-        <div class="${button_schema}">
-            <label> ${header}:
-                ${list_unorder}
-                <select>
-                    ${options}
-                </select>
-                <button class="${button_schema}">${value_button}</button>
-            </label>
-        </div>`;
+      <div class="${button_schema}">
+          <label> ${header}:
+              ${list_unorder}
+              <select>
+                  ${options}
+              </select>
+              <button class="${button_schema}">${value_button}</button>
+          </label>
+      </div>`;
+  }
+
+  static #pumpedCheckBoxInList(li) {
+    return `<label>
+      <input type="checkbox">
+        ${li}
+      </label>`;
   }
 
   static #options(id, value) {

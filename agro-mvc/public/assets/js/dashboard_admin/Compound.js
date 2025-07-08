@@ -7,8 +7,7 @@ import Table from "./Table.js";
 */
 class Compound {
   /**
-   * It returns context's buttons.
-   * @static
+   * @static It returns context's buttons.
    * @param {null} null
    * @returns {Array<NodeList>} It returns either main_buttons div's buttons and
    * table's buttons or popup's buttons.
@@ -47,6 +46,10 @@ class Compound {
       .replace("hidden", "visible");
   }
 
+  static #uncoverPopup() {
+    document.querySelector('div.popup').classList.replace("hidden", "visible");
+  }
+
   static assemblyPopup(event) {
     let content = Table
       .row(event.target)
@@ -69,6 +72,10 @@ class Compound {
           );
       }
     });
+
+    let popup = new Popup();
+    content.forEach((data) => popup.defineContent(data));
+    Compound.#uncoverPopup();
   }
 }
 

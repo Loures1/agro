@@ -8,8 +8,7 @@ import Tag from "./Tag.js";
 class Listener {
 
   /**
-  * It listens the element.
-  * @static
+  * @static It listens the element.
   * @param {HTMLHtmlElement} element
   * @param {Compound} func
   * @description It relations an element with determined event for exec

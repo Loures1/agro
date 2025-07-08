@@ -1,6 +1,6 @@
 class Table {
   /**
-   * It returns all the content within a given row.
+   * @static It returns all the content within a given row.
    * @param {HTMLButtonElement} button
    * @returns {Array<NodeListOf<HTMLTableCellElement>>}
    * @description It returns all td within a given tr belonging there's a
@@ -12,7 +12,7 @@ class Table {
         .querySelector(`table.visible tr.${button.value}`)
         .querySelectorAll(`td`)
     ];
-
+    
     return row_data;
   }
 
@@ -42,13 +42,16 @@ class Table {
   }
 
   /**
-   * @static It returns the nodeValue.
+   * @static It returns the nodeValue or li.
    * @param {HTMLTableCellElement} td
-   * @returns {String} content
-   * @description The content can to be neither text or ul.
+   * @returns {String|Array<NodeList>} content
+   * @description The content can to be neither text or ul's lis.
   */
   static content(td) {
-    return td.firstChild.nodeValue;
+    switch (this.type(td)) {
+        case '#text': return td.firstChild.nodeValue;
+        case 'UL': return [...td.querySelectorAll('ul li')];
+    }
   }
 
   /**
@@ -59,7 +62,15 @@ class Table {
   */
   static header(td) {
     let header = this.attribute(td);
-    return header.charAt(0).toUpperCase().concat(header.slice(1));
+    console.log(header);
+    switch (header) {
+        case 'name': return 'Nome';
+        case 'mat': return 'Matricula';
+        case 'tel': return 'Telefone';
+        case 'email': return 'Email';
+        case 'job': return 'Profissão';
+        case 'training': return 'Treinamento(s)';
+    };
   }
 
   /**
@@ -70,7 +81,7 @@ class Table {
   */
   static button_schema(td) {
     let button_schema = [...td.classList]
-      .filter((name) => name == 'many_items' || name == 'unique_items')
+      .filter((name) => name == 'many_items' || name == 'unique_item')
       .shift();
 
     return button_schema;
