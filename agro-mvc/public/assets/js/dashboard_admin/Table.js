@@ -12,7 +12,7 @@ class Table {
         .querySelector(`table.visible tr.${button.value}`)
         .querySelectorAll(`td`)
     ];
-    
+
     return row_data;
   }
 
@@ -25,7 +25,7 @@ class Table {
   */
   static attribute(td) {
     let attribute = [...td.classList]
-      .filter((name) => (name != 'many_items') || name != 'unique_items')
+      .filter((name) => (name != 'many_items' && name != 'unique_item'))
       .shift();
 
     return attribute;
@@ -49,8 +49,8 @@ class Table {
   */
   static content(td) {
     switch (this.type(td)) {
-        case '#text': return td.firstChild.nodeValue;
-        case 'UL': return [...td.querySelectorAll('ul li')];
+      case '#text': return td.firstChild.nodeValue;
+      case 'UL': return [...td.querySelectorAll('ul li')].map((li) => li.textContent);
     }
   }
 
@@ -58,18 +58,18 @@ class Table {
    * @static It returns header for label.
    * @param {HTMLTableCellElement} td
    * @returns {String} header
-   * @description The header is attribute with the first letter capitalize. 
+   * @description The header is attribute translate in portuguese with first letter capitalize.
   */
   static header(td) {
     let header = this.attribute(td);
-    console.log(header);
     switch (header) {
-        case 'name': return 'Nome';
-        case 'mat': return 'Matricula';
-        case 'tel': return 'Telefone';
-        case 'email': return 'Email';
-        case 'job': return 'Profissão';
-        case 'training': return 'Treinamento(s)';
+      case 'name': return 'Nome';
+      case 'mat': return 'Matricula';
+      case 'tel': return 'Telefone';
+      case 'email': return 'Email';
+      case 'job': return 'Profissão';
+      case 'training': return 'Treinamento(s)';
+      default: return '[NoTraslate]';
     };
   }
 
@@ -95,11 +95,45 @@ class Table {
    * of the html select.
   */
   static options(td) {
-    let options = [];
-    [...document.querySelectorAll(`table.${this.attribute(td)}`)]
-      .forEach((tr) => options.push([...tr.querySelectorAll('td')].slice(0, 1)));
-
+    let options = [...document.querySelectorAll(`table.${this.attribute(td)} tr`)].slice(1);
+    options = options.map((tr) => [tr.cells[0].innerText, tr.cells[1].innerText]);
     return options;
+  }
+
+  static searchContentRowByTableNameId(target, id) {
+    let name = [...document.querySelectorAll(`table.${target} tr.${target}_${id} td`)];
+    return this.content(name[1]);
+  }
+
+  static underlineOriginUniqueItem(area_unique_item) {
+    let li = [...area_unique_item.querySelectorAll('ul li')][0];
+    li.innerHTML = `<s>${li.textContent}</s>`;
+  }
+
+  static addReplaceOriginUniqueItem(area_unique_item, replace_name, replace_pointer) {
+    let ul = area_unique_item.querySelector('ul');
+    let li = [...ul.querySelectorAll('li')];
+
+    if (li.length == 2) {
+      li[1].className = replace_pointer;
+      li[1].innerHTML = replace_name;
+    } else {
+      let new_li = document.createElement('li');
+      new_li.className = replace_pointer;
+      new_li.textContent = replace_name;
+      ul.appendChild(new_li);
+    }
+  }
+
+  static resetUniqueItem(area_unique_item, origin) {
+    let li = [...area_unique_item.querySelectorAll('ul li')];
+
+    if (li.length == 2) {
+      li[0].innerHTML = origin;
+      li[1].remove();
+    } else {
+      li[0].innerHTML = origin;
+    }
   }
 }
 

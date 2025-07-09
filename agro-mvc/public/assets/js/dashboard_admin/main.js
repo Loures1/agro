@@ -10,5 +10,8 @@ Compound.buttons.forEach((button) => {
     case Button.Edit:
       Listener.bind(button, Compound.assemblyPopup);
       break;
+    case 'unique_item':
+      console.log('ola');
+      break;
   }
 });

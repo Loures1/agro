@@ -1,3 +1,4 @@
+import Listener from "./Listener.js";
 import Popup from "./Popup.js";
 import Table from "./Table.js";
 
@@ -46,8 +47,19 @@ class Compound {
       .replace("hidden", "visible");
   }
 
-  static #uncoverPopup() {
-    document.querySelector('div.popup').classList.replace("hidden", "visible");
+  static #uncoverPopup(content) {
+    let popup = document.querySelector('div.popup');
+    popup.querySelector('div.content').innerHTML = content;
+    popup.classList.replace("hidden", "visible");
+
+    let buttons = popup.querySelectorAll('button');
+    buttons.forEach((button) => {
+      switch (button.className) {
+        case 'unique_item':
+          Listener.bind(button, Compound.changeUniqueItem);
+          break;
+      }
+    })
   }
 
   static assemblyPopup(event) {
@@ -65,17 +77,36 @@ class Compound {
           );
         case 'UL':
           return Popup.list(
+            Table.attribute(td),
             Table.button_schema(td),
             Table.header(td),
             Table.content(td),
-            Table.options(td),
+            Table.options(td)
           );
       }
     });
 
     let popup = new Popup();
     content.forEach((data) => popup.defineContent(data));
-    Compound.#uncoverPopup();
+    Compound.#uncoverPopup(popup.content);
+  }
+
+  static changeUniqueItem(event) {
+    let area_unique_item = event.srcElement.parentNode;
+    let origin = area_unique_item.querySelector("ul li").textContent;
+    let target = Table.attribute(area_unique_item);
+    let id = area_unique_item
+      .querySelector('select')
+      .value;
+    let replace_name = Table.searchContentRowByTableNameId(target, id);
+
+    if (origin == replace_name) {
+      Table.resetUniqueItem(area_unique_item, origin);
+    } else {
+      let replace_pointer = target + '_' + id;
+      Table.underlineOriginUniqueItem(area_unique_item);
+      Table.addReplaceOriginUniqueItem(area_unique_item, replace_name, replace_pointer);
+    }
   }
 }
 

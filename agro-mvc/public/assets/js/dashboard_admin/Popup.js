@@ -8,7 +8,10 @@ class Popup {
   */
   defineContent(content) {
     this.#content += content;
-    console.log(this.#content);
+  }
+
+  get content() {
+    return this.#content;
   }
 
   static text(attribute, header, value) {
@@ -19,39 +22,52 @@ class Popup {
       </label>`;
   }
 
-  static list(button_schema, header, list_unorder, options) {
+  static list(attribute, button_schema, header, list_unorder, options) {
     let value_button;
+
     switch (button_schema) {
       case 'many_items':
         value_button = 'Adicionar';
-        list_unorder = list_unorder.map((li) => this.#pumpedCheckBoxInList(li));
+        list_unorder = list_unorder.map((li) => this.#liCheckbox(li));
         break;
       case 'unique_item':
         value_button = 'Trocar';
+        list_unorder = list_unorder.map((li) => this.#li(li));
         break;
     };
-    options = options.map((option) => this.#options(...option));
-    return `
-      <div class="${button_schema}">
-          <label> ${header}:
-              ${list_unorder}
-              <select>
-                  ${options}
-              </select>
-              <button class="${button_schema}">${value_button}</button>
-          </label>
-      </div>`;
-  }
 
-  static #pumpedCheckBoxInList(li) {
-    return `<label>
-      <input type="checkbox">
-        ${li}
+    list_unorder = list_unorder
+      .toString()
+      .replaceAll(/,/g, '');
+
+    options = options
+      .map((option) => this.#options(...option))
+      .toString()
+      .replaceAll(/,/g, '');
+
+    return `
+      <label class="${button_schema} ${attribute}">
+        ${header}:
+          <ul>
+            ${list_unorder}
+          </ul><br>
+          <select>
+            ${options}
+          </select>
+          <button class="${button_schema}">${value_button}</button><br>
       </label>`;
   }
 
   static #options(id, value) {
     return `<option value="${id}">${value}</option>`;
+  }
+
+  static #liCheckbox(value) {
+    return `<li><input type="checkbox">${value}</li>`;
+  }
+
+  static #li(value) {
+    return `<li>${value}</li>`;
   }
 };
 
