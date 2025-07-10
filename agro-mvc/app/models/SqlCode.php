@@ -69,6 +69,7 @@ enum SqlCode: string implements IQuery
     tbl_f.id AS id,
     tbl_f.nome AS name,
     tbl_f.matricula AS mat,
+    tbl_f.id_profissao AS id_job,
     tbl_p.nome AS job,
     tbl_f.telefone AS tel,
     tbl_f.email AS email,
@@ -100,6 +101,7 @@ enum SqlCode: string implements IQuery
   case RelationEmployedTraining = "
   SELECT
   tbl_ft.id_funcionario AS id_employed,
+  tbl_t.id AS id_training,
   tbl_t.nome AS training_name
   FROM tbl_funcionario_treinamento AS tbl_ft
   INNER JOIN tbl_treinamento AS tbl_t

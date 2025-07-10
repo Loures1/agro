@@ -43,12 +43,12 @@
         <td>{{employed.id}}</td>
         <td class="name">{{employed.name}}</td>
         <td class="mat">{{employed.mat}}</td>
-        <td class="job unique_item"><ul><li>{{employed.job}}</li></ul></td>
+            <td class="job unique_item"><ul><li class="job_{{employed.id_job}}">{{employed.job}}</li></ul></td>
 	      <td class="training many_items">
 	        <ul>
 	          {% for relation in relations_employed_training %}
 	            {% if relation.id_employed == employed.id %}
-	              <li>{{relation.training_name}}</li>
+                <li class="training_{{relation.id_training}}">{{relation.training_name}}</li>
 	            {% endif %}
 	          {% endfor %}
 	        </ul>
