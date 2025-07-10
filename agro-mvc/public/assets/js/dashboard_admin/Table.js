@@ -96,13 +96,13 @@ class Table {
   */
   static options(td) {
     let options = [...document.querySelectorAll(`table.${this.attribute(td)} tr`)].slice(1);
-    options = options.map((tr) => [tr.cells[0].innerText, tr.cells[1].innerText]);
+    options = options.map((tr) => [tr.className, tr.cells[1].innerText]);
     return options;
   }
 
-  static searchContentRowByTableNameId(target, id) {
-    let name = [...document.querySelectorAll(`table.${target} tr.${target}_${id} td`)];
-    return this.content(name[1]);
+  static searchByIdentifier(table, pointer) {
+    let name = [...document.querySelectorAll(`table.${table} tr.${pointer} td`)];
+    return Table.content(name[1]);
   }
 
   static underlineOriginUniqueItem(area_unique_item) {
@@ -134,6 +134,19 @@ class Table {
     } else {
       li[0].innerHTML = origin;
     }
+  }
+
+  static addManyItems(area_many_items, replace_name, replace_pointer) {
+    let ul = area_many_items.querySelector('ul');
+    let new_li = document.createElement('li');
+    let new_input = document.createElement('input');
+    new_input.className = 'removeManyItems';
+    new_input.type = 'checkbox';
+    new_li.appendChild(new_input);
+    new_li.className = replace_pointer;
+    new_li.insertAdjacentText('beforeend', replace_name);
+    ul.appendChild(new_li);
+    return new_input;
   }
 }
 

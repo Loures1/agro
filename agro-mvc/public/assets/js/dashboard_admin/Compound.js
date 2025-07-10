@@ -22,7 +22,11 @@ class Compound {
       .contains("visible");
 
     if (popup_visiable) {
-      return [...document.querySelectorAll("div.popup button")];
+      return [
+        ...document
+          .querySelector("div.popup")
+          .querySelectorAll("button, input[type=\"checkbox\"]")
+      ];
     }
 
     return [...document.querySelectorAll("button")];
@@ -52,12 +56,19 @@ class Compound {
     popup.querySelector('div.content').innerHTML = content;
     popup.classList.replace("hidden", "visible");
 
-    let buttons = popup.querySelectorAll('button');
-    buttons.forEach((button) => {
+    Compound.buttons.forEach((button) => {
       switch (button.className) {
         case 'unique_item':
           Listener.bind(button, Compound.changeUniqueItem);
           break;
+        case 'many_items':
+          Listener.bind(button, Compound.addManyItems);
+          break;
+        case 'removeManyItems':
+          Listener.bind(button, Compound.removeManyItems);
+          break;
+        case 'close_edit':
+          Listener.bind(button, Compound.coverPopup);
       }
     })
   }
@@ -93,20 +104,56 @@ class Compound {
 
   static changeUniqueItem(event) {
     let area_unique_item = event.srcElement.parentNode;
-    let origin = area_unique_item.querySelector("ul li").textContent;
-    let target = Table.attribute(area_unique_item);
-    let id = area_unique_item
-      .querySelector('select')
-      .value;
-    let replace_name = Table.searchContentRowByTableNameId(target, id);
+    let origin = area_unique_item.querySelector("ul li.origin").textContent;
+    let replace_table = Table.attribute(area_unique_item);
+    let replace_pointer = area_unique_item.querySelector('select').value;
+    let replace_name = Table.searchByIdentifier(replace_table, replace_pointer);
 
     if (origin == replace_name) {
       Table.resetUniqueItem(area_unique_item, origin);
     } else {
-      let replace_pointer = target + '_' + id;
       Table.underlineOriginUniqueItem(area_unique_item);
       Table.addReplaceOriginUniqueItem(area_unique_item, replace_name, replace_pointer);
     }
+  }
+
+  static addManyItems(event) {
+    let area_many_items = event.srcElement.parentNode;
+    let origins = [...area_many_items.querySelectorAll("ul li")].map((li) => li.textContent);
+    let replace_table = Table.attribute(area_many_items);
+    let replace_pointer = area_many_items.querySelector('select').value;
+    let replace_name = Table.searchByIdentifier(replace_table, replace_pointer);
+
+    if (origins.filter((origin) => (origin == replace_name)).length == 0) {
+      let checkbox = Table.addManyItems(area_many_items, replace_name, replace_pointer);
+      Listener.bind(checkbox, Compound.removeManyItems);
+    }
+  }
+
+  static removeManyItems(event) {
+    let checkbox = event.srcElement;
+    let name = event.srcElement.nextSibling;
+    let li = event.srcElement.parentNode;
+
+    if (checkbox.checked == true && li.className == 'origin') {
+      let s = document.createElement('s');
+      name.remove();
+      s.innerHTML = name.textContent;
+      li.insertAdjacentElement('beforeend', s);
+    }
+    if (checkbox.checked == false && li.className == 'origin') {
+      let s = li.querySelector('s');
+      s.remove();
+      li.insertAdjacentText('beforeend', s.textContent);
+    }
+    if (checkbox.checked == true && li.className != 'origin') {
+      li.remove();
+    }
+  }
+
+  static coverPopup() {
+    let popup = document.querySelector('div.popup');
+    popup.classList.replace("visible", "hidden");
   }
 }
 

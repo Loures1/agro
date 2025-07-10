@@ -3,7 +3,8 @@
  * @enum {string}
 */
 var Tag = {
-  Button: "BUTTON"
+  Button: "BUTTON",
+  CheckBox: "INPUT"
 };
 
 export default Tag;

@@ -15,9 +15,13 @@ class Listener {
   * determined action.
   */
   static bind(element, func) {
+    let action;
     switch (element.tagName) {
       case Tag.Button:
-        var action = Action.Click
+        action = Action.Click;
+        break;
+      case Tag.CheckBox:
+        action = Action.Change;
         break;
     }
     element.addEventListener(action, (e) => func(e));

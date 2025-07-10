@@ -63,11 +63,11 @@ class Popup {
   }
 
   static #liCheckbox(value) {
-    return `<li><input type="checkbox">${value}</li>`;
+    return `<li class="origin"><input class="removeManyItems" type="checkbox">${value}</li>`;
   }
 
   static #li(value) {
-    return `<li>${value}</li>`;
+    return `<li class="origin">${value}</li>`;
   }
 };
 
