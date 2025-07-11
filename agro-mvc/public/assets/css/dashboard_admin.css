@@ -14,6 +14,6 @@ div.header_buttons {
   display: block;
 }
 
-.popup .content li > label {
-  display: flex;
+dialog.popup {
+  padding: 1%;
 }

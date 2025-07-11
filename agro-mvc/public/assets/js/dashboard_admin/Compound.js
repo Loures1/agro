@@ -16,15 +16,13 @@ class Compound {
    * visible it returns the table visible's buttons.
   */
   static get buttons() {
-    let popup_visiable = document
-      .querySelector("div.popup")
-      .classList
-      .contains("visible");
+    let popup = document
+      .querySelector("dialog.popup")
 
-    if (popup_visiable) {
+    if (popup.open) {
       return [
         ...document
-          .querySelector("div.popup")
+          .querySelector("dialog.popup")
           .querySelectorAll("button, input[type=\"checkbox\"]")
       ];
     }
@@ -52,9 +50,9 @@ class Compound {
   }
 
   static #uncoverPopup(content) {
-    let popup = document.querySelector('div.popup');
+    let popup = document.querySelector('dialog.popup');
     popup.querySelector('div.content').innerHTML = content;
-    popup.classList.replace("hidden", "visible");
+    popup.showModal();
 
     Compound.buttons.forEach((button) => {
       switch (button.className) {
@@ -152,8 +150,8 @@ class Compound {
   }
 
   static coverPopup() {
-    let popup = document.querySelector('div.popup');
-    popup.classList.replace("visible", "hidden");
+    let popup = document.querySelector('dialog.popup');
+    popup.close();
   }
 }
 

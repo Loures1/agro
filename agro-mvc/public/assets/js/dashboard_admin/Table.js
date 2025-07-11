@@ -64,7 +64,7 @@ class Table {
     let header = this.attribute(td);
     switch (header) {
       case 'name': return 'Nome';
-      case 'mat': return 'Matricula';
+      case 'mat': return 'Matrícula';
       case 'tel': return 'Telefone';
       case 'email': return 'Email';
       case 'job': return 'Profissão';
