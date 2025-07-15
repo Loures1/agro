@@ -17,3 +17,7 @@ div.header_buttons {
 dialog.popup {
   padding: 1%;
 }
+
+tr.delete {
+  background-color: #fa8072;
+}

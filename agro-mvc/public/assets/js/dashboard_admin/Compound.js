@@ -16,8 +16,7 @@ class Compound {
    * visible it returns the table visible's buttons.
   */
   static get buttons() {
-    let popup = document
-      .querySelector("dialog.popup")
+    let popup = document.querySelector("dialog.popup")
 
     if (popup.open) {
       return [
@@ -67,8 +66,77 @@ class Compound {
           break;
         case 'close_edit':
           Listener.bind(button, Compound.coverPopup);
+          break;
+        case 'save':
+          Listener.bind(button, Compound.saveRegister);
+          break;
       }
     })
+  }
+
+  static saveRegister(event) {
+    let content = event.srcElement.parentNode.querySelector('.content');
+    let tds = Table.header_row().map((header) => {
+      let td = document.createElement('td');
+      if (!header.className) { return td; }
+      let label = content.querySelector(`label.${header.className.replace(/\s/g, '.')}`);
+      td.className = label.className;
+
+      if (td.classList.contains('unique_item') && !td.classList.contains('many_items')) {
+        let ul = label.querySelector('ul');
+        Array.from(ul.querySelectorAll('li')).forEach((li) => {
+          if (li.querySelector('s')) { li.remove(); }
+        });
+        td.textContent = ul.textContent;
+      }
+      if (!td.classList.contains('unique_item') && td.classList.contains('many_items')) {
+        let ul = label.querySelector('ul');
+        Array.from(ul.querySelectorAll('li')).forEach((li) => {
+          li.querySelector('input').remove();
+          if (li.querySelector('s')) { li.remove(); }
+        });
+
+        td.textContent = ul.textContent;
+      }
+      if (!td.classList.contains('unique_item') && !td.classList.contains('many_items')) {
+        let input = label.querySelector('input');
+        td.textContent = input.value ? input.value : input.placeholder;
+      }
+
+      return td;
+    });
+
+    let tr = document.createElement('tr');
+  }
+
+  static assemblyPopupByCreate() {
+    let content = Table
+      .header_row()
+      .filter((header) => (header.className));
+
+    content = content.map((td) => {
+      if (td.classList.contains('many_items') || td.classList.contains('unique_item')) {
+        return Popup.list(
+          Table.attribute(td),
+          Table.button_schema(td),
+          Table.header(td),
+          '',
+          Table.options(td)
+        );
+      }
+      else {
+        return Popup.text(
+          Table.attribute(td),
+          Table.header(td),
+          ''
+        );
+      }
+    });
+
+    let popup = new Popup();
+    content.forEach((data) => popup.defineContent(data));
+    Compound.#uncoverPopup(popup.content);
+
   }
 
   static assemblyPopup(event) {
@@ -102,15 +170,24 @@ class Compound {
 
   static changeUniqueItem(event) {
     let area_unique_item = event.srcElement.parentNode;
-    let origin = area_unique_item.querySelector("ul li.origin").textContent;
+    let origin = area_unique_item.querySelector("ul li.origin");
+    if (origin != null) {
+      origin = origin.textContent;
+    } else {
+      origin = '';
+    }
     let replace_table = Table.attribute(area_unique_item);
     let replace_pointer = area_unique_item.querySelector('select').value;
     let replace_name = Table.searchByIdentifier(replace_table, replace_pointer);
 
-    if (origin == replace_name) {
+    if (origin == replace_name && origin != '') {
       Table.resetUniqueItem(area_unique_item, origin);
-    } else {
+    }
+    if (origin != replace_name && origin != '') {
       Table.underlineOriginUniqueItem(area_unique_item);
+      Table.addReplaceOriginUniqueItem(area_unique_item, replace_name, replace_pointer);
+    }
+    if (origin != replace_name && origin == '') {
       Table.addReplaceOriginUniqueItem(area_unique_item, replace_name, replace_pointer);
     }
   }
@@ -152,6 +229,19 @@ class Compound {
   static coverPopup() {
     let popup = document.querySelector('dialog.popup');
     popup.close();
+  }
+
+
+  static changeStatusRegister(event) {
+    let button = event.srcElement;
+    let target = document.querySelector(`table.visible tr.${button.value}`);
+    if (target.classList.contains('delete')) {
+      target.classList.remove('delete');
+      button.textContent = 'Excluir';
+    } else {
+      target.classList.add('delete');
+      button.textContent = 'Desexcluir';
+    }
   }
 }
 

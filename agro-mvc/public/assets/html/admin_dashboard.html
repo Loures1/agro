@@ -31,8 +31,8 @@
         <th>Id</th>
         <th class="name">Nome</th>
         <th class="mat">Matricula</th>
-        <th class="job">Profissão</th>
-	      <th class="training">Treimento(s)</th>
+        <th class="job unique_item">Profissão</th>
+	      <th class="training many_items">Treimento(s)</th>
         <th class="tel">Telefone</th>
         <th class="email">Email</th>
         <th>Data de Criacao</th>
@@ -58,7 +58,7 @@
         <td>{{employed.date}}</td>
         <td>
           <button class="edit" value="employed_{{employed.id}}">Editar</button>
-          <button class="delete" value="employed_{{employed.id}}">Excluir</button>
+          <button class="change_status" value="employed_{{employed.id}}">Excluir</button>
         </td>
       </tr>
       {% endfor %}
@@ -89,7 +89,7 @@
         <td>{{job.date}}</td>
         <td>
           <button class="edit" value="job_{{job.id}}">Editar</button>
-          <button class="delete" value="job_{{job.id}}">Excluir</button>
+          <button class="change_status" value="job_{{job.id}}">Excluir</button>
         </td>
       </tr>
       {% endfor %}
@@ -110,7 +110,7 @@
           <td>{{training.date}}</td>
           <td>
             <button class="edit" value="training_{{training.id}}">Editar</button>
-            <button class="delete" value="training_{{training.id}}">Excluir</button>
+            <button class="change_status" value="training_{{training.id}}">Excluir</button>
           </td>
         </tr>
       {% endfor %}
@@ -120,7 +120,7 @@
     <dialog class="popup">
       <h1>Alterar</h1>
       <div class="content"></div>
-      <button>Salvar</button>
+      <button class="save">Salvar</button>
       <button class="close_edit">Fechar</button>
     </dialog>
   </body>

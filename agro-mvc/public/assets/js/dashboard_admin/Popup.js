@@ -28,11 +28,19 @@ class Popup {
     switch (button_schema) {
       case 'many_items':
         value_button = 'Adicionar';
-        list_unorder = list_unorder.map((li) => this.#liCheckbox(li));
+        if (list_unorder) {
+          list_unorder = list_unorder.map((li) => this.#liCheckbox(li));
+        } else {
+          list_unorder = '';
+        }
         break;
       case 'unique_item':
         value_button = 'Trocar';
-        list_unorder = list_unorder.map((li) => this.#li(li));
+        if (list_unorder) {
+          list_unorder = list_unorder.map((li) => this.#li(li));
+        } else {
+          list_unorder = '';
+        }
         break;
     };
 

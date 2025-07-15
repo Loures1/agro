@@ -16,6 +16,11 @@ class Table {
     return row_data;
   }
 
+  static header_row() {
+    let header_row = [...document.querySelectorAll('table.visible tr th')];
+    return header_row;
+  }
+
   /**
    * @static It returns the attribute from html tag td.
    * @param {HTMLTableCellElement} td
@@ -111,17 +116,34 @@ class Table {
   }
 
   static addReplaceOriginUniqueItem(area_unique_item, replace_name, replace_pointer) {
+    let origin = area_unique_item.querySelector("ul li.origin");
+    if (origin != null) {
+      origin = origin.textContent;
+    } else {
+      origin = '';
+    }
     let ul = area_unique_item.querySelector('ul');
     let li = [...ul.querySelectorAll('li')];
 
-    if (li.length == 2) {
+    if (li.length == 2 && origin != '') {
       li[1].className = replace_pointer;
       li[1].innerHTML = replace_name;
-    } else {
+    }
+    if (li.length == 1 && origin != '') {
       let new_li = document.createElement('li');
       new_li.className = replace_pointer;
       new_li.textContent = replace_name;
       ul.appendChild(new_li);
+    }
+    if (li.length == 0 && origin == '') {
+      let new_li = document.createElement('li');
+      new_li.className = replace_pointer;
+      new_li.textContent = replace_name;
+      ul.appendChild(new_li);
+    }
+    if (li.length == 1 && origin == '') {
+      li[0].textContent = replace_name;
+      li[0].className = replace_pointer;
     }
   }
 
