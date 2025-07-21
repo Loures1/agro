@@ -5,10 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Agro</title>
     <link href="/assets/css/dashboard_admin.css" rel="stylesheet" type="text/css"/>
-    <script type="module" src="/assets/js/dashboard_admin/Popup.js"></script>
-    <script type="module" src="/assets/js/dashboard_admin/Table.js"></script>
-    <script type="module" src="/assets/js/dashboard_admin/Listener.js"></script>
-    <script type="module" src="/assets/js/dashboard_admin/Dashboard.js"></script>
   </head>
 
   <body>
@@ -22,7 +18,7 @@
     </div>
 
     <--Employeds Table-->
-    <table class="employed visiable">
+    <table class="employed visible">
       <tr>
         <th>Id</th>
         <th class="name">Nome</th>
@@ -35,7 +31,7 @@
         <th>Ações</th>
       </tr>
       {% for employed in employeds %}
-      <tr class="employed_{{employed.id}}">
+      <tr id="{{employed.id}}">
         <td>{{employed.id}}</td>
         <td class="name">{{employed.name}}</td>
         <td class="mat">{{employed.mat}}</td>
@@ -53,8 +49,8 @@
         <td class="email">{{employed.email}}</td>
         <td>{{employed.date}}</td>
         <td>
-          <button class="edit" value="employed_{{employed.id}}">Editar</button>
-          <button class="delete" value="employed_{{employed.id}}">Excluir</button>
+          <button class="edit" value="employed{{employed.id}}">Editar</button>
+          <button class="delete" value="employed{{employed.id}}">Excluir</button>
         </td>
       </tr>
       {% endfor %}
@@ -70,7 +66,7 @@
         <th>Ações</th>
       </tr>
       {% for job in jobs %}
-      <tr class="job_{{job.id}}">
+      <tr id="{{job.id}}">
         <td>{{job.id}}</td>
         <td class="name">{{job.name}}</td>
 	      <td class="training many_items">
@@ -84,8 +80,8 @@
         </td>
         <td>{{job.date}}</td>
         <td>
-          <button class="edit" value="job_{{job.id}}">Editar</button>
-          <button class="delete" value="job_{{job.id}}">Excluir</button>
+          <button class="edit" value="job{{job.id}}">Editar</button>
+          <button class="delete" value="job{{job.id}}">Excluir</button>
         </td>
       </tr>
       {% endfor %}
@@ -100,24 +96,17 @@
         <th>Ações</th>
       </tr>
       {% for training in trainings %}
-        <tr class="training_{{training.id}}">
+        <tr id="{{training.id}}">
           <td>{{training.id}}</td>
           <td class="name">{{training.name}}</td>
           <td>{{training.date}}</td>
           <td>
-            <button class="edit" value="training_{{training.id}}">Editar</button>
-            <button class="delete" value="training_{{training.id}}">Excluir</button>
+            <button class="edit" value="training{{training.id}}">Editar</button>
+            <button class="delete" value="training{{training.id}}">Excluir</button>
           </td>
         </tr>
       {% endfor %}
     </table>
-
-    <--Popup Edit-->
-    <div class="popup hidden">
-      <h1>Alterar</h1>
-      <div class="content"></div>
-      <button>Salvar</button>
-      <button class="close_edit">Fechar</button>
-    </div>
   </body>
 </html>
+<script src="/assets/js/admin_dashboard.js"></script>

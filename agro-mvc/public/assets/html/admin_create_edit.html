@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Agro</title>
+    <link href="" rel="stylesheet">
+  </head>
+  <body>
+    <h1 class="{{target}}">{{title}}</h1>
+
+    {% if target == "employed" %}
+
+    {% if header %}
+      <h2 class="{{header.id}}">{{header.name}} {{header.mat}}</h2>
+
+      <div class="name">
+        <label for="input-name">Nome:</label>
+        <input id="input-name" type="text" name="name" placeholder="{{header.name}}"><br>
+      </div>
+
+      <div class="mat">
+        <label for="input-mat">Matricula:</label>
+        <input id="input-mat" type="text" name="mat" placeholder="{{header.mat}}"><br>
+      </div>
+    {% else %}
+      <div class="name">
+        <label for="input-name">Nome:</label>
+        <input id="input-name" type="text" name="name"><br>
+      </div>
+
+      <div class="mat">
+        <label for="input-mat">Matricula:</label>
+        <input id="input-mat" type="text" name="mat"><br>
+      </div>
+    {% endif %}
+
+      <div class="job">
+        <label for="select-job">Profissao:</label>
+        <div class="job-content">
+          <ul>
+            {% if user_job %}
+              <li class="origin {{user_job.id}}">{{user_job.name}}</li>
+            {% else %}
+              <li class="job-null">Selecionar Profissao</li>
+            {% endif %}
+          </ul>
+          <select>
+            {% for job in jobs %}
+              <option value="{{job.id}}">{{job.name}}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      {% if header %}
+        <div class="tel">
+          <label for="input-tel">Telefone:</label>
+          <input id="input-tel" type="tel" name="tel" placeholder="{{header.tel}}"><br>
+        </div>
+
+        <div class="email">
+          <label for="input-email">Email:</label>
+          <input type="input-email" name="email" placeholder="{{header.email}}">
+        </div>
+      {% else %}
+        <div class="tel">
+          <label for="input-tel">Telefone:</label>
+          <input id="input-tel" type="tel" name="tel"><br>
+        </div>
+
+        <div class="email">
+          <label for="input-email">Email:</label>
+          <input type="input-email" name="email">
+        </div>
+      {% endif %}
+
+      {% if action == "edit" %}
+        <button class="{{action}}">Editar</button>
+      {% else %}
+        <button class={{action}}>Criar</button>
+      {% endif %}
+    {% endif %}
+
+    {% if target == "job" %}
+
+      {% if header %}
+        <h2 class="{{header.id}}">{{header.name}}</h2>
+
+        <div class="name">
+          <label for="input-name">Nome:</label>
+          <input id="input-name" type="text" name="name" placeholder="{{header.name}}">
+        </div>
+      {% else %}
+        <div class="name">
+          <label for="input-name">Nome:</label>
+          <input id="input-name" type="text" name="name">
+        </div>
+      {% endif %}
+
+      <div class="training">
+        <label for="training-content">Treinamento(s):</label>
+        <div id="training-content">
+          <ul>
+            {% if user_trainings %}
+              {% for user_training in user_trainings %}
+                <li class="origin {{user_training.id}}">
+                  <input type="checkbox" name="checkbox-input">
+                  <label for="checkbox-input">{{user_training.name}}</label>
+                </li>
+              {% endfor %}
+            {% else %}
+              <li class="training-null">Selecionar Treinamento</li>
+            {% endif %}
+          </ul>
+          <select>
+            {% for training in trainings %}
+              <option value="{{training.id}}">{{training.name}}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      {% if action == "edit" %}
+        <button class="{{action}}">Editar</button>
+      {% else %}
+        <button class={{action}}>Criar</button>
+      {% endif %}
+    {% endif %}
+
+    {% if target == "training" %}
+
+      {% if header %}
+        <h2 class="{{header.id}}">{{header.name}}</h2>
+
+        <div class="name">
+          <label for="input-name">Nome:</label>
+          <input id="input-name" type="text" name="name" placeholder="{{header.name}}">
+        </div>
+      {% else %}
+        <div class="name">
+          <label for="input-name">Nome:</label>
+          <input id="input-name" type="text" name="name">
+        </div>
+      {% endif %}
+
+      {% if action == "edit" %}
+        <button class="{{action}}">Editar</button>
+      {% else %}
+        <button class={{action}}>Criar</button>
+      {% endif %}
+    {% endif %}
+  </body>
+</html>
+<script src="/assets/js/admin_create_edit.js"></script>

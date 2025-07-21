@@ -10,7 +10,7 @@ class Parser
   public static function generateCode(string $content): string
   {
     $content = array_map(
-      fn($item) => preg_replace("/(?!\w)\s+(?![\w%}=])/", b'', $item),
+      fn($item) => preg_replace("/(?!\w)\s+(?![{\"\w%}=])/", b'', $item),
       explode("\n", $content)
     );
 

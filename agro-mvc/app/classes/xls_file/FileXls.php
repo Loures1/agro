@@ -41,6 +41,17 @@ class FileXls
       }
       array_push($spreedSheet, $columns);
     }
+
+    $spreedSheet = array_filter($spreedSheet, function (?array $row) {
+      $row_size = count($row);
+      foreach ($row as $cell) {
+        if ($cell == b"") {
+          --$row_size;
+        }
+      }
+      return ($row_size != 0);
+    });
+
     return $spreedSheet;
   }
 
@@ -101,11 +112,11 @@ class FileXls
     );
 
     array_map(
-      fn($line, $cell) => ($cell != null) ?: throw new InvalidArgumentException(
+      fn($line, $register) => ($register != null) ?: throw new InvalidArgumentException(
         "A relacao na  Linha '{$line}' nao existe no banco"
       ),
       range(2, count($cells) + 1),
-      $cells
+      $ids
     );
 
     $cells = array_map(

@@ -21,11 +21,9 @@ VALUES
     ('Operador de Empacotamento'),
     ('Conferente de Estoque'),
     ('Supervisor de Qualidade'),
-    ('Assistente de RH'),
-    ('Operador de Camaras Frias'),
-    ('Eletricista de Manutencao');
+    ('Assistente de RH');
 
-INSERT INTO `tbl_treinamento` (nome) 
+INSERT INTO `tbl_treinamento` (nome)
 VALUES
     ('Seguranca em Maquinas Industriais'),
     ('Boas Praticas de Fabricacao (BPF)'),

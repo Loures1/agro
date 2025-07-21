@@ -117,6 +117,98 @@ enum SqlCode: string implements IQuery
   WHERE tbl_t.status = {status};
   ";
 
+  case EmployedJob = "
+  SELECT
+  p.id AS id,
+  p.nome AS name
+  FROM tbl_funcionario AS f
+  INNER JOIN tbl_profissao AS p
+  ON f.id_profissao = p.id
+  WHERE f.id = {id} AND f.status = TRUE
+  ";
+
+  case EmployedTrainings = "
+  SELECT
+  t.id AS id,
+  t.nome AS name
+  FROM tbl_funcionario_treinamento AS ft
+  INNER JOIN tbl_treinamento AS t
+  ON ft.id_treinamento = t.id
+  WHERE ft.id_funcionario = {id}
+  ";
+
+  case JobTrainings = "
+  SELECT
+  t.id AS id,
+  t.nome AS name
+  FROM tbl_profissao_treinamento AS pt
+  INNER JOIN tbl_treinamento AS t
+  ON pt.id_treinamento = t.id
+  WHERE pt.id_profissao = {id}
+  ";
+
+  case Employed = "
+  SELECT
+  f.id AS id,
+  f.nome AS name,
+  f.matricula AS mat,
+  f.telefone AS tel,
+  f.email AS email
+  FROM tbl_funcionario AS f
+  WHERE f.id = {id} AND f.status = TRUE
+  ";
+
+  case Job = "
+  SELECT
+  p.id AS id,
+  p.nome AS name
+  FROM tbl_profissao AS p
+  WHERE p.id = {id} AND p.status = TRUE
+  ";
+
+  case Training = "
+  SELECT
+  t.id AS id,
+  t.nome AS name
+  FROM tbl_treinamento AS t
+  WHERE t.id = {id} AND t.status = TRUE
+  ";
+
+
+  case SelectEmployedForCreate = "
+  SELECT
+  f.id AS id,
+  f.id_profissao AS job_id
+  FROM tbl_funcionario AS f
+  WHERE f.nome = '{name}' AND f.matricula = '{mat}' AND f.status = TRUE
+  ";
+
+  case SelectJobForCreate = "
+  SELECT
+  p.id AS id
+  FROM tbl_profissao AS p
+  WHERE p.nome = '{name}' AND p.status = TRUE
+  ";
+
+  case CreateEmployed = "
+  INSERT INTO tbl_funcionario (nome, matricula, id_profissao, telefone, email)
+  VALUES ('{name}', '{mat}', {id_job}, '{tel}', '{email}')
+  ";
+
+  case CreateRelationEmployedTraining = "
+  INSERT INTO tbl_funcionario_treinamento (id_funcionario, id_profissao, id_treinamento)
+  VALUES ({employed_id}, {job_id}, {training_id})
+  ";
+
+  case SelectEmployedForEdit = "
+  SELECT
+  ft.id_funcionario AS employed_id
+  FROM tbl_funcionario_treinamento AS ft
+  WHERE ft.id_profissao='{job_id}'
+  GROUP BY ft.id_funcionario
+  ";
+
+
   public function match(?array $values): string
   {
     $index = 0;
