@@ -315,7 +315,7 @@ class Admin
           foreach ($employeds as $employed) {
             Model::query(SqlCode::CreateRelationEmployedTraining, [
               'employed_id' => $employed->employed_id,
-              'job' => $data['id'],
+              'job_id' => $data['id'],
               'training_id' => $id
             ]);
           }
