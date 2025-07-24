@@ -2,6 +2,7 @@
 
 namespace core\model;
 
+use core\model\Query;
 use core\model\IQuery;
 use core\model\Register;
 use mysqli;
@@ -15,8 +16,20 @@ class Model
 
   public static function query(IQuery $code, ?array $values): mixed
   {
+    $code = $code->match($values);
+
+    return match (Query::type($code)) {
+      Query::Select => self::select($code),
+      Query::Insert => self::insert($code),
+      Query::Update => self::update($code),
+      Query::Delete => self::delete($code)
+    };
+  }
+
+  private static function select(string $code): mixed
+  {
     $dataBase = self::conn();
-    $fetch = $dataBase->query($code->match($values));
+    $fetch = $dataBase->query($code);
     $fields = array_map(
       fn($field) => $field->name,
       $fetch->fetch_fields()
@@ -28,23 +41,21 @@ class Model
     return $register;
   }
 
-  public static function multiQuery(IQuery $code, ?array $values): mixed
+  private static function insert(string $code): void
   {
     $dataBase = self::conn();
-    $querys = array_map(
-      fn($value) => $code->match($value),
-      $values
-    );
-    $querys = implode(b'', $querys);
-    $dataBase->multi_query($querys);
-    $register = [];
-    do {
-      if ($result = $dataBase->store_result()) {
-        $fetch = $result->fetch_assoc();
-        $fetch = ($fetch != null) ? new Register($fetch) : null;
-        array_push($register, $fetch);
-      }
-    } while ($dataBase->next_result());
-    return $register;
+    $dataBase->query($code);
+  }
+
+  private static function update(string $code): void
+  {
+    $dataBase = self::conn();
+    $dataBase->query($code);
+  }
+
+  private static function delete(string $code): void
+  {
+    $dataBase = self::conn();
+    $dataBase->query($code);
   }
 }

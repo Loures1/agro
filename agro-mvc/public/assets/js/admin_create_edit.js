@@ -315,6 +315,7 @@ const Compound = {
         return response.json();
       })
       .then(data => {
+        console.log(data);
         switch (data) {
           case 0: return window.location.assign('/admin/dashboard');
           case 1062: return alert("Ja esta registrado.");

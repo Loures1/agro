@@ -17,7 +17,7 @@ class Training
   #[Route(Method::GET, '/training/get/$param', TypeHint::Parameter)]
   public function get(string $mat): void
   {
-    $table = Model::query(SqlCode::SelectTrainingMat, [$mat]);
+    $table = Model::query(SqlCode::TrainingsByMat, ['mat' => $mat]);
     HttpResponse::view(
       'training_employed',
       [
@@ -38,10 +38,20 @@ class Training
   #[Route(Method::POST, '/training/post', TypeHint::File)]
   public function store(?array $file): void
   {
-    $file = FileXls::validadeFileType($file);
-    $file = FileXls::prospector($file);
-    $file = FileXls::prepe($file);
-    Model::multiQuery(SqlCode::Update, $file);
+    $file = new FileXls($file);
+    $file->validade();
+    $file->prospector();
+
+    foreach ($file->prepe() as $data) {
+      Model::query(SqlCode::UpdateEmployedTrainings, [
+        'employed_id' => $data->employed_id,
+        'job_id' => $data->job_id,
+        'training_id' => $data->training_id,
+        'status' => $data->status,
+        'date' => $data->date
+      ]);
+    }
+
     HttpResponse::redirect('/');
   }
 }

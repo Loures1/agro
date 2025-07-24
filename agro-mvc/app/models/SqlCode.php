@@ -3,10 +3,11 @@
 namespace app\models;
 
 use core\model\IQuery;
+use core\model\exceptions\InvalidModelArgument;
 
 enum SqlCode: string implements IQuery
 {
-  case SelectTrainingMat = "
+  case TrainingsByMat = "
     SELECT
     tbl_f.nome AS name,
     tbl_p.nome AS job,
@@ -36,12 +37,12 @@ enum SqlCode: string implements IQuery
       ON tbl_p.id = tbl_ft.id_profissao
       INNER JOIN tbl_treinamento tbl_t
       ON tbl_t.id = tbl_ft.id_treinamento
-      WHERE tbl_f.nome = '{employed_name}'
-      AND tbl_p.nome = '{job_name}'
-      AND tbl_t.nome = '{training_name}';
+      WHERE tbl_f.nome = '{employed}'
+      AND tbl_p.nome = '{job}'
+      AND tbl_t.nome = '{training}';
   ";
 
-  case Update = "
+  case UpdateEmployedTrainings = "
       UPDATE tbl_funcionario_treinamento
       SET status = {status}, data_vencimento = {date}
       WHERE id_funcionario = {employed_id}
@@ -195,9 +196,28 @@ enum SqlCode: string implements IQuery
   VALUES ('{name}', '{mat}', {id_job}, '{tel}', '{email}')
   ";
 
+  case CreateJob = "
+  INSERT INTO tbl_profissao
+  (nome)
+  VALUES ('{name}')
+  ";
+
+  case CreateTraining = "
+  INSERT INTO tbl_treinamento
+  (nome)
+  VALUES ('{name}')
+  ";
+
   case CreateRelationEmployedTraining = "
-  INSERT INTO tbl_funcionario_treinamento (id_funcionario, id_profissao, id_treinamento)
+  INSERT INTO tbl_funcionario_treinamento
+  (id_funcionario, id_profissao, id_treinamento)
   VALUES ({employed_id}, {job_id}, {training_id})
+  ";
+
+  case CreateRelationJobTraining = "
+  INSERT INTO tbl_profissao_treinamento
+  (id_profissao, id_treinamento)
+  VALUES ({job_id}, {training_id})
   ";
 
   case SelectEmployedForEdit = "
@@ -208,18 +228,75 @@ enum SqlCode: string implements IQuery
   GROUP BY ft.id_funcionario
   ";
 
+  case UpdateEmployed = "
+  UPDATE tbl_funcionario
+  SET
+  nome='{name}',
+  matricula='{mat}',
+  telefone='{tel}',
+  email='{email}'
+  WHERE id='{id}'
+  ";
+
+  case UpdateEmployedWithJob = "
+  UPDATE tbl_funcionario
+  SET
+  nome='{name}',
+  matricula='{mat}',
+  id_profissao='{id_job}',
+  telefone='{tel}',
+  email='{email}'
+  WHERE id='{id}'
+  ";
+
+  case UpdateJob = "
+  UPDATE tbl_profissao
+  SET nome='{name}'
+  WHERE id='{id}'
+  ";
+
+  case UpdateTraining = "
+  UPDATE tbl_treinamento
+  SET nome='{name}'
+  WHERE id={id}
+  ";
+
+  case DeleteEmployedTraining = "
+  DELETE FROM tbl_funcionario_treinamento
+  WHERE id_funcionario={id}
+  ";
+
+  case DeleteRelationJobTraining = "
+  DELETE FROM tbl_profissao_treinamento
+  WHERE id_profissao='{job_id}'
+  AND id_treinamento='{training_id}'
+  ";
+
+  case DeleteRelationEmployedTraining = "
+  DELETE FROM tbl_funcionario_treinamento
+  WHERE id_profissao='{job_id}' 
+  AND id_treinamento='{training_id}'
+  ";
+
+  case Delete = "
+  DELETE FROM {target} WHERE id={id}
+  ";
+
 
   public function match(?array $values): string
   {
-    $index = 0;
-    return preg_replace_callback(
-      '/{[\w_]+}/',
-      function () use (&$index, $values) {
-        $replacement = $values[$index];
-        ++$index;
-        return $replacement;
-      },
-      $this->value
-    );
+    $keys = array_keys($values);
+    $code = $this->value;
+    foreach ($keys as $key) {
+      $pattern = "/\{{$key}\}/";
+      if (preg_match($pattern, $this->value) != false) {
+        $code = preg_replace($pattern, $values[$key], $code);
+      } else {
+        throw new InvalidModelArgument(
+          "{$key} nao esta no codigo sql."
+        );
+      }
+    }
+    return $code;
   }
 }

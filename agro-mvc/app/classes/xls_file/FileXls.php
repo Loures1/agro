@@ -6,30 +6,39 @@ use DateTime;
 use InvalidArgumentException;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 use app\classes\xls_file\FormHeader;
-use app\classes\xls_file\TypeFile;
 use app\models\SqlCode;
 use core\model\Model;
-use core\model\Register;
 
 class FileXls
 {
-  public static function validadeFileType(?array $file): string
+  private ?array $file;
+  private ?array $spreed_sheet;
+
+  public function __construct(?array $file)
   {
-    $extesion_file = pathinfo($file['name'], PATHINFO_EXTENSION);
-    $types_file = array_map(fn($type) => $type->value, TypeFile::cases());
-    return (in_array($extesion_file, $types_file))
-      ? $file['tmp_name']
-      : throw new InvalidArgumentException(
-        "Arquivo nao e xlsx: {$file['name']}"
-      );
+    $this->file = $file;
   }
 
-  public static function prospector(string $file): array
+  public function validade(): void
+  {
+    $extesion = pathinfo(
+      $this->file['name'],
+      PATHINFO_EXTENSION
+    );
+
+    if ($extesion != 'xls' && $extesion != 'xlsx') {
+      throw new InvalidArgumentException(
+        "Arquivo nao e xls ou xlsx: {$this->file['name']}"
+      );
+    }
+  }
+
+  public function prospector(): ?array
   {
     $spreedSheet = [];
     $reader = new Xlsx();
     $reader->setReadDataOnly(TRUE);
-    $spreedsheet = $reader->load($file);
+    $spreedsheet = $reader->load($this->file['tmp_name']);
     $worksheet = $spreedsheet->getActiveSheet();
     foreach ($worksheet->getRowIterator() as $row) {
       $cellIterator = $row->getCellIterator();
@@ -52,11 +61,13 @@ class FileXls
       return ($row_size != 0);
     });
 
-    return $spreedSheet;
+    $this->spreed_sheet = $spreedSheet;
+    return $this->spreed_sheet;
   }
 
-  public static function prepe(?array $file): ?array
+  public function prepe(): ?array
   {
+    //Checkout of the file's header.
     array_map(
       fn($key, $header) => ($key->value == $header)
         ? $header
@@ -64,9 +75,10 @@ class FileXls
           "Cabecalho Error: '{$key->name}' e '{$key->value}' nao '{$header}'"
         ),
       FormHeader::cases(),
-      [count($file[0]), ...$file[0]]
+      [count($this->spreed_sheet[0]), ...$this->spreed_sheet[0]]
     );
 
+    //Checkout of the file's cells.
     $cells = array_map(
       function ($line, $row) {
         $line += 2;
@@ -100,32 +112,46 @@ class FileXls
         $date = ($date != false)
           ?  '\'' . $date->format('Y-m-d')  . '\''
           : 'NULL';
-        return [$name, $job, $training, $status, $date];
+
+        return (object) [
+          'name' => $name,
+          'job' => $job,
+          'training' => $training,
+          'status' => $status,
+          'date' => $date
+        ];
       },
-      array_keys(array_slice($file, 1)),
-      array_slice($file, 1)
+      array_keys(array_slice($this->spreed_sheet, 1)),
+      array_slice($this->spreed_sheet, 1)
     );
 
-    $ids = Model::multiQuery(
-      SqlCode::SelectExistRegisterXls,
-      array_map(fn($cell) => array_slice($cell, 0, 3), $cells)
-    );
+    //Save relation's ids.
+    $ids = [];
+    $line = 2;
+    foreach ($cells as $cell) {
+      $id = Model::query(SqlCode::SelectExistRegisterXls, [
+        'employed' => $cell->name,
+        'job' => $cell->job,
+        'training' => $cell->training
+      ]);
 
-    array_map(
-      fn($line, $register) => ($register != null) ?: throw new InvalidArgumentException(
-        "A relacao na  Linha '{$line}' nao existe no banco"
-      ),
-      range(2, count($cells) + 1),
-      $ids
-    );
+      if ($id == null) {
+        throw new InvalidArgumentException(
+          "A relacao ({$cell->name}, {$cell->job}, {$cell->training})
+          na linha {$line} nao existe no banco."
+        );
+      }
+      array_push($ids, ...$id);
+      ++$line;
+    }
 
     $cells = array_map(
-      fn(Register $id, $cell) => [
-        $cell[3],
-        $cell[4],
-        $id->employed_id,
-        $id->job_id,
-        $id->training_id,
+      fn($id, $cell) => (object) [
+        'employed_id' => $id->employed_id,
+        'job_id' => $id->job_id,
+        'training_id' => $id->training_id,
+        'status' => $cell->status,
+        'date' => $cell->date,
       ],
       $ids,
       $cells
