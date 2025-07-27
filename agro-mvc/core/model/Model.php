@@ -2,60 +2,147 @@
 
 namespace core\model;
 
-use core\model\Query;
-use core\model\IQuery;
-use core\model\Register;
 use mysqli;
 
 class Model
 {
-  private static function conn(): mysqli
-  {
-    return new mysqli(HOSTNAME, USERNAME, PASSWORD, DATABASE);
-  }
+  protected string $table;
+  protected array $columns = ['*'];
+  protected ?string $where = null;
+  protected ?string $order_by = null;
+  protected ?array $joins = [];
 
-  public static function query(IQuery $code, ?array $values): mixed
-  {
-    $code = $code->match($values);
+  protected mysqli $db;
 
-    return match (Query::type($code)) {
-      Query::Select => self::select($code),
-      Query::Insert => self::insert($code),
-      Query::Update => self::update($code),
-      Query::Delete => self::delete($code)
-    };
-  }
-
-  private static function select(string $code): mixed
+  public function __construct(string $name)
   {
-    $dataBase = self::conn();
-    $fetch = $dataBase->query($code);
-    $fields = array_map(
-      fn($field) => $field->name,
-      $fetch->fetch_fields()
+    $this->table = $name;
+
+    $this->db = new mysqli(
+      HOSTNAME,
+      USERNAME,
+      PASSWORD,
+      DATABASE
     );
-    $register = array_map(
-      fn($register) => new Register(array_combine($fields, $register)),
-      $fetch->fetch_all(),
+  }
+
+  public function get(): ?array
+  {
+    $columns = implode(',', $this->columns);
+    $joins = implode(" ", $this->joins);
+    $sql = "select {$columns} from {$this->table} {$joins} {$this->where}";
+    $fetch = $this
+      ->db
+      ->query($sql);
+
+    return array_map(
+      fn($register) => (object) $register,
+      $fetch->fetch_all(MYSQLI_ASSOC)
     );
-    return $register;
   }
 
-  private static function insert(string $code): void
+  public function first(): object
   {
-    $dataBase = self::conn();
-    $dataBase->query($code);
+    return $this->get()[0];
   }
 
-  private static function update(string $code): void
-  {
-    $dataBase = self::conn();
-    $dataBase->query($code);
+  public function join(
+    string $name,
+    string $variable_inside,
+    string $condition,
+    string $variable_outside
+  ): self {
+    $join = "inner join {$name} on {$variable_inside} {$condition} {$variable_outside}";
+    array_push($this->joins, $join);
+    return $this;
   }
 
-  private static function delete(string $code): void
+  public function where(string $codition, ?array $values = null): self
   {
-    $dataBase = self::conn();
-    $dataBase->query($code);
+    $codition = "where {$codition}";
+    if ($values) {
+      foreach ($values as $key => $value) {
+        $value = match (gettype($value)) {
+          'integer' => $value,
+          'string' => "'{$value}'",
+          'boolean' => ($value) ? 'TRUE' : 'FALSE'
+        };
+        $codition = preg_replace("/:{$key}/", $value, $codition);
+      }
+    }
+    $this->where = $codition;
+    return $this;
+  }
+
+  public function orderBy(string $condition): self
+  {
+    $condition = "order by {$condition}";
+    $this->order_by = $condition;
+    return $this;
+  }
+
+  public function select(): Model
+  {
+    $this->columns = func_get_args();
+    return $this;
+  }
+
+  public function insert(?array $values): self
+  {
+    $keys = implode(',', array_keys($values));
+    $values = array_map(
+      fn($value) => "'{$value}'",
+      $values
+    );
+    $values = implode(',', $values);
+    $sql = "insert into {$this->table} ($keys) values ($values)";
+    $this->db->query($sql);
+    return $this;
+  }
+
+  public function insertGetId(?array $values): object
+  {
+    $condition = array_map(
+      fn($key, $value) => (gettype($value) == 'integer')
+        ? "{$key}={$value}"
+        : "{$key}='{$value}'",
+      array_keys($values),
+      $values
+    );
+    $condition = implode(" and ", $condition);
+
+    return $this
+      ->insert($values)
+      ->select('id')
+      ->where($condition)
+      ->first();
+  }
+
+  public function update(?array $values): self
+  {
+    $values = array_map(
+      fn($key, $value) => match (gettype($value)) {
+        'integer' => "{$key}={$value}",
+        'string' => ($value != 'NULL') ? "{$key}='{$value}'" : "{$key}={$value}"
+      },
+      array_keys($values),
+      $values
+    );
+    $values = implode(',', $values);
+    $sql = "update {$this->table} set {$values} {$this->where}";
+    $this->db->query($sql);
+    return $this;
+  }
+
+  public function delete(): self
+  {
+    $sql = "delete from {$this->table} {$this->where}";
+    $this->db->query($sql);
+    return $this;
+  }
+
+  public static function table(string $name): self
+  {
+    return (new static($name));
   }
 }

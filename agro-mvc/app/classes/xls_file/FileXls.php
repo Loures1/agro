@@ -6,7 +6,6 @@ use DateTime;
 use InvalidArgumentException;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 use app\classes\xls_file\FormHeader;
-use app\models\SqlCode;
 use core\model\Model;
 
 class FileXls
@@ -19,7 +18,7 @@ class FileXls
     $this->file = $file;
   }
 
-  public function validade(): void
+  public function validade(): self
   {
     $extesion = pathinfo(
       $this->file['name'],
@@ -31,9 +30,11 @@ class FileXls
         "Arquivo nao e xls ou xlsx: {$this->file['name']}"
       );
     }
+
+    return $this;
   }
 
-  public function prospector(): ?array
+  public function prospector(): self
   {
     $spreedSheet = [];
     $reader = new Xlsx();
@@ -62,7 +63,8 @@ class FileXls
     });
 
     $this->spreed_sheet = $spreedSheet;
-    return $this->spreed_sheet;
+
+    return $this;
   }
 
   public function prepe(): ?array
@@ -108,9 +110,9 @@ class FileXls
           );
         }
 
-        $status = ($status == 'Completo') ? 'TRUE' : 'FALSE';
+        $status = ($status == 'Completo') ? 1 : 0;
         $date = ($date != false)
-          ?  '\'' . $date->format('Y-m-d')  . '\''
+          ? $date->format('Y-m-d')
           : 'NULL';
 
         return (object) [
@@ -129,11 +131,20 @@ class FileXls
     $ids = [];
     $line = 2;
     foreach ($cells as $cell) {
-      $id = Model::query(SqlCode::SelectExistRegisterXls, [
-        'employed' => $cell->name,
-        'job' => $cell->job,
-        'training' => $cell->training
-      ]);
+      $id = Model::table('tbl_funcionario_treinamento as ft')
+        ->join('tbl_funcionario as f', 'ft.id_funcionario', '=', 'f.id')
+        ->join('tbl_profissao as p', 'ft.id_profissao', '=', 'p.id')
+        ->join('tbl_treinamento as t', 'ft.id_treinamento', '=', 't.id')
+        ->where(
+          'f.nome=:employed and p.nome=:job and t.nome=:training',
+          [
+            'employed' => $cell->name,
+            'job' => $cell->job,
+            'training' => $cell->training
+          ]
+        )
+        ->select('f.id as employed_id', 'p.id as job_id', 't.id as training_id')
+        ->get();
 
       if ($id == null) {
         throw new InvalidArgumentException(
@@ -141,6 +152,7 @@ class FileXls
           na linha {$line} nao existe no banco."
         );
       }
+
       array_push($ids, ...$id);
       ++$line;
     }

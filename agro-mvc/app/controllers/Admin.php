@@ -3,7 +3,6 @@
 namespace app\controllers;
 
 use Exception;
-use app\models\SqlCode;
 use core\router\Route;
 use core\controller\Controller;
 use core\http\HttpResponse;
@@ -28,15 +27,14 @@ class Admin
   public function auth(?array $credential): void
   {
     $credential['password'] = hash('sha256', $credential['password']);
+    $authentication = Model::table('tbl_admin')
+      ->where(
+        'nome=:0 and senha=:1',
+        [$credential['username'], $credential['password']]
+      )
+      ->get();
 
-    $authentication = Model::query(SqlCode::AuthenticateAdmin, [
-      'name' => $credential['username'],
-      'password' => $credential['password']
-    ]);
-
-    $authentication = current($authentication);
-
-    if ($authentication->status) {
+    if ($authentication) {
       $session = new Session;
       $session->authenticated = true;
       HttpResponse::redirect('/admin/dashboard');
@@ -53,27 +51,42 @@ class Admin
     if (!$session->authenticated) {
       HttpResponse::redirect('/admin');
     }
-    $employeds = Model::query(SqlCode::EmployedsForAdmin, [
-      'status' => 'TRUE'
-    ]);
 
-    $jobs = Model::query(SqlCode::JobsForAdmin, [
-      'status' => 'TRUE'
-    ]);
+    $employeds = Model::table('tbl_funcionario as f')
+      ->join('tbl_profissao as p', 'f.id_profissao', '=', 'p.id')
+      ->where('f.status =:0', [true])
+      ->select(
+        'f.id as id',
+        'f.nome as name',
+        'f.matricula as mat',
+        'p.nome as job',
+        'f.telefone as tel',
+        'f.email as email',
+        'DATE_FORMAT(f.data, "%d-%m-%Y") as date'
+      )
+      ->get();
 
-    $trainings = Model::query(SqlCode::TrainingForAdmin, [
-      'status' => 'TRUE'
-    ]);
+    $jobs = Model::table('tbl_profissao')
+      ->where('status=:0', [true])
+      ->select('id', 'nome as name', 'DATE_FORMAT(data, "%d-%m-%Y") as date')
+      ->get();
 
-    $relations_employed_training = Model::query(
-      SqlCode::RelationEmployedTraining,
-      ['status' => 'TRUE']
-    );
+    $trainings = Model::table('tbl_treinamento')
+      ->where('status=:0', [true])
+      ->select('id', 'nome as name', 'DATE_FORMAT(data, "%d-%m-%Y") as date')
+      ->get();
 
-    $relations_job_training = Model::query(
-      SqlCode::RelationJobTraining,
-      ['status' => 'TRUE']
-    );
+    $relations_employed_training = Model::table('tbl_funcionario_treinamento as ft')
+      ->join('tbl_treinamento as t', 'ft.id_treinamento', '=', 't.id')
+      ->where('ft.status=:0', [true])
+      ->select('ft.id_funcionario as id_employed', 't.nome as training_name')
+      ->get();
+
+    $relations_job_training = Model::table('tbl_profissao_treinamento as pt')
+      ->join('tbl_treinamento as t', 'pt.id_treinamento', '=', 't.id')
+      ->where('t.status=:0', [true])
+      ->select('pt.id_profissao as id_job', 't.nome as training_name')
+      ->get();
 
     HttpResponse::view(
       'admin_dashboard',
@@ -102,9 +115,15 @@ class Admin
       'training' => 'Criando Treinamento'
     };
 
-    $jobs = Model::query(SqlCode::JobsForAdmin, ['status' => 'TRUE']);
+    $jobs = Model::table('tbl_profissao')
+      ->where('status=:0', [true])
+      ->select('id', 'nome as name')
+      ->get();
 
-    $trainings = Model::query(SqlCode::TrainingForAdmin, ['status' => 'TRUE']);
+    $trainings = Model::table('tbl_treinamento')
+      ->where('status=:0', [true])
+      ->select('id', 'nome as name')
+      ->get();
 
     HttpResponse::view(
       'admin_create_edit',
@@ -126,64 +145,67 @@ class Admin
   {
     try {
       if ($data['target'] == 'employed') {
-        Model::query(SqlCode::CreateEmployed, [
-          'name' => $data['name'],
-          'mat' => $data['mat'],
-          'id_job' => $data['job'],
-          'tel' => $data['tel'],
-          'email' => $data['email']
-        ]);
 
-        $employed = current(
-          Model::query(SqlCode::SelectEmployedForCreate, [
-            'name' => $data['name'],
-            'mat' => $data['mat'],
-          ])
-        );
+        $employed = Model::table('tbl_funcionario')
+          ->insertGetId([
+            'nome' => $data['name'],
+            'matricula' => $data['mat'],
+            'id_profissao' => (int) $data['job'],
+            'telefone' => $data['tel'],
+            'email' => $data['email']
+          ]);
 
-        $trainings = Model::query(SqlCode::JobTrainings, [
-          'id' => $employed->job_id
-        ]);
+        $employed = Model::table('tbl_funcionario')
+          ->where('id=:0', [(int) $employed->id])
+          ->select('id', 'id_profissao as job_id')
+          ->first();
+
+        $trainings = Model::table('tbl_profissao_treinamento as pt')
+          ->join('tbl_treinamento as t', 'pt.id_treinamento', '=', 't.id')
+          ->where('pt.id_profissao=:0', [(int) $data['job']])
+          ->select('t.id as id')
+          ->get();
 
         foreach ($trainings as $training) {
-          Model::query(SqlCode::CreateRelationEmployedTraining, [
-            'employed_id' => $employed->id,
-            'job_id' => $employed->job_id,
-            'training_id' => $training->id
-          ]);
+          Model::table('tbl_funcionario_treinamento')
+            ->insert([
+              'id_funcionario' => (int) $employed->id,
+              'id_profissao' => (int) $employed->job_id,
+              'id_treinamento' => (int) $training->id
+            ]);
         }
       }
 
       if ($data['target'] == 'job') {
-        Model::query(SqlCode::CreateJob, [
-          'name' => $data['name']
-        ]);
-
-        $job = current(
-          Model::query(SqlCode::SelectJobForCreate, [
-            'name' => $data['name']
-          ])
-        );
+        $job = Model::table('tbl_profissao')
+          ->insertGetId([
+            'nome' => $data['name']
+          ]);
 
         $training_ids = $data['trainings'];
 
         foreach ($training_ids['add'] as $id) {
-          Model::query(SqlCode::CreateRelationJobTraining, [
-            'job_id' => $job->id,
-            'training_id' => $id
-          ]);
+          Model::table('tbl_profissao_treinamento')
+            ->insert([
+              'id_profissao' => (int) $job->id,
+              'id_treinamento' => (int) $id
+            ]);
         }
       }
 
       if ($data['target'] == 'training') {
-        Model::query(SqlCode::CreateTraining, [
-          'name' => $data['name']
-        ]);
+        Model::table('tbl_treinamento')
+          ->insert([
+            'nome' => $data['name']
+          ]);
       }
 
-      echo json_encode(0);
+      HttpResponse::json([0]);
     } catch (Exception $e) {
-      echo json_encode($e->getCode());
+      HttpResponse::json([
+        $e->getCode(),
+        $e->getMessage()
+      ]);
     }
   }
 
@@ -205,25 +227,57 @@ class Admin
     };
 
     if ($target == 'employed') {
-      $header = current(Model::query(SqlCode::Employed, ['id' => $id]));
-      $user_job = current(Model::query(SqlCode::EmployedJob, ['id' => $id]));
-      $user_trainings = Model::query(SqlCode::EmployedTrainings, ['id' => $id]);
+      $header = Model::table('tbl_funcionario')
+        ->where('id=:0 and status=:1', [(int) $id, true])
+        ->select('id', 'nome as name', 'matricula as mat', 'telefone as tel', 'email')
+        ->first();
+
+      $user_job = Model::table('tbl_funcionario as f')
+        ->join('tbl_profissao as p', 'f.id_profissao', '=', 'p.id')
+        ->where('f.id=:0 and f.status=:1', [(int) $id, true])
+        ->select('p.id as id', 'p.nome as name')
+        ->first();
+
+      $user_trainings = Model::table('tbl_funcionario_treinamento as ft')
+        ->join('tbl_treinamento as t', 'ft.id_treinamento', '=', 't.id')
+        ->where('ft.id_funcionario=:0', [(int) $id])
+        ->select('t.id as id', 't.nome as name')
+        ->get();
     }
 
     if ($target == 'job') {
-      $header = current(Model::query(SqlCode::Job, ['id' => $id]));
+      $header = Model::table('tbl_profissao')
+        ->where('id=:0 and status=:1', [(int) $id, true])
+        ->select('id', 'nome as name')
+        ->first();
+
       $user_job = null;
-      $user_trainings = Model::query(SqlCode::JobTrainings, ['id' => $id]);
+
+      $user_trainings = Model::table('tbl_profissao_treinamento as pt')
+        ->join('tbl_treinamento as t', 'pt.id_treinamento', '=', 't.id')
+        ->where('pt.id_profissao=:0', [(int) $id])
+        ->select('t.id as id', 't.nome as name')
+        ->get();
     }
 
     if ($target == 'training') {
-      $header = current(Model::query(SqlCode::Training, ['id' => $id]));
+      $header = Model::table('tbl_treinamento')
+        ->where('id=:0 and status=:1', [(int) $id, true])
+        ->select('id', 'nome as name')
+        ->first();
       $user_job = null;
       $user_trainings = null;
     }
 
-    $jobs =  Model::query(SqlCode::JobsForAdmin, ['status' => 'TRUE']);
-    $trainings = Model::query(SqlCode::TrainingForAdmin, ['status' => 'TRUE']);
+    $jobs = Model::table('tbl_profissao')
+      ->where('status=:0', [true])
+      ->select('id', 'nome as name')
+      ->get();
+
+    $trainings = Model::table('tbl_treinamento')
+      ->where('status=:0', [true])
+      ->select('id', 'nome as name')
+      ->get();
 
     HttpResponse::view(
       'admin_create_edit',
@@ -245,92 +299,109 @@ class Admin
   {
     try {
       if ($data['target'] == 'employed' && $data['job'] == null) {
-
-        Model::query(SqlCode::UpdateEmployed, [
-          'name' => $data['name'],
-          'mat' => $data['mat'],
-          'tel' => $data['tel'],
-          'email' => $data['email'],
-          'id' => $data['id']
-        ]);
+        Model::table('tbl_funcionario')
+          ->where('id=:0', [(int) $data['id']])
+          ->update([
+            'nome' => $data['name'],
+            'matricula' => $data['mat'],
+            'telefone' => $data['tel'],
+            'email' => $data['email']
+          ]);
       }
 
       if ($data['target'] == 'employed' && $data['job'] != null) {
-        Model::query(SqlCode::UpdateEmployedWithJob, [
-          'name' => $data['name'],
-          'mat' => $data['mat'],
-          'id_job' => $data['job'],
-          'tel' => $data['tel'],
-          'email' => $data['email'],
-          'id' => $data['id']
-        ]);
+        Model::table('tbl_funcionario')
+          ->where('id=:0', [(int) $data['id']])
+          ->update([
+            'nome' => $data['name'],
+            'matricula' => $data['mat'],
+            'id_profissao' => (int) $data['job'],
+            'telefone' => $data['tel'],
+            'email' => $data['email']
+          ]);
 
-        Model::query(SqlCode::DeleteEmployedTraining, [
-          'id' => $data['id']
-        ]);
+        Model::table('tbl_funcionario_treinamento')
+          ->where('id_funcionario=:0', [(int) $data['id']])
+          ->delete();
 
-        $trainings = Model::query(SqlCode::JobTrainings, [
-          'id' => $data['job']
-        ]);
+        $trainings = Model::table('tbl_profissao_treinamento as pt')
+          ->join('tbl_treinamento as t', 'pt.id_treinamento', '=', 't.id')
+          ->where('pt.id_profissao=:0', [(int) $data['job']])
+          ->select('t.id as id')
+          ->get();
 
         foreach ($trainings as $training) {
-          Model::query(SqlCode::CreateRelationEmployedTraining, [
-            'employed_id' => $data['id'],
-            'job_id' => $data['job'],
-            'training_id' => $training->id
-          ]);
+          Model::table('tbl_funcionario_treinamento')
+            ->insert([
+              'id_funcionario' => (int) $data['id'],
+              'id_profissao' => (int) $data['job'],
+              'id_treinamento' => (int) $training->id
+            ]);
         }
       }
 
       if ($data['target'] == 'job') {
-        Model::query(SqlCode::UpdateJob, [
-          'name' => $data['name'],
-          'id' => $data['id']
-        ]);
+        Model::table('tbl_profissao')
+          ->where('id=:0', [(int) $data['id']])
+          ->update([
+            'nome' => $data['name']
+          ]);
 
         $training_ids = $data['trainings'];
 
-        $employeds = Model::query(SqlCode::SelectEmployedForEdit, [
-          'job_id' => $data['id']
-        ]);
+        $employeds = Model::table('tbl_funcionario')
+          ->where('id_profissao=:0', [(int) $data['id']])
+          ->select('id')
+          ->get();
 
         foreach ($training_ids['remove'] as $id) {
-          Model::query(SqlCode::DeleteRelationJobTraining, [
-            'job_id' => $data['id'],
-            'training_id' => $id
-          ]);
+          Model::table('tbl_profissao_treinamento')
+            ->where(
+              'id_profissao=:0 and id_treinamento=:1',
+              [(int) $data['id'], (int) $id]
+            )
+            ->delete();
 
-          Model::query(SqlCode::DeleteRelationEmployedTraining, [
-            'job_id' => $data['id'],
-            'training_id' => $id
-          ]);
+          Model::table('tbl_funcionario_treinamento')
+            ->where(
+              'id_profissao=:0 and id_treinamento=:1',
+              [(int) $data['id'], (int) $id]
+            )
+            ->delete();
         }
 
         foreach ($training_ids['add'] as $id) {
-          Model::query(SqlCode::CreateRelationJobTraining, [
-            'job_id' => $data['id'],
-            'training_id' => $id
-          ]);
+          Model::table('tbl_profissao_treinamento')
+            ->insert([
+              'id_profissao' => (int) $data['id'],
+              'id_treinamento' => (int) $id
+            ]);
 
           foreach ($employeds as $employed) {
-            Model::query(SqlCode::CreateRelationEmployedTraining, [
-              'employed_id' => $employed->employed_id,
-              'job_id' => $data['id'],
-              'training_id' => $id
-            ]);
+            Model::table('tbl_funcionario_treinamento')
+              ->insert([
+                'id_funcionario' => (int) $employed->id,
+                'id_profissao' => (int) $data['id'],
+                'id_treinamento' => (int) $id
+              ]);
           }
         }
       }
 
       if ($data['target'] == 'training') {
-        Model::query(SqlCode::UpdateTraining, [
-          'name' => $data['name'],
-          'id' => $data['id']
-        ]);
+        Model::table('tbl_treinamento')
+          ->where('id=:0', [(int) $data['id']])
+          ->update([
+            'nome' => $data['name']
+          ]);
       }
-      echo json_encode(0);
+
+      HttpResponse::json([0]);
     } catch (Exception $e) {
-      echo json_encode($e->getCode());
+      HttpResponse::json([
+        $e->getCode(),
+        $e->getMessage()
+      ]);
     }
   }
 
@@ -351,10 +422,9 @@ class Admin
       'training' => 'tbl_treinamento'
     };
 
-    Model::query(SqlCode::Delete, [
-      'target' => $target,
-      'id' => $id
-    ]);
+    Model::table($target)
+      ->where('id=:0', [(int) $id])
+      ->delete();
 
     HttpResponse::redirect("/admin/dashboard");
   }
