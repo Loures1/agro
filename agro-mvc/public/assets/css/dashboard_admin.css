@@ -46,7 +46,7 @@ h1 {
 }
 
 /* Botões principais */
-button.switch {
+button.switch, button.create {
   padding: 12px 20px;
   font-size: 1rem;
   background-color: var(--primary-color);
@@ -58,9 +58,10 @@ button.switch {
   margin: 5px;
 }
 
-button.switch:hover {
+button.switch:hover, button.create:hover {
   background-color: #e5573e;
 }
+
 
 /* Estilos das tabelas */
 .table {
