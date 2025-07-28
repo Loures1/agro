@@ -132,3 +132,64 @@ tr:last-child td {
     color: black !important;
   }
 }
+
+/* Estilo para quando colaborador não existe */
+.error-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+  text-align: center;
+  color: var(--primary-color);
+}
+
+.error-message h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.error-message a {
+  color: var(--secondary-color);
+  text-decoration: underline;
+  font-weight: bold;
+}
+.legenda-treinamentos {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  background: #f8f9fa;
+  border: 1px solid #ccc;
+  padding: 10px 15px;
+  font-size: 14px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 999;
+}
+
+.legenda-treinamentos div {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.legenda {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  border-radius: 3px;
+  border: 1px solid #aaa;
+}
+
+.legenda.verde {
+  background-color: #e6f4e6; /* verde claro */
+}
+
+.legenda.amarelo {
+  background-color: #fdf9d6; /* amarelo claro */
+}
+
+.legenda.vermelho {
+  background-color: #f6857b; /* vermelho claro */
+}

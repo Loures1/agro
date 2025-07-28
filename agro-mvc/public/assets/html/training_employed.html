@@ -46,8 +46,18 @@
       {% endif %}
 
     {% else %}
-      <p>Colaborador nao Existe</p>
+    <div class="error-message">
+      <h1>Este colaborador não existe</h1>
+      <a href="/">Voltar para a página inicial</a>
+    </div>
+    
     {% endif %}
+    
+    <div class="legenda-treinamentos">
+      <div><span class="legenda verde"></span> Treinamento válido</div>
+      <div><span class="legenda amarelo"></span> Data com formato desconhecido</div>
+      <div><span class="legenda vermelho"></span> Treinamento não realizado</div>
+    </div>
     
   </body>
 </html>
