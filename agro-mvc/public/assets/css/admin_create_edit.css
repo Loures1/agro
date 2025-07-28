@@ -1,0 +1,132 @@
+:root {
+    --primary-color: #27ae60;
+    --secondary-color: #34495e;
+    --error-color: #e74c3c;
+    --input-border: #ccc;
+    --card-bg: #ecf0f1;
+    --shadow-light: rgba(0, 0, 0, 0.05);
+    --text-color: #2c3e50;
+  }
+
+  li {
+    display: flex;
+  }
+
+  .name,
+  .mat,
+  .tel,
+  .email,
+  .job,
+  .training {
+      margin-bottom: 20px;
+      width: 100%;
+      max-width: 600px;
+  }
+
+  label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--secondary-color);
+      font-weight: 500;
+  }
+
+  input[type="text"],
+  input[type="tel"],
+  input[type="input-email"],
+  select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--input-border);
+      border-radius: 8px;
+      background-color: #fff;
+      box-shadow: 0 4px 12px var(--shadow-light);
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+  }
+
+  input:focus,
+  select:focus {
+      border-color: var(--primary-color);
+      outline: none;
+  }
+
+  .job-content ul,
+  #training-content ul {
+      list-style: none;
+      margin: 0 0 10px 0;
+      padding: 0;
+      background-color: var(--card-bg);
+      box-shadow: 0 4px 12px var(--shadow-light);
+      border-radius: 8px;
+      overflow: hidden;
+  }
+
+  .job-content li,
+  #training-content li {
+      padding: 12px;
+      border-bottom: 1px solid var(--input-border);
+      color: var(--text-color);
+  }
+
+  .job-null,
+  .training-null {
+      text-align: center;
+      color: var(--error-color);
+      font-style: italic;
+  }
+
+  button.edit,
+  button.create {
+      padding: 12px 24px;
+      background-color: var(--primary-color);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 20px;
+  }
+
+  button.edit:hover,
+  button.create:hover {
+      background-color: #e5573e;
+  }
+
+  input[type="checkbox"] {
+      margin-right: 10px;
+      transform: scale(1.2);
+  }
+
+  h2 {
+      color: var(--secondary-color);
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      text-align: center;
+      animation: fadeIn 0.8s ease;
+  }
+
+  @keyframes fadeIn {
+      from {
+          opacity: 0;
+          transform: translateY(-20px);
+      }
+
+      to {
+          opacity: 1;
+          transform: translateY(0);
+      }
+  }
+
+  @keyframes slideUp {
+      from {
+          opacity: 0;
+          transform: translateY(30px);
+      }
+
+      to {
+          opacity: 1;
+          transform: translateY(0);
+      }
+  }

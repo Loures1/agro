@@ -46,7 +46,7 @@ h1 {
 }
 
 /* Botões principais */
-button.switch, button.create {
+button.switch, button.create, button.edit, button.delete {
   padding: 12px 20px;
   font-size: 1rem;
   background-color: var(--primary-color);
@@ -58,7 +58,7 @@ button.switch, button.create {
   margin: 5px;
 }
 
-button.switch:hover, button.create:hover {
+button.switch:hover, button.create:hover, button.edit:hover, button.delete:hover {
   background-color: #e5573e;
 }
 
