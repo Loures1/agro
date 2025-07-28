@@ -8,7 +8,7 @@ class Uri
 {
   static public function validade(Server $uri): Server
   {
-    if (preg_match("/[^a-zA-Z0-9\/]|[A-Z]/", $uri->value()) == true) {
+    if (preg_match("/[^a-zA-Z0-9\/:%\[\],]/", $uri->value()) == true) {
       throw new InvalidUri(
         "Url Invalida. Caraceteres maisculos e especiais nao sao permitidos"
       );
@@ -23,7 +23,6 @@ class Uri
         "Url Invalida. Formato invalido"
       );
     }
-
     return $uri;
   }
 }

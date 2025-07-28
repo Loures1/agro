@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* Definindo as cores principais */
 :root {
   --primary-color: #ff6347; /* Tom de laranja */
@@ -140,11 +141,15 @@ td button.action:hover {
 }
 
 #poup_edit_content label {
+=======
+h1, div.header {
+>>>>>>> fa33fd3bc354c7b281f1e26e227de5a72f610881
   display: block;
   margin-bottom: 8px;
   color: var(--secondary-color);
 }
 
+<<<<<<< HEAD
 #poup_edit_content input, #poup_edit_content select {
   width: 100%;
   padding: 12px;
@@ -346,4 +351,20 @@ td button.action:hover {
 .botoes-container {
   display: flex;
   gap: 10px;
+=======
+div.header_buttons {
+  display: block;
+}
+
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: block;
+}
+
+.popup .content li > label {
+  display: flex;
+>>>>>>> fa33fd3bc354c7b281f1e26e227de5a72f610881
 }

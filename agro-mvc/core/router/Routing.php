@@ -56,7 +56,8 @@ class Routing
       TypeHint::Parameter => $request->parameter,
       TypeHint::File => current($_FILES),
       TypeHint::Null => null,
-      TypeHint::Form => $_POST
+      TypeHint::Form => $_POST,
+      TypeHint::Json => json_decode(file_get_contents('php://input'), true)
     };
 
     $controller = $controller->getName();

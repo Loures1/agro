@@ -23,4 +23,9 @@ class HttpResponse
     }
     eval($yield_html);
   }
+
+  public static function json(?array $json): void
+  {
+    echo json_encode($json);
+  }
 }

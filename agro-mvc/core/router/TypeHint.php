@@ -8,4 +8,5 @@ enum TypeHint
   case File;
   case Null;
   case Form;
+  case Json;
 }

@@ -12,9 +12,16 @@ class Session
     $this->session = $_SESSION;
   }
 
-  public function __get(string $name): bool
+  public function __get(string $name): bool | null
   {
-    return $this->session[$name];
+
+    $keys = array_keys($this->session);
+
+    if (array_search($name, $keys) === 0) {
+      return $this->session[$name];
+    }
+
+    return null;
   }
 
   public function __set(string $name, string $value): void

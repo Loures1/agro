@@ -1,13 +1,14 @@
 <!doctype html>
 <html lang="pt-br">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Agro</title>
     <link href="/assets/css/dashboard_admin.css" rel="stylesheet" type="text/css"/>
   </head>
 
   <body>
+<<<<<<< HEAD
     <div class="header-container">
     <h1>Painel Administrativo</h1>
     <div class="botoes-container">
@@ -52,10 +53,56 @@
           <button class="action" value="{{employed.id}}">Editar</button>
           <button class="action" value="{{employed.id}}">Esconder</button>
           <button class="action" value="{{employed.id}}">Excluir</button>
+=======
+    <h1>Admin's Dashboard</h1>
+    <--Buttons-->
+    <div class="header_buttons">
+      <button class="switch" value="employed">Funcionarios</button>
+      <button class="switch" value="job">Profissoes</button>
+      <button class="switch" value="training">Treinamentos</button>
+      <button class="create">Criar</button>
+    </div>
+
+    <--Employeds Table-->
+    <table class="employed visible">
+      <tr>
+        <th>Id</th>
+        <th class="name">Nome</th>
+        <th class="mat">Matricula</th>
+        <th class="job">Profissão</th>
+	      <th class="training">Treimento(s)</th>
+        <th class="tel">Telefone</th>
+        <th class="email">Email</th>
+        <th>Data de Criacao</th>
+        <th>Ações</th>
+      </tr>
+      {% for employed in employeds %}
+      <tr id="{{employed.id}}">
+        <td>{{employed.id}}</td>
+        <td class="name">{{employed.name}}</td>
+        <td class="mat">{{employed.mat}}</td>
+        <td class="job unique_item"><ul><li>{{employed.job}}</li></ul></td>
+	      <td class="training many_items">
+	        <ul>
+	          {% for relation in relations_employed_training %}
+	            {% if relation.id_employed == employed.id %}
+	              <li>{{relation.training_name}}</li>
+	            {% endif %}
+	          {% endfor %}
+	        </ul>
+	      </td>
+        <td class="tel">{{employed.tel}}</td>
+        <td class="email">{{employed.email}}</td>
+        <td>{{employed.date}}</td>
+        <td>
+          <button class="edit" value="employed{{employed.id}}">Editar</button>
+          <button class="delete" value="employed{{employed.id}}">Excluir</button>
+>>>>>>> fa33fd3bc354c7b281f1e26e227de5a72f610881
         </td>
       </tr>
       {% endfor %}
     </table>
+<<<<<<< HEAD
 
     <table class="table" id="table_job" style="display: none;">
       <tr>
@@ -63,11 +110,22 @@
         <th>Nome</th>
         <th>Treinamento(s)</th>
         <th>Data de Criação</th>
+=======
+    
+    <--Job Table-->
+    <table class="job hidden">
+      <tr>
+        <th>Id</th>
+        <th class="name">Nome</th>
+	      <th class="training">Treinamento(s)</th>
+        <th>Data de Criacao</th>
+>>>>>>> fa33fd3bc354c7b281f1e26e227de5a72f610881
         <th>Ações</th>
       </tr>
       {% for job in jobs %}
       <tr id="{{job.id}}">
         <td>{{job.id}}</td>
+<<<<<<< HEAD
         <td>{{job.name}}</td>
         <td>
           <ul>
@@ -83,11 +141,28 @@
           <button class="action" value="{{job.id}}">Editar</button>
           <button class="action" value="{{job.id}}">Esconder</button>
           <button class="action" value="{{job.id}}">Excluir</button>
+=======
+        <td class="name">{{job.name}}</td>
+	      <td class="training many_items">
+	        <ul>
+          {% for relation in relations_job_training %}
+            {% if relation.id_job == job.id %}
+              <li>{{relation.training_name}}</li>
+            {% endif %}
+          {% endfor %}
+	        </ul>
+        </td>
+        <td>{{job.date}}</td>
+        <td>
+          <button class="edit" value="job{{job.id}}">Editar</button>
+          <button class="delete" value="job{{job.id}}">Excluir</button>
+>>>>>>> fa33fd3bc354c7b281f1e26e227de5a72f610881
         </td>
       </tr>
       {% endfor %}
     </table>
 
+<<<<<<< HEAD
     <table class="table" id="table_training" style="display: none;">
       <tr>
         <th>Id</th>
@@ -112,3 +187,28 @@
     <script src="/assets/js/dashboard_admin.js"></script>
   </body>
 </html>
+=======
+    <--Training Table-->
+    <table class="training hidden">
+      <tr>
+        <th>Id</th>
+        <th class="name">Nome</th>
+        <th>Data de Criacao</th>
+        <th>Ações</th>
+      </tr>
+      {% for training in trainings %}
+        <tr id="{{training.id}}">
+          <td>{{training.id}}</td>
+          <td class="name">{{training.name}}</td>
+          <td>{{training.date}}</td>
+          <td>
+            <button class="edit" value="training{{training.id}}">Editar</button>
+            <button class="delete" value="training{{training.id}}">Excluir</button>
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  </body>
+</html>
+<script src="/assets/js/admin_dashboard.js"></script>
+>>>>>>> fa33fd3bc354c7b281f1e26e227de5a72f610881

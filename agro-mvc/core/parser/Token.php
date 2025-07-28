@@ -9,7 +9,7 @@ use function core\functions\generate_tag_html;
 enum Token: string
 {
   case Comment = '/(?<Comment>(<--[\w\s\']*-->))/';
-  case If = '/(?<If>({%\sif\s[\w=.\s]+%}))/';
+  case If = '/(?<If>({%\sif\s["\w=.\s]+%}))/';
   case Else = '/(?<Else>{%\selse\s%})/';
   case EndIF = '/(?<EndIf>){%\sendif\s%}/';
   case For = '/(?<For>({%\s)(for\s)(\w+)(\sin\s)(\w+)(\s%}))/';
