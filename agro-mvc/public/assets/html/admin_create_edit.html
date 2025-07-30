@@ -20,7 +20,7 @@
       </div>
 
       <div class="mat">
-        <label for="input-mat">Matricula:</label>
+        <label for="input-mat">Matrícula:</label>
         <input id="input-mat" type="text" name="mat" placeholder="{{header.mat}}"><br>
       </div>
     {% else %}
@@ -30,19 +30,19 @@
       </div>
 
       <div class="mat">
-        <label for="input-mat">Matricula:</label>
+        <label for="input-mat">Matrícula:</label>
         <input id="input-mat" type="text" name="mat"><br>
       </div>
     {% endif %}
 
       <div class="job">
-        <label for="select-job">Profissao:</label>
+        <label for="select-job">Profissão:</label>
         <div class="job-content">
           <ul>
             {% if user_job %}
               <li class="origin {{user_job.id}}">{{user_job.name}}</li>
             {% else %}
-              <li class="job-null">Selecionar Profissao</li>
+              <li class="job-null">Selecionar Profissão</li>
             {% endif %}
           </ul>
           <select>

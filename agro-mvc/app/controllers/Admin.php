@@ -110,8 +110,8 @@ class Admin
     }
 
     $title = match ($target) {
-      'employed' => 'Criando Funcionario',
-      'job' => 'Criando Profissao',
+      'employed' => 'Criando Funcionário',
+      'job' => 'Criando Profissão',
       'training' => 'Criando Treinamento'
     };
 
@@ -221,8 +221,8 @@ class Admin
     [$target, $id] = array_slice($content, 1);
 
     $title = match ($target) {
-      'employed' => 'Editando Funcionario',
-      'job' => 'Editando Profissao',
+      'employed' => 'Editando Funcionário',
+      'job' => 'Editando Profissão',
       'training' => 'Editando Treinamento'
     };
 

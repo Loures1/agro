@@ -11,8 +11,8 @@
     <h1>Admin's Dashboard</h1>
     <--Buttons-->
     <div class="header_buttons">
-      <button class="switch" value="employed">Funcionarios</button>
-      <button class="switch" value="job">Profissoes</button>
+      <button class="switch" value="employed">Funcionários</button>
+      <button class="switch" value="job">Profissões</button>
       <button class="switch" value="training">Treinamentos</button>
       <button class="create">Criar</button>
     </div>
@@ -22,12 +22,12 @@
       <tr>
         <th>Id</th>
         <th class="name">Nome</th>
-        <th class="mat">Matricula</th>
+        <th class="mat">Matrícula</th>
         <th class="job">Profissão</th>
 	      <th class="training">Treimento(s)</th>
         <th class="tel">Telefone</th>
         <th class="email">Email</th>
-        <th>Data de Criacao</th>
+        <th>Data de criação</th>
         <th>Ações</th>
       </tr>
       {% for employed in employeds %}
@@ -62,7 +62,7 @@
         <th>Id</th>
         <th class="name">Nome</th>
 	      <th class="training">Treinamento(s)</th>
-        <th>Data de Criacao</th>
+        <th>Data de criação</th>
         <th>Ações</th>
       </tr>
       {% for job in jobs %}
@@ -92,7 +92,7 @@
       <tr>
         <th>Id</th>
         <th class="name">Nome</th>
-        <th>Data de Criacao</th>
+        <th>Data de criação</th>
         <th>Ações</th>
       </tr>
       {% for training in trainings %}
